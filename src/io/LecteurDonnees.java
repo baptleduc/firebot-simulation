@@ -5,6 +5,11 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.DataFormatException;
 
+import map.*;
+import robot.*;
+
+import java.util.function.BiConsumer;
+
 
 
 /**
@@ -48,7 +53,15 @@ public class LecteurDonnees {
         System.out.println("\n == Lecture terminee");
     }
 
-
+    public static DonneesSimulation creeDonnees(String fichierDonnees) throws FileNotFoundException, DataFormatException {
+        DonneesSimulation donneesSimu = new DonneesSimulation();
+        LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
+        lecteur.creeCarte(donneesSimu);
+        lecteur.creeIncendies(donneesSimu);
+        lecteur.creeRobots(donneesSimu);
+        System.out.println("\n == Lecture et création des objets terminee");
+        return donneesSimu;
+    }
 
 
     // Tout le reste de la classe est prive!
@@ -83,16 +96,29 @@ public class LecteurDonnees {
                     lireCase(lig, col);
                 }
             }
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbLignes nbColonnes tailleCases");
+        }
+    }
+
+    private void creeCarte(DonneesSimulation donneesSimulation) throws DataFormatException{
+        ignorerCommentaires();
+        
+        try {
+            int nbLignes = scanner.nextInt();
+            int nbColonnes = scanner.nextInt();
+            int tailleCases = scanner.nextInt();	// en m
+            Carte carte = new Carte(nbLignes, nbColonnes, tailleCases);
+            donneesSimulation.setCarte(carte);
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("Format invalide. "
                     + "Attendu: nbLignes nbColonnes tailleCases");
         }
-        // une ExceptionFormat levee depuis lireCase est remontee telle quelle
     }
 
-
-
+    
 
     /**
      * Lit et affiche les donnees d'une case.
@@ -168,6 +194,44 @@ public class LecteurDonnees {
         }
     }
 
+    private void creeIncendies(DonneesSimulation donneesSimulation) throws DataFormatException{
+        ignorerCommentaires();
+        try {
+            int nbIncendies = scanner.nextInt();
+            System.out.println("Nb d'incendies = " + nbIncendies);
+            for (int i = 0; i < nbIncendies; i++) {
+                creeIncendie(i, donneesSimulation);
+            }
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbIncendies");
+        }
+    }
+
+    private void creeIncendie(int i, DonneesSimulation donneesSimulation) throws DataFormatException{
+        ignorerCommentaires();
+        System.out.print("Incendie " + i + ": ");
+
+        try {
+            int lig = scanner.nextInt();
+            int col = scanner.nextInt();
+            int intensite = scanner.nextInt();
+            if (intensite <= 0) {
+                throw new DataFormatException("incendie " + i
+                        + "nb litres pour eteindre doit etre > 0");
+            }
+            verifieLigneTerminee();
+            
+            Case caseIncendie = donneesSimulation.getCarte(null).getCase(lig, col);
+            Incendie incendie = new Incendie(caseIncendie, intensite);
+            donneesSimulation.getIncendies().add(incendie);
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format d'incendie invalide. "
+                    + "Attendu: ligne colonne intensite");
+        }
+    }
 
     /**
      * Lit et affiche les donnees des robots.
@@ -219,6 +283,77 @@ public class LecteurDonnees {
             verifieLigneTerminee();
 
             System.out.println();
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format de robot invalide. "
+                    + "Attendu: ligne colonne type [valeur_specifique]");
+        }
+    }
+
+
+    private void creeRobots(DonneesSimulation donneesSimulation)throws DataFormatException{
+        ignorerCommentaires();
+        try {
+            int nbRobots = scanner.nextInt();
+            System.out.println("Nb de robots = " + nbRobots);
+            for (int i = 0; i < nbRobots; i++) {
+                creeRobot(i, donneesSimulation);
+            }
+
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbRobots");
+        }
+    }
+
+    private void creeRobot(int i, DonneesSimulation donneesSimulation) throws DataFormatException{
+        ignorerCommentaires();
+        try {
+            int lig = scanner.nextInt();
+            int col = scanner.nextInt();
+            String type = scanner.next();
+            Carte carte = donneesSimulation.getCarte(null);
+            Case caseCourante = carte.getCase(lig, col);
+
+            // Parsing eventuel d'une vitesse du robot (entier)
+            String s = scanner.findInLine("(\\d+)");	// 1 or more digit(s) ?
+            // pour lire un flottant:    ("(\\d+(\\.\\d+)?)");
+
+            double vitesse = -1;
+            if (s != null) {
+                vitesse = (double) Integer.parseInt(s);
+            }
+            
+            Robot newRobot;
+            switch (type) {
+                case "DRONE":
+                    assert (vitesse != -1);
+                    newRobot = new Drone(caseCourante, carte, vitesse);
+                    break;
+                    
+                case "ROUES":
+                    assert (vitesse != -1);
+                    newRobot = new RobotRoues(caseCourante, carte, vitesse);
+                    break;
+                    
+                case "PATTES":
+                    assert (vitesse == -1);
+                    newRobot = new RobotPattes(caseCourante, carte);
+                    break; // Ajoutez break ici
+                    
+                case "CHENILLES":
+                    assert (vitesse != -1);
+                    newRobot = new RobotChenilles(caseCourante, carte, vitesse);
+                    break;
+                    
+                default:
+                    throw new NoSuchElementException("Type de robot non reconnu."); // Ajoutez des parenthèses pour le message
+            }
+
+            verifieLigneTerminee();
+            assert(newRobot != null);
+            donneesSimulation.getRobots().add(newRobot);
+            
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de robot invalide. "
