@@ -5,10 +5,10 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.DataFormatException;
 
-import map.*;
-import robot.*;
+import model.map.*;
+import model.DonneesSimulation;
+import model.robot.*;
 
-import java.util.function.BiConsumer;
 
 
 
@@ -54,12 +54,14 @@ public class LecteurDonnees {
     }
 
     public static DonneesSimulation creeDonnees(String fichierDonnees) throws FileNotFoundException, DataFormatException {
+        System.out.println("\n == Création des données à partir du fichier" + fichierDonnees);
         DonneesSimulation donneesSimu = new DonneesSimulation();
         LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
         lecteur.creeCarte(donneesSimu);
         lecteur.creeIncendies(donneesSimu);
         lecteur.creeRobots(donneesSimu);
-        System.out.println("\n == Lecture et création des objets terminee");
+        scanner.close();
+        System.out.println("\n == création des objets terminee");
         return donneesSimu;
     }
 
@@ -109,8 +111,16 @@ public class LecteurDonnees {
             int nbLignes = scanner.nextInt();
             int nbColonnes = scanner.nextInt();
             int tailleCases = scanner.nextInt();	// en m
-            Carte carte = new Carte(nbLignes, nbColonnes, tailleCases);
-            donneesSimulation.setCarte(carte);
+            Case[][] cases = new Case[nbLignes][nbColonnes];
+            for (int lig = 0; lig < nbLignes; lig++) {
+                for (int col = 0; col < nbColonnes; col++) {
+                    NatureTerrain nature = NatureTerrain.valueOf(scanner.next());
+                    verifieLigneTerminee();
+                    Case newCase = new Case(lig, col, nature);
+                    cases[lig][col] = newCase;
+                }
+            }
+            donneesSimulation.setCarte(new Carte(nbLignes, nbColonnes, tailleCases, cases));
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("Format invalide. "
@@ -118,7 +128,6 @@ public class LecteurDonnees {
         }
     }
 
-    
 
     /**
      * Lit et affiche les donnees d'une case.
@@ -324,32 +333,7 @@ public class LecteurDonnees {
                 vitesse = (double) Integer.parseInt(s);
             }
             
-            Robot newRobot;
-            switch (type) {
-                case "DRONE":
-                    assert (vitesse != -1);
-                    newRobot = new Drone(caseCourante, carte, vitesse);
-                    break;
-                    
-                case "ROUES":
-                    assert (vitesse != -1);
-                    newRobot = new RobotRoues(caseCourante, carte, vitesse);
-                    break;
-                    
-                case "PATTES":
-                    assert (vitesse == -1);
-                    newRobot = new RobotPattes(caseCourante, carte);
-                    break; // Ajoutez break ici
-                    
-                case "CHENILLES":
-                    assert (vitesse != -1);
-                    newRobot = new RobotChenilles(caseCourante, carte, vitesse);
-                    break;
-                    
-                default:
-                    throw new NoSuchElementException("Type de robot non reconnu."); // Ajoutez des parenthèses pour le message
-            }
-
+            Robot newRobot = RobotFactory.getRobot(type, caseCourante, carte, vitesse);
             verifieLigneTerminee();
             assert(newRobot != null);
             donneesSimulation.getRobots().add(newRobot);

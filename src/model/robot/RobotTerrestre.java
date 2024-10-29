@@ -1,5 +1,5 @@
-package robot;
-import map.*;
+package model.robot;
+import model.map.*;
 
 public abstract class RobotTerrestre extends Robot{
     

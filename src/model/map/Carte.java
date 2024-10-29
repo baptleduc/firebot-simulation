@@ -1,4 +1,4 @@
-package map;
+package model.map;
 
 public class Carte {
     private final int nbLignes;
@@ -6,16 +6,11 @@ public class Carte {
     private int tailleCases;
     private Case[][] cases;
 
-    public Carte(int nbLignes, int nbColonnes, int tailleCases){
+    public Carte(int nbLignes, int nbColonnes, int tailleCases, Case[][] cases){
         this.nbLignes = nbLignes;
         this.nbColonnes = nbColonnes;
         this.tailleCases = tailleCases;
-        this.cases= new Case[nbLignes][nbColonnes];
-        for(int i = 0; i < nbLignes; i++){
-            for(int j=0; j < nbColonnes; j++){
-                this.cases[i][j] = new Case(i, j);
-            }
-        }
+        this.cases= cases;
     }
 
     public int getNbLignes(){
@@ -66,6 +61,7 @@ public class Carte {
     }
     
     public boolean caseExiste(Case src){
+        // TODO à modifier en faisant un test d'appartenance à Cases[][]
         int lig = src.getLigne();
         int col = src.getColonne();
 
@@ -89,6 +85,19 @@ public class Carte {
         return lig >= 0 && lig < nbLignes && col >= 0 && col < nbColonnes;
     }
     
+    @Override
+    public String toString() {
+        String result = "Carte:\n";
+
+        for (int i = 0; i < this.nbLignes; i++) {          
+            for (int j = 0; j < this.nbColonnes; j++) {    
+                result += cases[i][j].toString() + " ";    
+            }
+            result += "\n";                               
+        }
+
+        return result;
+    }
 
 
     

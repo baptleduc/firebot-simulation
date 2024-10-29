@@ -1,6 +1,6 @@
-package io;
-import map.*;
-import robot.Robot;
+package model;
+import model.map.*;
+import model.robot.Robot;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +11,6 @@ public class DonneesSimulation {
     
     public DonneesSimulation(){
     }
-
-    
 
 
     public void setCarte(Carte carte){
@@ -30,5 +28,10 @@ public class DonneesSimulation {
     public List<Robot> getRobots(){
         return this.robots;
     }
+
+    @Override
+    public String toString(){
+        return this.carte.toString();
+    } 
 
 }

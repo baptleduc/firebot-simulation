@@ -1,12 +1,13 @@
-package map;
+package model.map;
 public class Case {
     private int ligne;
     private int colonne;
     private NatureTerrain nature;
 
-    public Case(int ligne, int colonne){
+    public Case(int ligne, int colonne, NatureTerrain natureTerrain){
         this.ligne = ligne;
         this.colonne = colonne;
+        this.nature = natureTerrain;
     }
 
     public int getLigne(){
@@ -23,6 +24,6 @@ public class Case {
 
     @Override
     public String toString() {
-        return String.format("Case [ligne=%d, colonne=%d]", ligne, colonne);
+        return String.format("Case (%d, %d)", ligne, colonne);
     }
 }

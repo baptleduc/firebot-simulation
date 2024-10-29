@@ -1,8 +1,8 @@
-package robot;
+package model.robot;
 
-import map.Case;
-import map.NatureTerrain;
-import map.Carte;
+import model.map.Case;
+import model.map.NatureTerrain;
+import model.map.Carte;
 
 public abstract class  Robot {
     
@@ -17,6 +17,7 @@ public abstract class  Robot {
     protected double vitesse; // en km/h
 
     public Robot(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax, int tempsRemplissage, Carte carte, int interUnitaire ){
+        this.position = position;
         this.carte = carte;
         this.capaciteReservoir = capaciteReservoir;
         this.vitesseMax = vitesseMax;
@@ -24,9 +25,6 @@ public abstract class  Robot {
 
         checkVitesse(vitesse, vitesseMax);
         this.vitesse = vitesse;
-
-        this.carte.caseExiste(position);
-        this.position = position;
 
         checkNiveauEau(niveauEau, capaciteReservoir);
         this.niveauEau = niveauEau;

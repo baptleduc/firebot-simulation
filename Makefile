@@ -27,7 +27,11 @@ testInvader:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestInvader.java
 
 testLecture:
-	javac -d bin -sourcepath src src/TestLecteurDonnees.java
+	javac -d bin -sourcepath src src/io/TestLecteurDonnees.java
+
+Lecture: 
+	javac -d bin -sourcepath src src/io/TestLecteurDonnees.java
+	java -classpath bin io/TestLecteurDonnees cartes/carteSujet.map
 
 # Execution:
 # on peut taper directement la ligne de commande :
@@ -38,7 +42,7 @@ exeInvader:
 	java -classpath bin:lib/gui.jar TestInvader
 
 exeLecture: 
-	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
+	java -classpath bin io/TestLecteurDonnees cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*

@@ -1,6 +1,6 @@
-package robot;
+package model.robot;
 
-import map.*;
+import model.map.*;
 
 public abstract class RobotAerien extends Robot {
     
