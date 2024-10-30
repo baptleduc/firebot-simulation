@@ -1,5 +1,6 @@
 package model.robot;
 
+import java.awt.Color;
 import model.map.Case;
 import model.map.NatureTerrain;
 import model.map.Carte;
@@ -16,12 +17,14 @@ public abstract class  Robot {
     protected Case position;
     protected double vitesse; // en km/h
 
-    public Robot(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax, int tempsRemplissage, Carte carte, int interUnitaire ){
+
+    public Robot(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax, int tempsRemplissage, Carte carte, int interUnitaire){
         this.position = position;
         this.carte = carte;
         this.capaciteReservoir = capaciteReservoir;
         this.vitesseMax = vitesseMax;
         this.tempsRemplissage = tempsRemplissage;
+
 
         checkVitesse(vitesse, vitesseMax);
         this.vitesse = vitesse;

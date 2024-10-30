@@ -222,7 +222,6 @@ public class LecteurDonnees {
         ignorerCommentaires();
         try {
             int nbIncendies = scanner.nextInt();
-            System.out.println("Nb d'incendies = " + nbIncendies);
             for (int i = 0; i < nbIncendies; i++) {
                 creeIncendie(i, donneesSimulation);
             }
@@ -235,7 +234,6 @@ public class LecteurDonnees {
 
     private void creeIncendie(int i, DonneesSimulation donneesSimulation) throws DataFormatException{
         ignorerCommentaires();
-        System.out.print("Incendie " + i + ": ");
 
         try {
             int lig = scanner.nextInt();
@@ -247,7 +245,7 @@ public class LecteurDonnees {
             }
             verifieLigneTerminee();
             
-            Case caseIncendie = donneesSimulation.getCarte(null).getCase(lig, col);
+            Case caseIncendie = donneesSimulation.getCarte().getCase(lig, col);
             Incendie incendie = new Incendie(caseIncendie, intensite);
             donneesSimulation.getIncendies().add(incendie);
 
@@ -336,7 +334,7 @@ public class LecteurDonnees {
             int lig = scanner.nextInt();
             int col = scanner.nextInt();
             String type = scanner.next();
-            Carte carte = donneesSimulation.getCarte(null);
+            Carte carte = donneesSimulation.getCarte();
             Case caseCourante = carte.getCase(lig, col);
 
             // Parsing eventuel d'une vitesse du robot (entier)

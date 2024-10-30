@@ -17,7 +17,7 @@ public class DonneesSimulation {
         this.carte = carte;
     }
 
-    public Carte getCarte(Carte carte){
+    public Carte getCarte(){
         return this.carte;
     }
     
