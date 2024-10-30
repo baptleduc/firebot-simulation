@@ -12,6 +12,7 @@ public abstract class  Robot {
     private int tempsRemplissage; // en minutes
     private int interUnitaire; // Nombre de litre qu'il peut deverser en 1 s
     private double vitesseMax;
+    private final Color DRAW_COLOR = Color.MAGENTA;
 
     protected Carte carte;
     protected Case position;
@@ -33,12 +34,16 @@ public abstract class  Robot {
         this.niveauEau = niveauEau;
     }
 
-    Case getPosition(){
+    public Case getPosition(){
         return this.position;
     }
 
-    int getNiveauEau(){
+    public int getNiveauEau(){
         return this.niveauEau;
+    }
+
+    public Color getDrawColor(){
+        return this.DRAW_COLOR;
     }
 
     private static void checkNiveauEau(int niveauEau, int capaciteReservoir){
