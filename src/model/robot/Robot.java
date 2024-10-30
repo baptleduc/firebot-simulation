@@ -87,4 +87,11 @@ public abstract class  Robot {
     public abstract double getVitesse(NatureTerrain terrain);
     
     public abstract void remplirReservoir();
+
+
+    @Override
+    public String toString(){
+        String output = String.format("Robot(%d, %d)",this.position.getLigne(), this.position.getColonne());
+        return output;
+    }
 }

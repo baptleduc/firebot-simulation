@@ -91,9 +91,8 @@ public class Carte {
 
         for (int i = 0; i < this.nbLignes; i++) {          
             for (int j = 0; j < this.nbColonnes; j++) {    
-                result += cases[i][j].toString() + " ";    
-            }
-            result += "\n";                               
+                result += cases[i][j].toString();    
+            }                            
         }
 
         return result;

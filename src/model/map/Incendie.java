@@ -8,5 +8,11 @@ public class Incendie {
         this.position = position;
         this.quantiteEau = quantiteEau;
     }
+
+    @Override
+    public String toString(){
+        String output = String.format("Incendie(%d, %d)",this.position.getLigne(), this.position.getColonne());
+        return output;
+    }
     
 }

@@ -24,6 +24,6 @@ public class Case {
 
     @Override
     public String toString() {
-        return String.format("Case (%d, %d)", ligne, colonne);
+        return String.format("Case (%d, %d) : nature %s\n", ligne, colonne, getNature().name());
     }
 }

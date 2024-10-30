@@ -114,10 +114,22 @@ public class LecteurDonnees {
             Case[][] cases = new Case[nbLignes][nbColonnes];
             for (int lig = 0; lig < nbLignes; lig++) {
                 for (int col = 0; col < nbColonnes; col++) {
-                    NatureTerrain nature = NatureTerrain.valueOf(scanner.next());
-                    verifieLigneTerminee();
-                    Case newCase = new Case(lig, col, nature);
-                    cases[lig][col] = newCase;
+                    ignorerCommentaires();
+                    String chaineNature = new String();
+                    try{
+                        chaineNature = scanner.next();
+                        NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
+                        verifieLigneTerminee();
+                        Case newCase = new Case(lig, col, nature);
+                        cases[lig][col] = newCase;
+
+                    }
+                    catch (NoSuchElementException e) {
+                        throw new DataFormatException("format de case invalide. "
+                                + "Attendu: nature altitude [valeur_specifique]");
+                    }
+                    
+                    
                 }
             }
             donneesSimulation.setCarte(new Carte(nbLignes, nbColonnes, tailleCases, cases));
@@ -155,6 +167,9 @@ public class LecteurDonnees {
 
         System.out.println();
     }
+
+
+    
 
 
     /**

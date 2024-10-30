@@ -31,7 +31,19 @@ public class DonneesSimulation {
 
     @Override
     public String toString(){
-        return this.carte.toString();
+        StringBuilder output = new StringBuilder(); // mutable
+        output.append("Carte :\n").append(this.carte.toString()).append("\n");
+
+        output.append("Incendies : ").append(this.incendies.size()).append("\n");
+        for (Incendie incendie : this.incendies){
+            output.append(incendie.toString()).append("\n");
+        }
+
+        output.append("\nRobot : ").append(this.robots.size()).append("\n");
+        for(Robot robot : this.robots){
+            output.append(robot.toString()).append("\n");
+        }
+        return output.toString();
     } 
 
 }
