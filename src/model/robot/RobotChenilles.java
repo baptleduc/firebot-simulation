@@ -1,4 +1,5 @@
 package model.robot;
+
 import model.map.*;
 
 public class RobotChenilles extends RobotTerrestre {
@@ -9,14 +10,14 @@ public class RobotChenilles extends RobotTerrestre {
     public static final double VITESSE_DEFAUT = 60;
     private static final double VITESSE_MAX = 80;
     private static final int TEMPS_REMPLISSAGE = 5;
-    private static final int INTER_UNITAIRE = 100/8;
+    private static final int INTER_UNITAIRE = 100 / 8;
 
-    public RobotChenilles(Case position,  Carte carte, double vitesse){
+    public RobotChenilles(Case position, Carte carte, double vitesse) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);
     }
 
-    public double getVitesse(NatureTerrain terrain){
-        if (terrain == NatureTerrain.FORET){
+    public double getVitesse(NatureTerrain terrain) {
+        if (terrain == NatureTerrain.FORET) {
             return this.vitesse / 2;
         }
         return this.vitesse;
@@ -27,26 +28,28 @@ public class RobotChenilles extends RobotTerrestre {
      *
      * @param position la case à vérifier.
      * @param carte    la carte dans laquelle se trouve la case.
-     * @throws IllegalArgumentException si la case n'existe pas ou si elle est de type eau ou roche.
+     * @throws IllegalArgumentException si la case n'existe pas ou si elle est de
+     *                                  type eau ou roche.
      */
-    public static void checkPosition(Case position, Carte carte) throws IllegalArgumentException{
+    public static void checkPosition(Case position, Carte carte) throws IllegalArgumentException {
         if (!(carte.caseExiste(position))) {
             throw new IllegalArgumentException(
-                String.format("La case : %s n'existe pas sur la carte.", position));
+                    String.format("La case : %s n'existe pas sur la carte.", position));
         }
         NatureTerrain terrain = position.getNature();
-        if(terrain == NatureTerrain.EAU || terrain == NatureTerrain.ROCHE){
+        if (terrain == NatureTerrain.EAU || terrain == NatureTerrain.ROCHE) {
             throw new IllegalArgumentException("RobotChenille ne peut pas se rendre sur une case eau ou roche!");
         }
-        
+
     }
 
-    public void setPosition(Case newPosition){
+    public void setPosition(Case newPosition) {
         checkPosition(newPosition, this.carte);
-        if (!carte.estVoisin(this.position, newPosition)){
+        if (!carte.estVoisin(this.position, newPosition)) {
             throw new IllegalArgumentException(
-                String.format("La case : %s n'est pas voisine de la position actuelle : %s", newPosition, this.position));
-        }  
+                    String.format("La case : %s n'est pas voisine de la position actuelle : %s", newPosition,
+                            this.position));
+        }
         this.position = newPosition;
     }
 }

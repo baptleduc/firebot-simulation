@@ -1,4 +1,5 @@
 package model.map;
+
 import java.awt.Color;
 
 public class Case {
@@ -7,7 +8,7 @@ public class Case {
     private NatureTerrain nature;
     private Color drawColor;
 
-    public Case(int ligne, int colonne, NatureTerrain natureTerrain){
+    public Case(int ligne, int colonne, NatureTerrain natureTerrain) {
         this.ligne = ligne;
         this.colonne = colonne;
         this.nature = natureTerrain;
@@ -15,19 +16,19 @@ public class Case {
 
     }
 
-    public int getLigne(){
+    public int getLigne() {
         return this.ligne;
     }
 
-    public int getColonne(){
+    public int getColonne() {
         return this.colonne;
     }
 
-    public Color getDrawColor(){
+    public Color getDrawColor() {
         return this.drawColor;
     }
-    
-    public NatureTerrain getNature(){
+
+    public NatureTerrain getNature() {
         return this.nature;
     }
 

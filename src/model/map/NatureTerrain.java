@@ -22,8 +22,7 @@ public enum NatureTerrain {
         drawTerrainColors.put(HABITAT, new Color(150, 75, 0)); // Marron
     }
 
-
-    public Color getDrawColor() throws IllegalArgumentException{
+    public Color getDrawColor() throws IllegalArgumentException {
         Color color = drawTerrainColors.get(this);
         if (color == null) {
             throw new IllegalArgumentException("Terrain inconnu : " + this);

@@ -17,7 +17,7 @@ public class TestSimulateur {
 
         DonneesSimulation donneesSimulation;
         try {
-            
+
             donneesSimulation = LecteurDonnees.creeDonnees(args[0]);
             // crée la fenêtre graphique dans laquelle dessiner
             GUISimulator gui = new GUISimulator(800, 600, Color.BLACK);
@@ -29,6 +29,6 @@ public class TestSimulateur {
         } catch (DataFormatException e) {
             System.out.println("\n\t**format du fichier " + args[0] + " invalide: " + e.getMessage());
         }
-        
+
     }
 }
