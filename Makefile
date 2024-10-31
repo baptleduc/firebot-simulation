@@ -33,9 +33,9 @@ Lecture:
 	javac -d bin -sourcepath src src/io/TestLecteurDonnees.java
 	java -classpath bin io/TestLecteurDonnees cartes/carteSujet.map
 
-Gui:
-	javac -d bin -classpath lib/gui.jar -sourcepath src src/controller/TestSimulateur.java
-	java -classpath bin:lib/gui.jar controller/TestSimulateur cartes/carteSujet.map
+Simu:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map
 
 # Execution:
 # on peut taper directement la ligne de commande :
