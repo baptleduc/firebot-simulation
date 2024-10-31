@@ -38,6 +38,10 @@ public class TestSimulateur {
     }
 }
 
+/**
+ * La classe Simulateur implémente l'interface Simulable et contrôle l'affichage et l'évolution 
+ * graphique de la simulation, notamment l'affichage de la carte, des robots et des incendies.
+ */
 class Simulateur implements Simulable {
     private GUISimulator gui;
     private DonneesSimulation model;
@@ -50,6 +54,7 @@ class Simulateur implements Simulable {
     private int xMin = 60;
     private int yMin = 60;
 
+
     public Simulateur(GUISimulator gui, DonneesSimulation model){
         this.gui = gui;
         this.model = model;
@@ -61,7 +66,10 @@ class Simulateur implements Simulable {
         draw();
     }
 
-
+    /**
+     * Réinitialise l'affichage et dessine tous les éléments de la simulation : la carte,
+     * les incendies, et les robots.
+     */
     private void draw(){
         this.gui.reset(); // Clear the window
         drawCarte();
@@ -69,7 +77,9 @@ class Simulateur implements Simulable {
         drawRobots();
     }
 
-
+    /**
+     * Dessine la carte en divisant l'espace graphique en cases colorées représentant les terrains.
+     */
     private void drawCarte() {
         
         Carte carte = this.model.getCarte();
@@ -91,31 +101,50 @@ class Simulateur implements Simulable {
                 int x = calculateXPosition(idx_col);
                 int y = calculateYPosition(idx_lig);
                 Case c = carte.getCase(idx_lig, idx_col);
-                drawSquare(x, y, taillePixelCases, c.getDrawColor());
+                drawRectangle(x, y, taillePixelCases, c.getDrawColor());
             }
         }
     }
-    
-    private void drawSquare(int x, int y, int tailleCases, Color color) {
+
+    /**
+     * Dessine une case spécifique avec les coordonnées et la couleur données.
+     *
+     * @param x la coordonnée x de la case.
+     * @param y la coordonnée y de la case.
+     * @param tailleCases la taille en pixels de la case.
+     * @param color la couleur de la case.
+     */
+    private void drawRectangle(int x, int y, int tailleCases, Color color) {
         gui.addGraphicalElement(new Rectangle(x, y,  Color.black, color, tailleCases));
     }
 
+    /**
+     * Dessine les incendies en les plaçant sur leurs positions et en utilisant une couleur spécifique.
+     */
     private void drawIncendies(){
         int taillePixelIncendie = this.taillePixelCases * 8/10;
         for(Incendie incendie : this.model.getIncendies()){
             Case c = incendie.getPosition();
             int x = calculateXPosition(c.getColonne());
             int y = calculateYPosition(c.getLigne());
-            drawSquare(x, y , taillePixelIncendie, Color.ORANGE);
+            drawRectangle(x, y , taillePixelIncendie, Color.ORANGE);
         }
     }
 
+    /**
+     * Dessine tous les robots à leur position actuelle.
+     */
     private void drawRobots(){
         for(Robot robot : this.model.getRobots()){
             drawRobot(robot);
         }
     }
 
+    /**
+     * Dessine un robot spécifique en fonction de sa position et de sa couleur.
+     *
+     * @param robot l'instance du robot à dessiner.
+     */
     private void drawRobot(Robot robot) {
         Case position = robot.getPosition();
         Color robotColor = robot.getDrawColor();
@@ -133,15 +162,32 @@ class Simulateur implements Simulable {
         drawRobotRectangles(coordinates, x, y, robotColor, tailleElement);
     }
     
+    /**
+     * Calcule la position x (en pixels) de départ d'une case.
+     *
+     * @param colonne l'indice de la colonne de la case.
+     * @return la position x en pixels.
+     */
     private int calculateXPosition(int colonne) {
         return colonne * this.taillePixelCases + this.xMin;
     }
     
+    /**
+     * Calcule la position y (en pixels) de départ d'une case.
+     *
+     * @param ligne l'indice de la ligne de la case.
+     * @return la position y en pixels.
+     */
     private int calculateYPosition(int ligne) {
         return ligne * this.taillePixelCases + this.yMin;
     }
     
     
+    /**
+     * Renvoie les coordonnées des rectangles composant la forme du robot.
+     *
+     * @return un tableau 2D contenant les coordonnées relatives du robot.
+     */
     private int[][] getRobotCoordinates() {
         return new int[][]{
             {30, 0}, {40, 0}, {50, 0},
@@ -157,6 +203,15 @@ class Simulateur implements Simulable {
         };
     }
     
+    /**
+     * Dessine chaque partie d'un robot sous forme de petits rectangles.
+     *
+     * @param coordinates coordonnées des sous-rectangles représentant le robot.
+     * @param x la coordonnée x de base du robot.
+     * @param y la coordonnée y de base du robot.
+     * @param robotColor la couleur du robot.
+     * @param tailleElement la taille d'un sous-rectangle.
+     */
     private void drawRobotRectangles(int[][] coordinates, int x, int y, Color robotColor, int tailleElement) {
         for (int[] coord : coordinates) {
             int coordX = x + (coord[0] - 40) * tailleElement / 10; // Centrer par rapport à la largeur total = 80

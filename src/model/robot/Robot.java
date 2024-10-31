@@ -60,7 +60,13 @@ public abstract class  Robot {
         this.niveauEau = niveauEau;
     }
 
-    void deverserEau(int vol){
+    /**
+     * Déverse une quantité d'eau du réservoir.
+     *
+     * @param vol la quantité d'eau à déverser en litres.
+     * @throws IllegalArgumentException si la quantité demandée est supérieure au niveau actuel d'eau.
+     */
+    void deverserEau(int vol) throws IllegalArgumentException{
         if (vol < this.niveauEau){
            this.niveauEau -= vol; // Update reservoirEau 
         }
@@ -82,6 +88,14 @@ public abstract class  Robot {
         this.vitesse = newVitesse;
     }
 
+    /**
+     * Calcule le temps nécessaire pour se déplacer d'une case à une autre, en fonction
+     * des vitesses spécifiques des terrains de départ et d'arrivée.
+     *
+     * @param caseDepart  la case de départ du déplacement.
+     * @param caseArrivee la case de destination du déplacement.
+     * @return le temps de déplacement en heures.
+     */
     public double calculerTempsDeplacement(Case caseDepart, Case caseArrivee) {
         double vitesseDepart = getVitesse(caseDepart.getNature());
         double vitesseArrivee = getVitesse(caseArrivee.getNature());
@@ -93,7 +107,6 @@ public abstract class  Robot {
 
     public abstract void setPosition(Case newPosCase);
     public abstract double getVitesse(NatureTerrain terrain);
-    
     public abstract void remplirReservoir();
 
 

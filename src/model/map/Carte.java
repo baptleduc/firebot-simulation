@@ -47,6 +47,13 @@ public class Carte {
         return this.getCase(lig, col);
     }
 
+    /**
+     * Vérifie si une case possède un voisin dans la direction spécifiée.
+     *
+     * @param src la case source.
+     * @param dir la direction à vérifier.
+     * @return true si un voisin existe dans la direction donnée, false sinon.
+     */
     public boolean voisinExiste(Case src, Direction dir) {
         int lig = src.getLigne();
         int col = src.getColonne();
@@ -60,6 +67,12 @@ public class Carte {
         return estIndiceValide(lig, col);
     }
     
+    /**
+     * Vérifie si la case donnée existe dans la carte.
+     *
+     * @param src la case à vérifier.
+     * @return true si la case existe, false sinon.
+     */
     public boolean caseExiste(Case src){
         int lig = src.getLigne();
         int col = src.getColonne();
@@ -67,6 +80,13 @@ public class Carte {
         return src == this.getCase(lig, col);
     }
 
+    /**
+     * Vérifie si deux cases sont voisines (adjacentes).
+     *
+     * @param src la case source.
+     * @param dest la case de destination.
+     * @return true si les cases sont adjacentes, false sinon.
+     */
     public boolean estVoisin(Case src, Case dest) {
         int srcLigne = src.getLigne();
         int destLigne = dest.getColonne();
@@ -80,6 +100,13 @@ public class Carte {
         return estVoisin;    
     }
 
+    /**
+     * Vérifie si les indices fournis sont valides pour accéder aux cases de la carte.
+     *
+     * @param lig l'indice de la ligne.
+     * @param col l'indice de la colonne.
+     * @return true si les indices sont dans les limites de la carte, false sinon.
+     */
     public boolean estIndiceValide(int lig, int col){
         return lig >= 0 && lig < nbLignes && col >= 0 && col < nbColonnes;
     }

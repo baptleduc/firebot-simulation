@@ -23,12 +23,26 @@ public class RobotPattes extends RobotTerrestre {
         return this.vitesse;
     }
 
+    /**
+     * Redéfinit la méthode de déversement pour le robot à pattes.
+     * 
+     * Ce robot a une réserve d'eau infinie et utilise de la poudre pour éteindre
+     * les incendies, plutôt que de déverser de l'eau.
+     *
+     */
     @Override
     void deverserEau(int vol){
         System.out.println("Le robot à pattes utilise de la poudre pour éteindre l'incendie.");
     }
     
-    public static void checkPosition(Case position, Carte carte){
+    /**
+     * Vérifie si la position donnée est valide sur la carte.
+     *
+     * @param position la case à vérifier.
+     * @param carte    la carte dans laquelle se trouve la case.
+     * @throws IllegalArgumentException si la case n'existe pas ou si elle est de type eau ou roche.
+     */
+    public static void checkPosition(Case position, Carte carte) throws IllegalArgumentException{
         if (!(carte.caseExiste(position))) {
             throw new IllegalArgumentException(
                 String.format("La case : %s n'existe pas sur la carte.", position));
@@ -37,7 +51,6 @@ public class RobotPattes extends RobotTerrestre {
         if(terrain == NatureTerrain.EAU){
             throw new IllegalArgumentException("RobotPattes ne peut pas se rendre sur une case eau !");
         }
-
     }
 
     public void setPosition(Case newPosition){

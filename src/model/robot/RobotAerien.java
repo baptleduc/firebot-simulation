@@ -9,7 +9,10 @@ public abstract class RobotAerien extends Robot {
         
     }
     
-    
+    /**
+     * Remplit le réservoir d'eau du robot aérien. Ce remplissage est possible uniquement si
+     * le robot se trouve sur une case de type {@link NatureTerrain#EAU}.
+     */
     public void remplirReservoir(){
         Case posCourante = getPosition();
         

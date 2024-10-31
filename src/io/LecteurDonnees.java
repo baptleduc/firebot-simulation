@@ -103,7 +103,13 @@ public class LecteurDonnees {
                     + "Attendu: nbLignes nbColonnes tailleCases");
         }
     }
-
+    
+    /**
+     * Crée et initialise la carte dans {@link DonneesSimulation} à partir des données lues.
+     *
+     * @param donneesSimulation l'instance de {@link DonneesSimulation} où la carte sera stockée.
+     * @throws DataFormatException si le format des données est invalide.
+     */
     private void creeCarte(DonneesSimulation donneesSimulation) throws DataFormatException{
         ignorerCommentaires();
         
@@ -218,6 +224,12 @@ public class LecteurDonnees {
         }
     }
 
+    /**
+     * Crée et initialise les incendies dans {@link DonneesSimulation} à partir des données lues.
+     *
+     * @param donneesSimulation l'instance de {@link DonneesSimulation} où les incendies seront stockés.
+     * @throws DataFormatException si le format des données est invalide.
+     */
     private void creeIncendies(DonneesSimulation donneesSimulation) throws DataFormatException{
         ignorerCommentaires();
         try {
@@ -232,6 +244,13 @@ public class LecteurDonnees {
         }
     }
 
+    /**
+     * Crée le i-ème incendie dans {@link DonneesSimulation} à partir des données lues.
+     *
+     * @param i l'indice de l'incendie.
+     * @param donneesSimulation l'instance de {@link DonneesSimulation} où l'incendie sera stocké.
+     * @throws DataFormatException si le format des données est invalide.
+     */
     private void creeIncendie(int i, DonneesSimulation donneesSimulation) throws DataFormatException{
         ignorerCommentaires();
 
@@ -312,7 +331,12 @@ public class LecteurDonnees {
         }
     }
 
-
+    /**
+     * Crée et initialise les robots dans {@link DonneesSimulation} à partir des données lues.
+     *
+     * @param donneesSimulation l'instance de {@link DonneesSimulation} où les robots seront stockés.
+     * @throws DataFormatException si le format des données est invalide.
+     */
     private void creeRobots(DonneesSimulation donneesSimulation)throws DataFormatException{
         ignorerCommentaires();
         try {
@@ -327,7 +351,14 @@ public class LecteurDonnees {
                     + "Attendu: nbRobots");
         }
     }
-
+    
+    /**
+     * Crée le i-ème robot dans {@link DonneesSimulation} à partir des données lues.
+     *
+     * @param i l'indice du robot.
+     * @param donneesSimulation l'instance de {@link DonneesSimulation} où le robot sera stocké.
+     * @throws DataFormatException si le format des données est invalide.
+     */
     private void creeRobot(int i, DonneesSimulation donneesSimulation) throws DataFormatException{
         ignorerCommentaires();
         try {
@@ -357,7 +388,6 @@ public class LecteurDonnees {
                     + "Attendu: ligne colonne type [valeur_specifique]");
         }
     }
-
 
 
 

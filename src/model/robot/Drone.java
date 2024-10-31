@@ -17,7 +17,14 @@ public class Drone extends RobotAerien {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);
     }
 
-    public static void checkPosition(Case position, Carte carte){
+    /**
+     * Vérifie si la référence de la position fournie existe dans la carte.
+     *
+     * @param position la case à vérifier.
+     * @param carte la carte de référence.
+     * @throws IllegalArgumentException si la case n'existe pas dans la carte.
+     */
+    public static void checkPosition (Case position, Carte carte) throws IllegalArgumentException{
         if (!(carte.caseExiste(position))) {
             throw new IllegalArgumentException(
                 String.format("La case : %s n'existe pas sur la carte.", position));

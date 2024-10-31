@@ -19,6 +19,13 @@ public class RobotRoues extends RobotTerrestre {
         return this.vitesse;
     }
 
+    /**
+     * Vérifie si la position donnée est valide sur la carte.
+     *
+     * @param position la case à vérifier.
+     * @param carte    la carte dans laquelle se trouve la case.
+     * @throws IllegalArgumentException si la case n'existe pas ou si elle est de type eau ou roche.
+     */
     public static void checkPosition(Case position, Carte carte){
         if (!(carte.caseExiste(position))) {
             throw new IllegalArgumentException(
