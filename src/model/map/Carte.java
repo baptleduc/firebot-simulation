@@ -61,11 +61,10 @@ public class Carte {
     }
     
     public boolean caseExiste(Case src){
-        // TODO à modifier en faisant un test d'appartenance à Cases[][]
         int lig = src.getLigne();
         int col = src.getColonne();
 
-        return estIndiceValide(lig, col);
+        return src == this.getCase(lig, col);
     }
 
     public boolean estVoisin(Case src, Case dest) {
