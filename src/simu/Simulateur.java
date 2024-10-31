@@ -1,17 +1,20 @@
 package simu;
 
 import java.awt.Color;
+import java.util.PriorityQueue;
 import gui.GUISimulator;
 import gui.Rectangle;
 import gui.Simulable;
 import model.DonneesSimulation;
+import event.Evenement;
 import model.map.*;
 import model.robot.*;
 
 class Simulateur implements Simulable {
     private GUISimulator gui;
     private DonneesSimulation model;
-
+    private long dateSimulation;
+    private PriorityQueue<Evenement> evenements = new PriorityQueue<>(); 
     private final int RATIO_BORDURE_X = 10;
     private final int RATIO_BORDURE_Y = 10;
 
@@ -21,14 +24,33 @@ class Simulateur implements Simulable {
     private int yMin = 60;
 
     public Simulateur(GUISimulator gui, DonneesSimulation model) {
+        this.dateSimulation = (long) 0;
         this.gui = gui;
         this.model = model;
 
         this.xMin = gui.getWidth() / RATIO_BORDURE_X;
         this.yMin = gui.getHeight() / RATIO_BORDURE_Y;
 
+        // Calcul de la largeur et de la hauteur des cases, en fonction des bordures et
+        // de la taille du GUI
+        int widthCases = (gui.getWidth() - 2 * this.xMin) / this.model.getCarte().getNbColonnes();
+        int heightCases = (gui.getHeight() - 2 * this.yMin) / this.model.getCarte().getNbLignes();
+        this.taillePixelCases = Math.min(widthCases, heightCases);
+
         this.gui.setSimulable(this);
         draw();
+    }
+
+    public void ajouteEvenement(Evenement e){
+        this.evenements.add(e);
+    }
+    
+    private void incrementeDate(){
+        this.dateSimulation ++;
+    }
+
+    private boolean simulationTerminee(){
+        return this.evenements.isEmpty();
     }
 
     /**
@@ -54,13 +76,7 @@ class Simulateur implements Simulable {
         int nbLignes = carte.getNbLignes();
         int nbColonnes = carte.getNbColonnes();
 
-        // Calcul de la largeur et de la hauteur des cases, en fonction des bordures et
-        // de la taille du GUI
-        int widthCases = (gui.getWidth() - 2 * this.xMin) / nbColonnes;
-        int heightCases = (gui.getHeight() - 2 * this.yMin) / nbLignes;
-        int taillePixelCases = Math.min(widthCases, heightCases);
-
-        this.taillePixelCases = taillePixelCases;
+        
 
         for (int idx_lig = 0; idx_lig < nbLignes; idx_lig++) {
             for (int idx_col = 0; idx_col < nbColonnes; idx_col++) {
@@ -190,12 +206,17 @@ class Simulateur implements Simulable {
 
     @Override
     public void next() {
-
+        incrementeDate();
+        while (!simulationTerminee() && evenements.peek().getDate() <= dateSimulation) {
+            Evenement e = evenements.poll();
+            e.execute();
+            draw();
+        }
+        
     }
 
     @Override
     public void restart() {
-
     }
 
 }

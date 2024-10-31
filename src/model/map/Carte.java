@@ -89,9 +89,9 @@ public class Carte {
      */
     public boolean estVoisin(Case src, Case dest) {
         int srcLigne = src.getLigne();
-        int destLigne = dest.getColonne();
-
         int srcColonne = src.getColonne();
+
+        int destLigne = dest.getLigne();
         int destColonne = dest.getColonne();
 
         boolean estVoisin = (srcLigne == destLigne && Math.abs(srcColonne - destColonne) == 1) || // Voisins à l'est ou
