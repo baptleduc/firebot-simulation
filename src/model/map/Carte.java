@@ -26,14 +26,14 @@ public class Carte {
 
     }
 
-    public Case getCase(int lig, int col) {
+    public Case getCase (int lig, int col) throws IllegalArgumentException {
         if (!estIndiceValide(lig, col)) {
             throw new IllegalArgumentException("Indices de case invalides : " + lig + ", " + col);
         }
         return this.cases[lig][col];
     }
 
-    public Case getVoisin(Case src, Direction dir) {
+    public Case getVoisin(Case src, Direction dir) throws IllegalArgumentException {
         int lig = src.getLigne();
         int col = src.getColonne();
         switch (dir) {

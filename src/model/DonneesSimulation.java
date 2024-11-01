@@ -9,6 +9,7 @@ public class DonneesSimulation {
     private Carte carte;
     private List<Robot> robots = new ArrayList<Robot>();
     private List<Incendie> incendies = new ArrayList<Incendie>();
+    
 
     public DonneesSimulation() {
     }

@@ -10,7 +10,7 @@ import event.Evenement;
 import model.map.*;
 import model.robot.*;
 
-class Simulateur implements Simulable {
+public class Simulateur implements Simulable {
     private GUISimulator gui;
     private DonneesSimulation model;
     private long dateSimulation;
@@ -210,8 +210,9 @@ class Simulateur implements Simulable {
         while (!simulationTerminee() && evenements.peek().getDate() <= dateSimulation) {
             Evenement e = evenements.poll();
             e.execute();
-            draw();
         }
+        draw();
+
         
     }
 
