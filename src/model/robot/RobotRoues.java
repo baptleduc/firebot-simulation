@@ -49,4 +49,25 @@ public class RobotRoues extends RobotTerrestre {
         }
         this.position = newPosition;
     }
+
+    /**
+     * FACTORY METHOD
+     * Crée un robot roues avec les paramètres spécifiés.
+     *
+     * @param caseCourante la case sur laquelle le robot sur roues doit être
+     *                     positionné.
+     * @param carte        la carte dans laquelle le robot sur roues évolue.
+     * @param vitesseLue   la vitesse initiale du robot sur roues (peut être -1 pour
+     *                     utiliser la vitesse par défaut).
+     * @return une instance de {@link RobotRoues}.
+     */
+    public static RobotRoues createRobotRoues(Case caseCourante, Carte carte, double vitesseLue) {
+        RobotRoues.checkPosition(caseCourante, carte);
+        double vitesse = RobotRoues.VITESSE_DEFAUT;
+        if (vitesseLue != -1) {
+            vitesse = vitesseLue;
+        }
+
+        return new RobotRoues(caseCourante, carte, vitesse);
+    }
 }

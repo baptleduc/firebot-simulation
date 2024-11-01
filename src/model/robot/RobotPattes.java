@@ -65,4 +65,18 @@ public class RobotPattes extends RobotTerrestre {
         }
         this.position = newPosition;
     }
+
+    /**
+     * FACTORY METHOD
+     * Crée un robot à pattes avec les paramètres spécifiés.
+     *
+     * @param caseCourante la case sur laquelle le robot à pattes doit être
+     *                     positionné.
+     * @param carte        la carte dans laquelle le robot à pattes évolue.
+     * @return une instance de {@link RobotPattes}.
+     */
+    public static RobotPattes createRobotPattes(Case caseCourante, Carte carte) {
+        RobotPattes.checkPosition(caseCourante, carte);
+        return new RobotPattes(caseCourante, carte);
+    }
 }

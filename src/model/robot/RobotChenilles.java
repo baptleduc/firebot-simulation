@@ -52,4 +52,24 @@ public class RobotChenilles extends RobotTerrestre {
         }
         this.position = newPosition;
     }
+
+    /**
+     * FACTORY METHOD
+     * Crée un robot à chenilles avec les paramètres spécifiés. 
+     *
+     * @param caseCourante la case sur laquelle le robot à chenilles doit être
+     *                     positionné.
+     * @param carte        la carte dans laquelle le robot à chenilles évolue.
+     * @param vitesseLue   la vitesse initiale du robot à chenilles (peut être -1
+     *                     pour utiliser la vitesse par défaut).
+     * @return une instance de {@link RobotChenilles}.
+     */
+    public static RobotChenilles createRobotChenilles(Case caseCourante, Carte carte, double vitesseLue) {
+        RobotChenilles.checkPosition(caseCourante, carte);
+        double vitesse = RobotChenilles.VITESSE_DEFAUT;
+        if (vitesseLue != -1) {
+            vitesse = vitesseLue;
+        }
+        return new RobotChenilles(caseCourante, carte, vitesse);
+    }
 }

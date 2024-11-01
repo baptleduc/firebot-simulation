@@ -45,4 +45,25 @@ public class Drone extends RobotAerien {
     public double getVitesse(NatureTerrain terrain) {
         return this.vitesse;
     }
+
+
+    /**
+     * FACTORY METHOD
+     * Crée un drone avec les paramètres spécifiés.
+     *
+     * @param caseCourante la case sur laquelle le drone doit être positionné.
+     * @param carte        la carte dans laquelle le drone évolue.
+     * @param vitesseLue   la vitesse initiale du drone (peut être -1 pour utiliser
+     *                     la vitesse par défaut).
+     * @return une instance de {@link Drone}.
+     */
+    public static Drone createDrone(Case caseCourante, Carte carte, double vitesseLue) {
+        Drone.checkPosition(caseCourante, carte);
+        double vitesse = Drone.VITESSE_DEFAUT;
+        if (vitesseLue != -1) {
+            vitesse = vitesseLue;
+        }
+
+        return new Drone(caseCourante, carte, vitesse);
+    }
 }
