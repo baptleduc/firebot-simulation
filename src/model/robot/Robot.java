@@ -106,9 +106,19 @@ public abstract class Robot {
         return this.carte.getTailleCases() / vitesseMoyenne;
     }
 
-    public abstract void setPosition(Case newPosCase);
+    public void setPosition(Case newPosition){
+        checkPosition(newPosition, this.carte);
+        if (!carte.estVoisin(this.position, newPosition)) {
+            throw new IllegalArgumentException(
+                    String.format("La case : %s n'est pas voisine de la position actuelle : %s", newPosition,
+                            this.position));
+        }
+        this.position = newPosition;
+    }
 
     public abstract double getVitesse(NatureTerrain terrain);
+
+    protected abstract void checkPosition(Case position, Carte carte);
 
     public abstract void remplirReservoir();
 

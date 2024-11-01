@@ -17,6 +17,7 @@ public class RobotPattes extends RobotTerrestre {
                 INTER_UNITAIRE);
     }
 
+    @Override
     public double getVitesse(NatureTerrain terrain) {
         if (terrain == NatureTerrain.ROCHE) {
             return Math.min(this.vitesse, 10);
@@ -38,14 +39,16 @@ public class RobotPattes extends RobotTerrestre {
     }
 
     /**
-     * Vérifie si la position donnée est valide sur la carte.
+     * Vérifie si une position donnée est valide sur la carte avant la création d'un robot.
+     * Cette méthode est statique, car elle est appelée une factory method, dans un contexte où une instance de 
+     * RobotPattes n'existe pas encore, pour la validation initiale de la position.
      *
-     * @param position la case à vérifier.
-     * @param carte    la carte dans laquelle se trouve la case.
-     * @throws IllegalArgumentException si la case n'existe pas ou si elle est de
-     *                                  type eau ou roche.
+     * @param position La case à vérifier.
+     * @param carte    La carte dans laquelle se trouve la case.
+     * @throws IllegalArgumentException si la case n'existe pas sur la carte ou est de 
+     *                                  type EAU ou ROCHE, rendant la position invalide.
      */
-    public static void checkPosition(Case position, Carte carte) throws IllegalArgumentException {
+    private static void checkPositionStatic(Case position, Carte carte) throws IllegalArgumentException {
         if (!(carte.caseExiste(position))) {
             throw new IllegalArgumentException(
                     String.format("La case : %s n'existe pas sur la carte.", position));
@@ -56,15 +59,20 @@ public class RobotPattes extends RobotTerrestre {
         }
     }
 
-    public void setPosition(Case newPosition) {
-        checkPosition(newPosition, this.carte);
-        if (!carte.estVoisin(this.position, newPosition)) {
-            throw new IllegalArgumentException(
-                    String.format("La case : %s n'est pas voisine de la position actuelle : %s", newPosition,
-                            this.position));
-        }
-        this.position = newPosition;
+    /**
+     * Implémentation de la méthode abstraite `checkPosition` définie dans la classe `Robot`.
+     * Cette méthode vérifie si une position est valide pour un RobotPattes en appelant 
+     * `checkPositionStatic`, qui gère la logique de validation spécifique.
+     *
+     * @param position La case à vérifier.
+     * @param carte    La carte dans laquelle se trouve la case.
+     * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU ou ROCHE.
+     */
+    @Override
+    protected void checkPosition(Case position, Carte carte){
+        RobotPattes.checkPositionStatic(position, carte);
     }
+
 
     /**
      * FACTORY METHOD
@@ -76,7 +84,7 @@ public class RobotPattes extends RobotTerrestre {
      * @return une instance de {@link RobotPattes}.
      */
     public static RobotPattes createRobotPattes(Case caseCourante, Carte carte) {
-        RobotPattes.checkPosition(caseCourante, carte);
+        RobotPattes.checkPositionStatic(caseCourante, carte);
         return new RobotPattes(caseCourante, carte);
     }
 }

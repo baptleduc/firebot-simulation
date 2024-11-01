@@ -15,19 +15,21 @@ public class RobotRoues extends RobotTerrestre {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);
     }
 
+    @Override
     public double getVitesse(NatureTerrain terrain) {
         return this.vitesse;
     }
 
     /**
-     * Vérifie si la position donnée est valide sur la carte.
-     *
+     * Vérifie si une position donnée est valide sur la carte avant la création d'un robot.
+     * Cette méthode est statique, car elle est appelée une factory method, dans un contexte où une instance de 
+     * RobotRoues n'existe pas encore, pour la validation initiale de la position.
      * @param position la case à vérifier.
      * @param carte    la carte dans laquelle se trouve la case.
      * @throws IllegalArgumentException si la case n'existe pas ou si elle est de
      *                                  type eau ou roche.
      */
-    public static void checkPosition(Case position, Carte carte) {
+    private static void checkPositionStatic(Case position, Carte carte) {
         if (!(carte.caseExiste(position))) {
             throw new IllegalArgumentException(
                     String.format("La case : %s n'existe pas sur la carte.", position));
@@ -40,15 +42,21 @@ public class RobotRoues extends RobotTerrestre {
         }
     }
 
-    public void setPosition(Case newPosition) {
-        checkPosition(newPosition, this.carte);
-        if (!carte.estVoisin(this.position, newPosition)) {
-            throw new IllegalArgumentException(
-                    String.format("La case : %s n'est pas voisine de la position actuelle : %s", newPosition,
-                            this.position));
-        }
-        this.position = newPosition;
+
+    /**
+     * Implémentation de la méthode abstraite `checkPosition` définie dans la classe `Robot`.
+     * Cette méthode vérifie si une position est valide pour un RobotRoues en appelant 
+     * `checkPositionStatic`, qui gère la logique de validation spécifique.
+     *
+     * @param position La case à vérifier.
+     * @param carte    La carte dans laquelle se trouve la case.
+     * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU ou ROCHE.
+     */
+    @Override
+    protected void checkPosition(Case position, Carte carte){
+        RobotRoues.checkPositionStatic(position, carte);
     }
+
 
     /**
      * FACTORY METHOD
@@ -62,7 +70,7 @@ public class RobotRoues extends RobotTerrestre {
      * @return une instance de {@link RobotRoues}.
      */
     public static RobotRoues createRobotRoues(Case caseCourante, Carte carte, double vitesseLue) {
-        RobotRoues.checkPosition(caseCourante, carte);
+        RobotRoues.checkPositionStatic(caseCourante, carte);
         double vitesse = RobotRoues.VITESSE_DEFAUT;
         if (vitesseLue != -1) {
             vitesse = vitesseLue;
