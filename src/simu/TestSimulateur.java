@@ -6,6 +6,7 @@ import io.LecteurDonnees;
 import model.DonneesSimulation;
 import simu.scenario.Scenario;
 import simu.scenario.Scenario0;
+import simu.scenario.Scenario1;
 
 import java.io.FileNotFoundException;
 import java.util.Optional;
@@ -16,8 +17,11 @@ public class TestSimulateur {
     public static Scenario createScenario(String numScenario) throws IllegalArgumentException {
         switch (numScenario) {
             case "0":
-                System.out.println("Scenario 0 choisie");
+                System.out.println("Scenario 0 choisi");
                 return new Scenario0();
+            case "1":
+                System.out.println("Scenario 1 choisi");
+                return new Scenario1();
 
             default:
                 throw new IllegalArgumentException(String.format("Scenario numero : %s not found", numScenario));

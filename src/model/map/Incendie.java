@@ -21,6 +21,14 @@ public class Incendie {
         return this.drawColor;
     }
 
+    public int getQuantiteEau(){
+        return this.quantiteEau;
+    }
+
+    public void eteindre(int quantiteEau){
+        this.quantiteEau -= quantiteEau;
+    }
+
     @Override
     public String toString() {
         String output = String.format("Incendie(%d, %d)", this.position.getLigne(), this.position.getColonne());

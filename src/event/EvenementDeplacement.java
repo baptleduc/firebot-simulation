@@ -15,6 +15,7 @@ public class EvenementDeplacement extends Evenement {
 
     }
     public void execute(){
+        System.out.println(destCase);
         robot.setPosition(destCase);
     }
 }

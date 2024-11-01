@@ -2,6 +2,7 @@ package model.robot;
 
 import java.awt.Color;
 import model.map.Case;
+import model.map.Incendie;
 import model.map.NatureTerrain;
 import model.map.Carte;
 
@@ -55,7 +56,7 @@ public abstract class Robot {
         }
     }
 
-    void setNiveauEau(int niveauEau) {
+    public void setNiveauEau(int niveauEau) {
         checkNiveauEau(niveauEau, this.capaciteReservoir);
         this.niveauEau = niveauEau;
     }
@@ -67,11 +68,19 @@ public abstract class Robot {
      * @throws IllegalArgumentException si la quantité demandée est supérieure au
      *                                  niveau actuel d'eau.
      */
-    void deverserEau(int vol) throws IllegalArgumentException {
-        if (vol < this.niveauEau) {
-            this.niveauEau -= vol; // Update reservoirEau
+    public void deverserEau(int quantite, Incendie incendie) {
+        // Vérifiez que le robot est sur la même case que l'incendie
+        if (!this.position.equals(incendie.getPosition())) {
+            System.err.println(this.position);
+            System.err.println(incendie.getPosition());
+            throw new IllegalArgumentException("Le robot n'est pas sur la case de l'incendie.");
+        }
+
+        if (quantite <= this.niveauEau) {
+            incendie.eteindre(quantite);
+            this.niveauEau -= quantite; 
         } else {
-            throw new IllegalArgumentException("Le robot n'a pas assez d'eau dans son reservoir");
+            throw new IllegalArgumentException("Pas assez d'eau dans le réservoir pour déverser cette quantité.");
         }
     }
 
@@ -83,7 +92,7 @@ public abstract class Robot {
         }
     }
 
-    void setVitesse(double newVitesse) {
+    public void setVitesse(double newVitesse) {
         checkVitesse(newVitesse, this.vitesseMax);
         this.vitesse = newVitesse;
     }

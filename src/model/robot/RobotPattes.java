@@ -34,7 +34,7 @@ public class RobotPattes extends RobotTerrestre {
      *
      */
     @Override
-    void deverserEau(int vol) {
+    public void deverserEau(int vol, Incendie incendie) {
         System.out.println("Le robot à pattes utilise de la poudre pour éteindre l'incendie.");
     }
 
