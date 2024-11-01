@@ -3,11 +3,14 @@ package model;
 import model.map.*;
 import model.robot.Robot;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DonneesSimulation {
     private Carte carte;
     private List<Robot> robots = new ArrayList<Robot>();
+    private Map<Case, Incendie> incendiesParCase = new HashMap<>();
     private List<Incendie> incendies = new ArrayList<Incendie>();
     
 
@@ -22,8 +25,8 @@ public class DonneesSimulation {
         return this.carte;
     }
 
-    public List<Incendie> getIncendies() {
-        return this.incendies;
+    public Map<Case, Incendie> getIncendies() {
+        return this.incendiesParCase;
     }
 
     public List<Robot> getRobots() {

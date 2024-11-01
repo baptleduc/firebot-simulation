@@ -107,7 +107,7 @@ public class Simulateur implements Simulable {
      */
     private void drawIncendies() {
         int taillePixelIncendie = this.taillePixelCases * 8 / 10;
-        for (Incendie incendie : this.model.getIncendies()) {
+        for (Incendie incendie : this.model.getIncendies().values()) {
             Case c = incendie.getPosition();
             int x = calculateXPosition(c.getColonne());
             int y = calculateYPosition(c.getLigne());

@@ -263,7 +263,7 @@ public class LecteurDonnees {
 
             Case caseIncendie = donneesSimulation.getCarte().getCase(lig, col);
             Incendie incendie = new Incendie(caseIncendie, intensite);
-            donneesSimulation.getIncendies().add(incendie);
+            donneesSimulation.getIncendies().put(incendie.getPosition(), incendie); // À une case est associée un incendie
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format d'incendie invalide. "
