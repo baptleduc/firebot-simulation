@@ -10,7 +10,7 @@ public class RobotPattes extends RobotTerrestre {
     public static final double VITESSE_DEFAUT = 30;
     private static final double VITESSE_MAX = VITESSE_DEFAUT;
     private static final int TEMPS_REMPLISSAGE = 0;
-    private static final int INTER_UNITAIRE = 10;
+    private static final int INTER_UNITAIRE = 600; // Intervention unitaire : 600 litres en 1 min
 
     public RobotPattes(Case position, Carte carte) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, VITESSE_DEFAUT, VITESSE_MAX, TEMPS_REMPLISSAGE, carte,

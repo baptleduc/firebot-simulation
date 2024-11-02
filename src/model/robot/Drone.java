@@ -11,7 +11,7 @@ public class Drone extends RobotAerien {
     public static final double VITESSE_DEFAUT = 100;
     private static final double VITESSE_MAX = 150;
     private static final int TEMPS_REMPLISSAGE = 30;
-    private static int INTER_UNITAIRE = CAPACITE_RESERVOIR / 30;
+    private static int INTER_UNITAIRE = CAPACITE_RESERVOIR * 60 / 30; // Intervention unitaire : 6000000/30 litres en 1 min
 
     public Drone(Case position, Carte carte, double vitesse) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);

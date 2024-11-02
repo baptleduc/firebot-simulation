@@ -8,6 +8,7 @@ import model.map.Carte;
 import model.map.Case;
 import model.map.Direction;
 import model.map.Incendie;
+import model.robot.EtatRobot;
 import model.robot.Robot;
 import simu.Simulateur;
 
@@ -26,8 +27,8 @@ public class Scenario1 extends Scenario {
     
         // Gérer l'incendie sur la case actuelle
         Incendie incendie = model.getIncendies().get(currentCase);
-        int quantiteEauDeversee = Math.min(robot.getNiveauEau(), incendie.getQuantiteEau());
-        simulateur.ajouteEvenement(new EvenementDeverserEau(robot, incendie, quantiteEauDeversee, ++ date));
+        date = intervenirIncendie(simulateur, robot, incendie, ++date);
+        
     
         // Déplacer le robot vers l'OUEST deux fois
         currentCase = deplacerRobot(simulateur, robot, carte, currentCase, ++date, Direction.OUEST);
@@ -43,7 +44,6 @@ public class Scenario1 extends Scenario {
 
         // Gérer l'incendie sur la case actuelle
         incendie = model.getIncendies().get(currentCase);
-        quantiteEauDeversee = Math.min(robot.getNiveauEau(), incendie.getQuantiteEau());
-        simulateur.ajouteEvenement(new EvenementDeverserEau(robot, incendie, quantiteEauDeversee, ++ date));
+        date = intervenirIncendie(simulateur, robot, incendie, ++ date);
     }
 }

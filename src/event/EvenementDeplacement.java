@@ -14,7 +14,9 @@ public class EvenementDeplacement extends Evenement {
         this.destCase = destCase;
 
     }
+    @Override
     public void execute(){
+        assert(robot.getEtatCourant() == EtatRobot.DISPONIBLE);
         System.out.println(destCase);
         robot.setPosition(destCase);
     }

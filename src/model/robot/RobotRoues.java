@@ -8,8 +8,8 @@ public class RobotRoues extends RobotTerrestre {
     private static final int NIVEAU_EAU = CAPACITE_RESERVOIR; // Hypothèse : un robot est créé avec son reservoir rempli
     public static final double VITESSE_DEFAUT = 80;
     private static final double VITESSE_MAX = Double.MAX_VALUE;
-    private static final int TEMPS_REMPLISSAGE = 10;
-    private static final int INTER_UNITAIRE = 100 / 5;
+    private static final int TEMPS_REMPLISSAGE = 5;
+    private static final int INTER_UNITAIRE = 6000 / 5; //Intervention unitaire : 6000/5 litres en 1 min
 
     public RobotRoues(Case position, Carte carte, double vitesse) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);

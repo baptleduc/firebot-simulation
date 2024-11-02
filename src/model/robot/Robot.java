@@ -11,10 +11,11 @@ public abstract class Robot {
     private int niveauEau; // en litres
     private int capaciteReservoir; // en litres
     private int tempsRemplissage; // en minutes
-    private int interUnitaire; // Nombre de litre qu'il peut deverser en 1 s
+    private int interUnitaire; // Nombre de litre qu'il peut deverser en 1 min
     private double vitesseMax;
     private final Color DRAW_COLOR = Color.MAGENTA;
     private Case position;
+    private EtatRobot etatCourant;
 
     protected Carte carte;
     protected double vitesse; // en km/h
@@ -27,12 +28,15 @@ public abstract class Robot {
         this.capaciteReservoir = capaciteReservoir;
         this.vitesseMax = vitesseMax;
         this.tempsRemplissage = tempsRemplissage;
+        this.interUnitaire = interUnitaire;
 
         checkVitesse(vitesse, vitesseMax);
         this.vitesse = vitesse;
 
         checkNiveauEau(niveauEau, capaciteReservoir);
         this.niveauEau = niveauEau;
+
+        this.etatCourant = EtatRobot.DISPONIBLE; // On suppose qu'à l'initialisation un robot est immédiatement disponible
     }
 
     public Case getPosition() {
@@ -53,6 +57,22 @@ public abstract class Robot {
 
     public int getTempsRemplissage(){
         return this.tempsRemplissage;
+    }
+
+    public boolean estOccupe() {
+        return this.etatCourant == EtatRobot.EN_REMPLISSAGE || this.etatCourant == EtatRobot.EN_DEVERSAGE || this.etatCourant == EtatRobot.EN_DEPLACEMENT;
+    }
+
+    public int getInterUnitaire(){
+        return this.interUnitaire;
+    }
+
+    public EtatRobot getEtatCourant(){
+        return this.etatCourant;
+    }
+
+    public void setEtatCourant(EtatRobot newEtat){
+        this.etatCourant = newEtat;
     }
     
 
