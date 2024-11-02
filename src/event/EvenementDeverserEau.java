@@ -19,9 +19,10 @@ public class EvenementDeverserEau extends Evenement {
         this.incendie = incendie;
 
     }
-    
+
     @Override
     public void execute() throws NoSuchElementException{
+        assert(robot.getEtatCourant() == EtatRobot.EN_DEVERSAGE);
         robot.deverserEau(this.quantiteEauDeversee, this.incendie);
         
     }

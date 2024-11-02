@@ -13,8 +13,11 @@ public class Scenario0 extends Scenario {
             Robot robot = model.getRobots().get(0); // Choisi le premier robot du model : 'Drone'
             Carte carte = model.getCarte();
             Case currentCase = robot.getPosition();
+            Object[] returnObject;
             for (long i = 1; i < 4; i++){
-                currentCase = deplacerRobot(simulateur, robot, carte, currentCase, i, Direction.NORD);
+                returnObject = deplacerRobot(simulateur, robot, carte, currentCase,  ++i, Direction.NORD);
+                currentCase =  (Case) returnObject[0];
+                i = (long) returnObject[1];
             }
     }
 }

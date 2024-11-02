@@ -18,7 +18,7 @@ public abstract class Robot {
     private EtatRobot etatCourant;
 
     protected Carte carte;
-    protected double vitesse; // en km/h
+    protected double vitesse; // en km/min
     
 
     public Robot(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax,
@@ -128,7 +128,7 @@ public abstract class Robot {
     }
 
     /**
-     * Calcule le temps nécessaire pour se déplacer d'une case à une autre, en
+     * Calcule le temps nécessaire (en min) pour se déplacer d'une case à une autre, en
      * fonction
      * des vitesses spécifiques des terrains de départ et d'arrivée.
      *
@@ -136,13 +136,14 @@ public abstract class Robot {
      * @param caseArrivee la case de destination du déplacement.
      * @return le temps de déplacement en heures.
      */
-    public double calculerTempsDeplacement(Case caseDepart, Case caseArrivee) {
+    public double calculerTempsDeplacementMinute(Case caseDepart, Case caseArrivee) {
         double vitesseDepart = getVitesse(caseDepart.getNature());
         double vitesseArrivee = getVitesse(caseArrivee.getNature());
 
         double vitesseMoyenne = (vitesseDepart + vitesseArrivee) / 2;
+        int tailleCasesKiloMetres = this.carte.getTailleCases() / 1000;
 
-        return this.carte.getTailleCases() / vitesseMoyenne;
+        return tailleCasesKiloMetres * 60 / vitesseMoyenne;
     }
 
     public void setPosition(Case newPosition){

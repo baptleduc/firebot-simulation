@@ -46,6 +46,9 @@ public class Simulateur implements Simulable {
         this.evenements.add(e);
     }
     
+    /**
+     * Incrémente de 1 minute la date courante
+     */
     private void incrementeDate(){
         this.dateSimulation ++;
     }
@@ -208,7 +211,7 @@ public class Simulateur implements Simulable {
     }
 
     @Override
-    public void next() {
+    public void next() { // Hypothèse : un appel à next = 1min
         incrementeDate();
         while (!simulationTerminee() && evenements.peek().getDate() <= dateSimulation) {
             Evenement event = evenements.poll();
