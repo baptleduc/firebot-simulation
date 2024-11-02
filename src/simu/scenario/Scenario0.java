@@ -1,6 +1,5 @@
 package simu.scenario;
 
-import event.*;
 import model.DonneesSimulation;
 import model.map.Carte;
 import model.map.Case;

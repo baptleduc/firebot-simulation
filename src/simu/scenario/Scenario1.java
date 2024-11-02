@@ -1,5 +1,7 @@
 package simu.scenario;
 
+import java.util.NoSuchElementException;
+
 import event.*;
 import model.DonneesSimulation;
 import model.map.Carte;
@@ -33,15 +35,15 @@ public class Scenario1 extends Scenario {
 
 
         // Remplir Reservoir 
-
+        simulateur.ajouteEvenement(new EvenementRemplirReservoir(robot, ++date));
 
         // Déplacer le robot vers l'EST deux fois
         currentCase = deplacerRobot(simulateur, robot, carte, currentCase, ++date, Direction.EST);
         currentCase = deplacerRobot(simulateur, robot, carte, currentCase, ++date, Direction.EST);
+
+        // Gérer l'incendie sur la case actuelle
+        incendie = model.getIncendies().get(currentCase);
+        quantiteEauDeversee = Math.min(robot.getNiveauEau(), incendie.getQuantiteEau());
+        simulateur.ajouteEvenement(new EvenementDeverserEau(robot, incendie, quantiteEauDeversee, ++ date));
     }
-    
-    
-    
-    
-    
 }

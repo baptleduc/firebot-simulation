@@ -1,6 +1,9 @@
 package event;
 
 import model.robot.*;
+
+import java.util.NoSuchElementException;
+
 import model.map.Incendie;
 
 public class EvenementDeverserEau extends Evenement {
@@ -16,7 +19,7 @@ public class EvenementDeverserEau extends Evenement {
         this.incendie = incendie;
 
     }
-    public void execute(){
+    public void execute() throws NoSuchElementException{
         robot.deverserEau(this.quantiteEauDeversee, this.incendie);
     }
 }

@@ -1,5 +1,7 @@
 package model.robot;
 
+import java.util.NoSuchElementException;
+
 import model.map.*;
 
 public abstract class RobotTerrestre extends Robot {
@@ -11,8 +13,19 @@ public abstract class RobotTerrestre extends Robot {
     }
 
     @Override
-    public void remplirReservoir() {
+    public void remplirReservoir() throws NoSuchElementException{
         Case posCourante = getPosition();
+        for (Direction direction : Direction.values()){
+            Case voisin = carte.getVoisin(posCourante, direction);
+            if (voisin.getNature() == NatureTerrain.EAU){
+                System.out.println(String.format("La case voisine : %s est une case eau", voisin));
+                System.out.println(String.format("Remplissage du robot pendant : %d min", this.getTempsRemplissage()));
+
+                this.setNiveauEau(this.getCapaciteReservoir());
+                return;
+            }
+        }
+        throw new NoSuchElementException("Pas de case eau voisine");
     }
 
 }

@@ -7,6 +7,7 @@ import gui.Rectangle;
 import gui.Simulable;
 import model.DonneesSimulation;
 import event.Evenement;
+import event.EvenementErreur;
 import model.map.*;
 import model.robot.*;
 
@@ -108,10 +109,12 @@ public class Simulateur implements Simulable {
     private void drawIncendies() {
         int taillePixelIncendie = this.taillePixelCases * 8 / 10;
         for (Incendie incendie : this.model.getIncendies().values()) {
-            Case c = incendie.getPosition();
-            int x = calculateXPosition(c.getColonne());
-            int y = calculateYPosition(c.getLigne());
-            drawRectangle(x, y, taillePixelIncendie, Color.ORANGE);
+            if (incendie.getQuantiteEau() > 0){
+                Case c = incendie.getPosition();
+                int x = calculateXPosition(c.getColonne());
+                int y = calculateYPosition(c.getLigne());
+                drawRectangle(x, y, taillePixelIncendie, Color.ORANGE);
+            }    
         }
     }
 
@@ -208,8 +211,13 @@ public class Simulateur implements Simulable {
     public void next() {
         incrementeDate();
         while (!simulationTerminee() && evenements.peek().getDate() <= dateSimulation) {
-            Evenement e = evenements.poll();
-            e.execute();
+            Evenement event = evenements.poll();
+            try {
+                event.execute();   
+            } catch (Exception e) {
+                Evenement evenementErreur = new EvenementErreur(e.getMessage(), dateSimulation);
+                evenementErreur.execute();
+            }
         }
         draw();
 
