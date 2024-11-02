@@ -11,7 +11,7 @@ public class EvenementChangementEtat extends Evenement {
     private Robot robot;
     private EtatRobot newEtat;
 
-    public EvenementChangementEtat(Robot robot, Incendie incendie, EtatRobot newEtat, long date){
+    public EvenementChangementEtat(Robot robot, EtatRobot newEtat, long date){
         super(date);
         this.newEtat = newEtat;
         this.robot = robot;

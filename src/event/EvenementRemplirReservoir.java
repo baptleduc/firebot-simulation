@@ -13,6 +13,7 @@ public class EvenementRemplirReservoir extends Evenement {
     }
     @Override
     public void execute(){
+        assert(robot.getEtatCourant() == EtatRobot.EN_REMPLISSAGE);
         this.robot.remplirReservoir();
     }
 }

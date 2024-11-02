@@ -34,9 +34,8 @@ public class Scenario1 extends Scenario {
         currentCase = deplacerRobot(simulateur, robot, carte, currentCase, ++date, Direction.OUEST);
         currentCase = deplacerRobot(simulateur, robot, carte, currentCase, ++date, Direction.OUEST);
 
-
         // Remplir Reservoir 
-        simulateur.ajouteEvenement(new EvenementRemplirReservoir(robot, ++date));
+        date = remplirReservoir(simulateur, robot, date);
 
         // Déplacer le robot vers l'EST deux fois
         currentCase = deplacerRobot(simulateur, robot, carte, currentCase, ++date, Direction.EST);
