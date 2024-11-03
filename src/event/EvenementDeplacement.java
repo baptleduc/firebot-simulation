@@ -14,11 +14,12 @@ public class EvenementDeplacement extends Evenement {
         this.destCase = destCase;
 
     }
-    
+
     @Override
     public void execute(){
         assert(robot.getEtatCourant() == EtatRobot.EN_DEPLACEMENT);
         System.out.println(destCase);
         robot.setPosition(destCase);
+        robot.setEtatCourant(EtatRobot.DISPONIBLE); // Le robot re-devient disponible à la fin de son déplacement
     }
 }

@@ -24,6 +24,6 @@ public class EvenementDeverserEau extends Evenement {
     public void execute() throws NoSuchElementException{
         assert(robot.getEtatCourant() == EtatRobot.EN_DEVERSAGE);
         robot.deverserEau(this.quantiteEauDeversee, this.incendie);
-        
+        robot.setEtatCourant(EtatRobot.DISPONIBLE); // Le robot re-devient disponible à la fin de son intervention
     }
 }

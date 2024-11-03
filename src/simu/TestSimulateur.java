@@ -9,7 +9,6 @@ import simu.scenario.Scenario0;
 import simu.scenario.Scenario1;
 
 import java.io.FileNotFoundException;
-import java.util.Optional;
 import java.util.zip.DataFormatException;
 
 public class TestSimulateur {

@@ -15,5 +15,6 @@ public class EvenementRemplirReservoir extends Evenement {
     public void execute(){
         assert(robot.getEtatCourant() == EtatRobot.EN_REMPLISSAGE);
         this.robot.remplirReservoir();
+        robot.setEtatCourant(EtatRobot.EN_REMPLISSAGE); // Le robot re-devient disponible à la fin de son remplissage
     }
 }
