@@ -55,7 +55,7 @@ public class RobotChenilles extends RobotTerrestre {
      * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU ou ROCHE.
      */
     @Override
-    protected void checkPosition(Case position, Carte carte) throws IllegalArgumentException{
+    public void checkPosition(Case position, Carte carte) throws IllegalArgumentException{
         RobotChenilles.checkPositionStatic(position, carte);
     }
 
