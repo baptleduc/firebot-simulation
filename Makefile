@@ -24,21 +24,36 @@
 all: testInvader testLecture
 
 testInvader:
-	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestInvader.java
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/test/TestInvader.java
 
 testLecture:
-	javac -d bin -sourcepath src src/TestLecteurDonnees.java
+	javac -d bin -sourcepath src src/io/TestLecteurDonnees.java
 
+Lecture: 
+	javac -d bin -sourcepath src src/io/TestLecteurDonnees.java
+	java -classpath bin io/TestLecteurDonnees cartes/carteSujet.map
+
+Simu:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map
+
+SimuScenario0:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map 0
+
+SimuScenario1:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map 1
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:lib/gui.jar TestInvader
 # ou bien lancer l'execution en passant par ce Makefile:
 #   > make exeInvader
 exeInvader: 
-	java -classpath bin:lib/gui.jar TestInvader
+	java -classpath bin:lib/gui.jar test/TestInvader
 
 exeLecture: 
-	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
+	java -classpath bin io/TestLecteurDonnees cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*
