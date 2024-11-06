@@ -3,6 +3,7 @@ package model.robot;
 import java.awt.Color;
 import java.util.List;
 
+import chemin.PlusCourtChemin;
 import chemin.PlusCourtCheminAstar;
 import event.EvenementChangementEtat;
 import event.EvenementDeplacement;
@@ -24,7 +25,7 @@ public abstract class Robot {
     private double vitesseMax;
     private final Color DRAW_COLOR = Color.MAGENTA;
     private Case position;
-    private EtatRobot etatCourant; 
+    private EtatRobot etatCourant;
 
     private Case positionApresEvenements;       // Position prévue du robot après l'exécution de ses événements planifiés
     private long dateApresEvenements;           // Date prévue après l'exécution des événements planifiés pour le robot
@@ -249,9 +250,9 @@ public abstract class Robot {
      * @param simulateur
      * @param destination
      */
-    public void deplacementPlusCourtChemin( Simulateur simulateur, Case destination) {
+    public void deplacementPlusCourtChemin( Simulateur simulateur, Case destination, PlusCourtChemin algo) {
         
-        List<Case> chemin = PlusCourtCheminAstar.chemin(this, this.carte, this.position, destination);
+        List<Case> chemin = algo.creeChemin(this, this.position, destination);
         if(chemin == null){
             throw new IllegalArgumentException("Le robot ne peut pas atteindre la destination.");
         }

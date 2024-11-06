@@ -13,7 +13,7 @@ import model.map.Carte;
 import model.map.Case;
 import model.map.Direction;
 
-class NoeudAstar {
+class NoeudAstar implements Comparable<NoeudAstar> {
 
     public Case caseNoeud;
     public double cout;
@@ -26,16 +26,13 @@ class NoeudAstar {
         this.heuristique = heuristique;
         this.noeudPrecedente = noeudPrecedente;
     }
-    
 
-}
-
-class comparateur implements Comparator<NoeudAstar> {
-    public int compare(NoeudAstar Noeud1, NoeudAstar Noeud2)
+    @Override
+    public int compareTo(NoeudAstar Noeud2)
     {
         double h_1;
         double h_2;
-        h_1 = Noeud1.heuristique ;
+        h_1 = this.heuristique ;
         h_2 = Noeud2.heuristique;
         if(h_1 < h_2)
         {
@@ -47,24 +44,34 @@ class comparateur implements Comparator<NoeudAstar> {
         }
         return 0;
     }
+    
 
 }
 
-public class PlusCourtCheminAstar extends PlusCourtChemin {
+public class PlusCourtCheminAstar implements PlusCourtChemin {
 
+    private Carte carte;
+        
+
+    public PlusCourtCheminAstar(Carte carte) {
+        
+        this.carte = carte;
+        
+    }
 
     private static double calculerDistance(Case case1, Case case2) {
         return Math.abs(case1.getLigne() - case2.getLigne()) + Math.abs(case1.getColonne() - case2.getColonne());
     }
 
-    public static double tempsDeplacement(Robot robot, Carte carte, Case caseDepart, Case caseArrivee){
-        return executeAstar(robot, carte, caseDepart, caseArrivee).cout;
+    public double tempsDeplacement(Robot robot, Case caseDepart, Case caseArrivee){
+        // renvoie le cout de la case d'arrivée
+        return executeAstar(robot, caseDepart, caseArrivee).cout;
     }
 
-    public static List<Case> chemin(Robot robot, Carte carte, Case caseDepart, Case caseArrivee){
-        NoeudAstar noeud = executeAstar(robot, carte, caseDepart, caseArrivee);
+    public List<Case> creeChemin(Robot robot, Case caseDepart, Case caseArrivee){
+        NoeudAstar noeud = executeAstar(robot, caseDepart, caseArrivee);
         
-        // on eneleve le noeud de depart
+        // on enleve le noeud de depart
         if(noeud == null){
             return null;
         }
@@ -78,20 +85,21 @@ public class PlusCourtCheminAstar extends PlusCourtChemin {
         return chemin;
     }
 
-    private static NoeudAstar executeAstar(Robot robot, Carte carte, Case caseDepart, Case caseArrivee){
+    private NoeudAstar executeAstar(Robot robot, Case caseDepart, Case caseArrivee){
+
 
 
         try{
-            robot.checkPosition(caseArrivee, carte);
+            robot.checkPosition(caseArrivee, this.carte);
         }
         catch (IllegalArgumentException e){
             throw new IllegalArgumentException("La case d'arrivée n'est pas valide");
         }
 
-        robot.checkPosition(caseDepart, carte);
+        robot.checkPosition(caseDepart, this.carte);
 
 
-        PriorityQueue<NoeudAstar> queue = new PriorityQueue<NoeudAstar>(new comparateur());
+        PriorityQueue<NoeudAstar> queue = new PriorityQueue<>();
         List<Case> casesVisitees = new ArrayList<Case>();
         
         NoeudAstar noeudDepart = new NoeudAstar( caseArrivee, 0, 0, null);
@@ -109,10 +117,10 @@ public class PlusCourtCheminAstar extends PlusCourtChemin {
                 else{
                     for (Direction dir : Direction.values()){
                         try{
-                        if (carte.voisinExiste(noeudCourant.caseNoeud, dir) && !casesVisitees.contains(carte.getVoisin(noeudCourant.caseNoeud, dir))){
+                        if (this.carte.voisinExiste(noeudCourant.caseNoeud, dir) && !casesVisitees.contains(this.carte.getVoisin(noeudCourant.caseNoeud, dir))){
                             
-                                Case voisin = carte.getVoisin(noeudCourant.caseNoeud, dir);
-                                robot.checkPosition(voisin,carte);
+                                Case voisin = this.carte.getVoisin(noeudCourant.caseNoeud, dir);
+                                robot.checkPosition(voisin,this.carte);
                                 
                                 double cout = noeudCourant.cout + robot.calculerTempsDeplacementMinute(noeudCourant.caseNoeud, voisin);
                                 double heuristique = cout + calculerDistance(noeudCourant.caseNoeud, caseDepart);
