@@ -1,7 +1,10 @@
 package model.robot;
 
 import java.awt.Color;
+import java.util.List;
 
+import chemin.PlusCourtChemin;
+import chemin.PlusCourtCheminAstar;
 import event.EvenementChangementEtat;
 import event.EvenementDeplacement;
 import event.EvenementDeverserEau;
@@ -22,7 +25,7 @@ public abstract class Robot {
     private double vitesseMax;
     private final Color DRAW_COLOR = Color.MAGENTA;
     private Case position;
-    private EtatRobot etatCourant; 
+    private EtatRobot etatCourant;
 
     private Case positionApresEvenements;       // Position prévue du robot après l'exécution de ses événements planifiés
     private long dateApresEvenements;           // Date prévue après l'exécution des événements planifiés pour le robot
@@ -170,7 +173,7 @@ public abstract class Robot {
         checkPosition(newPosition, this.carte);
         if (!carte.estVoisin(this.position, newPosition)) {
             throw new IllegalArgumentException(
-                    String.format("La case : %s n'est pas voisine de la position actuelle : %s", newPosition,
+                    String.format("La case : %s n'est pas voisine de la position actuelle : %s (setPosition)", newPosition,
                             this.position));
         }
         this.position = newPosition;
@@ -178,7 +181,7 @@ public abstract class Robot {
 
     public abstract double getVitesse(NatureTerrain terrain);
 
-    protected abstract void checkPosition(Case position, Carte carte);
+    public abstract void checkPosition(Case position, Carte carte);
 
     public abstract void remplirReservoir();
 
@@ -191,7 +194,6 @@ public abstract class Robot {
     /**
      * Crée les évenements nécessaires afin d'effectuer un déplacement élémentaire dans la direction donnée
      * @param simulateur
-     * @param carte
      * @param direction
      */
     public void createEvenementsDeplacement(Simulateur simulateur, Direction direction) {
@@ -211,6 +213,57 @@ public abstract class Robot {
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
 
     }
+
+    /**
+     * Crée les évenements nécessaires afin d'effectuer un déplacement élémentaire vers une case donnée (voisine)
+     * @param simulateur
+     * @param Case
+     */
+    public void createEvenementsDeplacement(Simulateur simulateur, Case nouvellePosition) {
+
+        // Vérifie que la case d'arrivée est bien voisine de la position actuelle
+        if (!carte.estVoisin(this.positionApresEvenements, nouvellePosition)) {
+            throw new IllegalArgumentException(
+                    String.format("La case : %s n'est pas voisine de la position actuelle : %s (createEvenementsDeplacement)", nouvellePosition,
+                            this.positionApresEvenements));
+        }
+        // Verifie que la case d'arrivée est accessible
+        this.checkPosition(nouvellePosition, this.carte);
+
+        // Arrondit le temps de déplacement en minutes vers le haut pour garantir le temps nécessaire
+        long tempsDeplacement = (long) Math.ceil(this.calculerTempsDeplacementMinute(this.positionApresEvenements, nouvellePosition));
+
+        simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_DEPLACEMENT, this.dateApresEvenements)); // Le robot est en état "EN_DEPLACEMENT" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsDeplacement
+
+        this.positionApresEvenements = nouvellePosition;
+        this.dateApresEvenements += tempsDeplacement;
+    
+        // Ajoute un événement pour effectuer le déplacement effectif à la date prévue
+        simulateur.ajouteEvenement(new EvenementDeplacement(this, this.positionApresEvenements, this.dateApresEvenements));
+
+        this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
+
+    }
+
+    /*
+     * Crée les évenements nécessaires afin d'effectuer un déplacement vers une case donnée en utilisant l'algorithme A*
+     * @param simulateur
+     * @param destination
+     */
+    public void deplacementPlusCourtChemin( Simulateur simulateur, Case destination, PlusCourtChemin algo) {
+        
+        List<Case> chemin = algo.creeChemin(this, this.position, destination);
+        if(chemin == null){
+            throw new IllegalArgumentException("Le robot ne peut pas atteindre la destination.");
+        }
+        for (Case caseDestination : chemin) {
+            // print("Case destination : " + caseDestination);
+            //System.out.println("Case destination : " + caseDestination);
+            this.createEvenementsDeplacement(simulateur, caseDestination);
+        }
+    }
+
+   
 
     public void createEvenementsInterventionIncendie(Simulateur simulateur, Incendie incendie){
 
