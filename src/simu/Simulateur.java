@@ -2,7 +2,10 @@ package simu;
 
 import java.awt.Color;
 import java.util.PriorityQueue;
+import java.util.Random;
+
 import gui.GUISimulator;
+import gui.ImageElement;
 import gui.Rectangle;
 import gui.Simulable;
 import model.DonneesSimulation;
@@ -24,6 +27,9 @@ public class Simulateur implements Simulable {
     private int xMin = 60;
     private int yMin = 60;
 
+    //pour avoir la meme disposition des sprites a chaque execution
+    
+
     public Simulateur(GUISimulator gui, DonneesSimulation model) {
         this.dateSimulation = (long) 0;
         this.gui = gui;
@@ -31,6 +37,7 @@ public class Simulateur implements Simulable {
 
         this.xMin = gui.getWidth() / RATIO_BORDURE_X;
         this.yMin = gui.getHeight() / RATIO_BORDURE_Y;
+
 
         // Calcul de la largeur et de la hauteur des cases, en fonction des bordures et
         // de la taille du GUI
@@ -80,6 +87,8 @@ public class Simulateur implements Simulable {
         int nbLignes = carte.getNbLignes();
         int nbColonnes = carte.getNbColonnes();
 
+        Random random = new Random(1111);
+
         
 
         for (int idx_lig = 0; idx_lig < nbLignes; idx_lig++) {
@@ -88,7 +97,8 @@ public class Simulateur implements Simulable {
                 int x = calculateXPosition(idx_col);
                 int y = calculateYPosition(idx_lig);
                 Case c = carte.getCase(idx_lig, idx_col);
-                drawRectangle(x, y, taillePixelCases, c.getDrawColor());
+                //drawRectangle(x, y, taillePixelCases, c.getDrawColor());
+                drawSprite(x, y,random,c,carte);
             }
         }
     }
@@ -104,6 +114,261 @@ public class Simulateur implements Simulable {
     private void drawRectangle(int x, int y, int tailleCases, Color color) {
         gui.addGraphicalElement(new Rectangle(x, y, Color.black, color, tailleCases));
     }
+
+   
+
+    private String[] drawElementBord(Case c, String[] sprites, Carte carte, boolean coin)
+    {
+
+        int lig = c.getLigne();
+        int col = c.getColonne();
+
+        String s1 = sprites[0];
+        String s2 = sprites[0];
+        String s3 = sprites[0];
+        String s4 = sprites[0];
+    
+        boolean left = col > 0 && carte.getCase(lig, col - 1).getNature() == c.getNature();
+        boolean right = col < carte.getNbColonnes() - 1 && carte.getCase(lig, col + 1).getNature() == c.getNature();
+        boolean top = lig > 0 &&  carte.getCase(lig - 1, col).getNature() == c.getNature();
+        boolean bottom = lig <  carte.getNbLignes() - 1 && carte.getCase(lig + 1, col).getNature() == c.getNature();
+    
+        if (top && left && !right && !bottom) {
+            s1 = sprites[0];
+            s2 = sprites[2]; 
+            s3 = sprites[4];
+            s4 = sprites[8];
+        } else if (top && right && !left && !bottom) {
+            s1 = sprites[1]; 
+            s2 = sprites[0];
+            s3 = sprites[7]; 
+            s4 = sprites[4];
+        } else if (bottom && left && !right && !top) {
+            s1 = sprites[3];
+            s2 = sprites[6];
+            s3 = sprites[0];
+            s4 = sprites[2];
+        } else if (bottom && right && !left && !top) {
+            s1 = sprites[5];
+            s2 = sprites[3];
+            s3 = sprites[1];
+            s4 = sprites[0];
+        } else if (top && bottom && !left && !right) {
+            s1 = s3 = sprites[1]; // Bas
+            s2 = s4 = sprites[2]; // Milieu
+        } else if (left && right && !top && !bottom) {
+            s1 = s2 = sprites[3]; // Haut
+            s3 = s4 = sprites[4]; // Bas
+        } else if (top && bottom && left && right) {
+            s1 = s2 = s3 = s4 = sprites[0]; // Milieu
+        } else if (!top && !bottom && !left && !right) {
+            s1 = sprites[5]; // Haut gauche
+            s2 = sprites[6]; // Haut droite
+            s3 = sprites[7]; // Bas gauche
+            s4 = sprites[8]; // Bas droite
+        
+        // Cas où seul le haut est connecté
+        } else if (top && !bottom && !left && !right) {
+            s1 = sprites[1]; // Gauche
+            s2 = sprites[2]; // Droite
+            s3 = sprites[7]; // Bas gauche
+            s4 = sprites[8]; // Bas droite
+        
+        // Cas où seul le bas est connecté
+        } else if (bottom && !top && !left && !right) {
+            s1 = sprites[5]; // Haut gauche
+            s2 = sprites[6]; // Haut droite
+            s3 = sprites[1]; // Gauche
+            s4 = sprites[2]; // Droite
+        
+        // Cas où seule la gauche est connectée
+        } else if (left && !right && !top && !bottom) {
+            s1 = sprites[3]; // Haut
+            s2 = sprites[6]; // Haut droite
+            s3 = sprites[4]; // Bas
+            s4 = sprites[8]; // Bas droite
+        
+        // Cas où seule la droite est connectée
+        } else if (right && !left && !top && !bottom) {
+            s1 = sprites[5]; // Haut gauche
+            s2 = sprites[3]; // Haut
+            s3 = sprites[7]; // Bas gauche
+            s4 = sprites[4]; // Bas
+        } if (top && left && bottom && !right) {
+            s1 = sprites[0]; // Milieu
+            s2 = sprites[2]; // Droite
+            s3 = sprites[0]; // Milieu
+            s4 = sprites[2]; // Droite
+        
+        // Cas où le haut, la droite et le bas sont connectés, mais pas la gauche
+        } else if (top && right && bottom && !left) {
+            s1 = sprites[1]; // Gauche
+            s2 = sprites[0]; // Milieu
+            s3 = sprites[1]; // Bas gauche
+            s4 = sprites[0]; // Bas
+        
+        // Cas où le haut, la gauche et la droite sont connectés, mais pas le bas
+        } else if (top && left && right && !bottom) {
+            s1 = sprites[0]; // Haut
+            s2 = sprites[0]; // Milieu
+            s3 = sprites[4]; // Bas
+            s4 = sprites[4]; // Bas droite
+        
+        // Cas où le bas, la gauche et la droite sont connectés, mais pas le haut
+        } else if (bottom && left && right && !top) {
+            s1 = sprites[3]; // Haut gauche
+            s2 = sprites[3]; // Haut
+            s3 = sprites[0]; // Gauche
+            s4 = sprites[0]; // Milieu
+        }
+        
+        if(coin){
+            
+            if(s1 == sprites[0] && lig > 0 && col > 0 && carte.getCase(lig - 1, col - 1).getNature() != c.getNature()){
+                s1 = sprites[12];
+            }
+           
+                if(s2 == sprites[0] && lig > 0 && col < carte.getNbColonnes() - 1 && carte.getCase(lig - 1, col + 1).getNature() != c.getNature()){
+                s2 = sprites[11];
+            }
+            if(s3 == sprites[0] && lig < carte.getNbLignes() - 1 && col > 0 && carte.getCase(lig + 1, col - 1).getNature() != c.getNature()){
+                s3 = sprites[10];
+            }
+            if(s4 == sprites[0] && lig < carte.getNbLignes() - 1 && col < carte.getNbColonnes() - 1 && carte.getCase(lig + 1, col + 1).getNature() != c.getNature()){
+                s4 = sprites[9];
+            }
+        }
+        return new String[]{s1, s2, s3, s4};
+    }
+
+     /**
+     * Dessine un sprite à une position donnée.
+     * 
+     * @param x_sprite
+     * @param y_sprite
+     * @param x_case
+     * @param y_case
+     */
+    private void drawSprite( int x_case, int y_case,Random random, Case c,Carte carte) {
+        
+
+
+        int adjustedX = x_case - taillePixelCases / 2;
+        int adjustedY = y_case - taillePixelCases / 2;
+        
+        int halfSize = taillePixelCases / 2;
+        
+
+        String s1 = "./images/herbe/herbe_1.png";
+        String s2 = "./images/herbe/herbe_1.png";
+        String s3 = "./images/herbe/herbe_1.png";
+        String s4 = "./images/herbe/herbe_1.png";
+
+        if(c.getNature() == NatureTerrain.TERRAIN_LIBRE)
+        {
+
+            String[] sprites_herbe = {
+            "./images/herbe/herbe_1.png",
+            "./images/herbe/herbe_2.png",
+            "./images/herbe/herbe_1.png",
+            "./images/herbe/herbe_3.png",
+            "./images/herbe/herbe_1.png",
+            "./images/herbe/herbe_2.png",
+            "./images/herbe/herbe_1.png",
+            "./images/herbe/herbe_3.png",
+            "./images/herbe/herbe_1.png",
+            "./images/herbe/herbe_2.png",
+            "./images/herbe/herbe_3.png",
+            "./images/herbe/herbe_2.png",
+            "./images/herbe/herbe_2.png",
+            "./images/herbe/herbe_1.png",
+            "./images/herbe/herbe_2.png",
+            "./images/herbe/herbe_1.png",
+            "./images/herbe/herbe_3.png",
+            "./images/herbe/herbe_1.png",
+            "./images/herbe/herbe_2.png",
+            "./images/herbe/herbe_3.png",
+            "./images/herbe/herbe_6.png",
+            "./images/herbe/herbe_7.png",
+            "./images/herbe/herbe_8.png",
+            "./images/herbe/herbe_9.png",
+            "./images/herbe/herbe_10.png",
+            "./images/herbe/herbe_11.png",
+            "./images/herbe/herbe_12.png",
+
+        };
+
+        
+            s1 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+            s2 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+            s3 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+            s4 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+        }
+        else if(c.getNature() == NatureTerrain.EAU){
+
+            String[] sprites_eau = {
+                "./images/eau/eau_milieu.png",        // 0
+                "./images/eau/eau_gauche.png",        // 1
+                "./images/eau/eau_droite.png",        // 2
+                "./images/eau/eau_haut.png",          // 3
+                "./images/eau/eau_bas.png",           // 4
+                "./images/eau/eau_haut_gauche.png",   // 5
+                "./images/eau/eau_haut_droite.png",   // 6
+                "./images/eau/eau_bas_gauche.png",    // 7
+                "./images/eau/eau_bas_droite.png",     // 8
+                "./images/eau/coin_bas_droite.png",    // 9
+                "./images/eau/coin_bas_gauche.png",     // 10
+                "./images/eau/coin_haut_droite.png",    // 11
+                "./images/eau/coin_haut_gauche.png",    // 12
+            };
+
+            String[] res = drawElementBord(c, sprites_eau, carte, true);
+            s1 = res[0];
+            s2 = res[1];
+            s3 = res[2];
+            s4 = res[3];
+        
+        }
+        else if(c.getNature() == NatureTerrain.FORET){
+            String[] sprites_foret = {
+                "./images/foret/foret_milieu.png",
+                "./images/foret/foret_gauche.png",
+                "./images/foret/foret_droite.png",
+                "./images/foret/foret_haut.png",
+                "./images/foret/foret_bas.png",
+                "./images/foret/foret_haut_gauche.png",
+                "./images/foret/foret_haut_droite.png",
+                "./images/foret/foret_bas_gauche.png",
+                "./images/foret/foret_bas_droite.png",
+
+            };
+            String[] res = drawElementBord(c, sprites_foret, carte, false);
+            s1 = res[0];
+            s2 = res[1];
+            s3 = res[2];
+            s4 = res[3];
+
+        }
+        else
+        {
+            s1 = "./images/herbe/herbe_1.png";
+            s2 = "./images/herbe/herbe_1.png";
+            s3 = "./images/herbe/herbe_1.png";
+            s4 = "./images/herbe/herbe_1.png";
+        }
+        
+
+        gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY, s1, halfSize, halfSize, null));
+        
+        gui.addGraphicalElement(new ImageElement(adjustedX + halfSize, adjustedY, s2, halfSize, halfSize, null));
+        
+        gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY + halfSize, s3, halfSize, halfSize, null));
+        
+        gui.addGraphicalElement(new ImageElement(adjustedX + halfSize, adjustedY + halfSize, s4, halfSize, halfSize, null));
+        
+       
+    }
+
 
     /**
      * Dessine les incendies en les plaçant sur leurs positions et en utilisant une
