@@ -264,7 +264,7 @@ public class Simulateur implements Simulable {
         String s3 = "./images/herbe/herbe_1.png";
         String s4 = "./images/herbe/herbe_1.png";
 
-        if(c.getNature() == NatureTerrain.TERRAIN_LIBRE)
+        if(c.getNature() == NatureTerrain.TERRAIN_LIBRE )
         {
 
             String[] sprites_herbe = {
@@ -303,6 +303,75 @@ public class Simulateur implements Simulable {
             s2 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
             s3 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
             s4 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+        }
+        else if(c.getNature() == NatureTerrain.HABITAT)
+        {
+            String[] sprites_maison = 
+            {
+                "./images/maison/maison_1.png",
+                "./images/maison/maison_2.png",
+                "./images/maison/maison_3.png",
+                "./images/maison/maison_4.png",
+                "./images/maison/maison_5.png",
+                "./images/maison/maison_6.png",
+                "./images/maison/maison_7.png",
+                "./images/maison/maison_8.png",
+                "./images/maison/maison_9.png"
+            };
+
+
+            String[] sprites_herbe = {
+                "./images/herbe/herbe_1.png",
+                "./images/herbe/herbe_2.png",
+                "./images/herbe/herbe_1.png",
+                "./images/herbe/herbe_3.png",
+                "./images/herbe/herbe_1.png",
+                "./images/herbe/herbe_2.png",
+                "./images/herbe/herbe_1.png",
+                "./images/herbe/herbe_3.png",
+                "./images/herbe/herbe_1.png",
+                "./images/herbe/herbe_2.png",
+                "./images/herbe/herbe_3.png",
+                "./images/herbe/herbe_2.png",
+                "./images/herbe/herbe_2.png",
+                "./images/herbe/herbe_1.png",
+                "./images/herbe/herbe_2.png",
+                "./images/herbe/herbe_1.png",
+                "./images/herbe/herbe_3.png",
+                "./images/herbe/herbe_1.png",
+                "./images/herbe/herbe_2.png",
+                "./images/herbe/herbe_3.png",
+                "./images/herbe/herbe_6.png",
+                "./images/herbe/herbe_7.png",
+                "./images/herbe/herbe_8.png",
+                "./images/herbe/herbe_9.png",
+                "./images/herbe/herbe_10.png",
+                "./images/herbe/herbe_11.png",
+                "./images/herbe/herbe_12.png",
+    
+            };
+    
+            
+                s1 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+                s2 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+                s3 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+                s4 = sprites_herbe[random.nextInt(sprites_herbe.length-1)];
+
+
+
+            gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY, s1, halfSize, halfSize, null));
+        
+            gui.addGraphicalElement(new ImageElement(adjustedX + halfSize, adjustedY, s2, halfSize, halfSize, null));
+        
+            gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY + halfSize, s3, halfSize, halfSize, null));
+        
+            gui.addGraphicalElement(new ImageElement(adjustedX + halfSize, adjustedY + halfSize, s4, halfSize, halfSize, null));
+
+            random.nextInt(10);
+            s1 = sprites_maison[random.nextInt(sprites_maison.length-1)];
+            s2 = sprites_maison[random.nextInt(sprites_maison.length-1)];
+            s3 = sprites_maison[random.nextInt(sprites_maison.length-1)];
+            s4 = sprites_maison[random.nextInt(sprites_maison.length-1)];
         }
         else if(c.getNature() == NatureTerrain.EAU){
 
@@ -349,6 +418,29 @@ public class Simulateur implements Simulable {
             s4 = res[3];
 
         }
+        else if(c.getNature() == NatureTerrain.ROCHE){
+            String[] sprites_roche = {
+                "./images/roche/roche_milieu.png",
+                "./images/roche/roche_gauche.png",
+                "./images/roche/roche_droite.png",
+                "./images/roche/roche_haut.png",
+                "./images/roche/roche_bas.png",
+                "./images/roche/roche_haut_gauche.png",
+                "./images/roche/roche_haut_droite.png",
+                "./images/roche/roche_bas_gauche.png",
+                "./images/roche/roche_bas_droite.png",
+                "./images/roche/coin_bas_droite.png",
+                "./images/roche/coin_bas_gauche.png",
+                "./images/roche/coin_haut_droite.png",
+                "./images/roche/coin_haut_gauche.png",
+
+            };
+            String[] res = drawElementBord(c, sprites_roche, carte, true);
+            s1 = res[0];
+            s2 = res[1];
+            s3 = res[2];
+            s4 = res[3];
+        }
         else
         {
             s1 = "./images/herbe/herbe_1.png";
@@ -381,7 +473,13 @@ public class Simulateur implements Simulable {
                 Case c = incendie.getPosition();
                 int x = calculateXPosition(c.getColonne());
                 int y = calculateYPosition(c.getLigne());
-                drawRectangle(x, y, taillePixelIncendie, Color.ORANGE);
+                //drawRectangle(x, y, taillePixelIncendie, Color.ORANGE);
+                String sprite = "./images/feu/feu.png";
+                int halfSize = taillePixelIncendie / 2;
+                int adjustedX = x - halfSize;
+                int adjustedY = y - halfSize;
+                gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY, sprite, taillePixelIncendie, taillePixelIncendie, null));
+
             }    
         }
     }
@@ -412,8 +510,28 @@ public class Simulateur implements Simulable {
         // Liste des coordonnées de chaque sous-rectangle pour le robot
         int[][] coordinates = getRobotCoordinates();
 
-        // Ajout des rectangles au gui avec centrage
-        drawRobotRectangles(coordinates, x, y, robotColor, tailleElement);
+        // // Ajout des rectangles au gui avec centrage
+        // drawRobotRectangles(coordinates, x, y, robotColor, tailleElement);
+
+        String[] sprite_robot = {"./images/robot/robot_roues.png","./images/robot/robot_pattes.png","./images/robot/robot_drone.png","./images/robot/robot_chenilles.png"};
+        String sprite = sprite_robot[0];
+        if(robot.getType() == "Pattes")
+        {
+            sprite = sprite_robot[1];
+        }
+        else if(robot.getType() == "Drone")
+        {
+            sprite = sprite_robot[2];
+        }
+        else if(robot.getType() == "Chenilles")
+        {
+            sprite = sprite_robot[3];
+        }
+
+        int halfSize = taillePixelCases / 2;
+        int adjustedX = x - halfSize;
+        int adjustedY = y - halfSize;
+        gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY, sprite, taillePixelCases, taillePixelCases, null));
     }
 
     /**

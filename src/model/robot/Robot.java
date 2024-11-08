@@ -185,6 +185,8 @@ public abstract class Robot {
 
     public abstract void remplirReservoir();
 
+    public abstract String getType();
+
     @Override
     public String toString() {
         String output = String.format("Robot(%d, %d)", this.position.getLigne(), this.position.getColonne());

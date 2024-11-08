@@ -53,6 +53,12 @@ public class Drone extends RobotAerien {
         return this.vitesse;
     }
 
+    @Override
+    public String getType()
+    {
+        return "Drone";
+    }
+
 
     /**
      * FACTORY METHOD

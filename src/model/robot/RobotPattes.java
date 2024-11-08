@@ -73,6 +73,11 @@ public class RobotPattes extends RobotTerrestre {
         RobotPattes.checkPositionStatic(position, carte);
     }
 
+    @Override
+    public String getType()
+    {
+        return "Pattes";
+    }
 
     /**
      * FACTORY METHOD

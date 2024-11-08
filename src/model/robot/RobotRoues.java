@@ -19,6 +19,11 @@ public class RobotRoues extends RobotTerrestre {
     public double getVitesse(NatureTerrain terrain) {
         return this.vitesse;
     }
+    @Override
+    public String getType()
+    {
+        return "Roues";
+    }
 
     /**
      * Vérifie si une position donnée est valide sur la carte avant la création d'un robot.
