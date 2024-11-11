@@ -316,4 +316,10 @@ public abstract class Robot {
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
 
     }
+
+    public int intervernirIncendie(Simulateur simulateur, Incendie incendie, PlusCourtChemin algo){
+        this.deplacementPlusCourtChemin(simulateur, incendie.getPosition(), algo);
+        this.createEvenementsInterventionIncendie(simulateur, incendie);
+        return 0; // TODO : SUCCESS CODE
+    }
 }
