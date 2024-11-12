@@ -1,0 +1,121 @@
+@startuml
+
+package model {
+    class DonneesSimulation {
+        -Carte carte
+        -Map<Case, Incendie> incendiesParCase
+        -List<Robot> robots
+
+        +DonneesSimulation()
+        +Carte getCarte()
+        +Map<Case, Incendie> getIncendies()
+        +List<Robot> getRobots()
+        +String toString()
+    }
+
+    package map {
+        class Carte {
+            -int nbLignes
+            -int nbColonnes
+            -Case[][] cases
+            -int tailleCases
+
+            +Carte(int nbLignes, int nbColonnes, int tailleCases, Case[][] cases)
+
+            +int getNbLignes()
+            +int getNbColonnes()
+            +int getTailleCases()
+            +Case getCase()
+            +Case getVoisin()
+            +boolean caseExiste(Case src)
+            +boolean estVoisin(Case src, Case dest)
+            +boolean estIndiceValide(int lig, int col)
+            +String toString()
+        }
+
+        class Case {
+            -int ligne
+            -int colonne
+            -NatureTerrain nature
+            -Color drawColor
+
+            +Case(int ligne, int colonne, NatureTerrain natureTerrain)
+            +int getLigne()
+            +int getColonne()
+            +Color getDrawColor()
+            +NatureTerrain getNature() 
+            +String toString()
+        }
+
+        enum Direction {
+            NORD,
+            SUD,
+            EST,
+            OUEST
+        }
+
+        class Incendie {
+            -Case position
+            -int quantiteEau
+            -Color drawColor
+
+            +Incendie(Case position, int quantiteEau)
+            +Case getPosition()
+            +Color getDrawColor()
+            +int getQuantiteEau()
+            +void eteindre(int quantiteEau)
+            +String toString()
+        }
+        class NatureTerrain{
+            EAU,
+            FORET,
+            ROCHE,
+            TERRAIN_LIBRE,
+            HABITAT
+
+            +Color getDrawColor()
+        }
+    }
+
+    package robot {
+        interface Robot {
+            +Case getPosition()
+            +void setPosition(Case newPosCase)
+            +double getVitesse(NatureTerrain terrain)
+            +void deverserEau(int vol)
+            +void remplirReservoir()
+        }
+    }
+
+
+}
+
+package simu {
+    class Simulateur {
+        -DonneesSimulation donnees
+        -List<Evenement> evenements
+        +void ajouterEvenement(Evenement e)
+        +void execute()
+    }
+
+    package scenario {
+        class Scenario1 {
+            +void createEvenements(Simulateur simulateur, DonneesSimulation model)
+        }
+
+        interface Scenario {
+            +void createEvenements(Simulateur simulateur, DonneesSimulation model)
+        }
+    }
+}
+
+Carte --> Case
+Carte --> Direction
+Carte --> Incendie
+Robot --> Case
+Scenario1 --> Simulateur
+Scenario1 --> DonneesSimulation
+Scenario1 --> Robot
+Scenario1 --> Incendie
+
+@enduml
