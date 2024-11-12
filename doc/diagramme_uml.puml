@@ -252,6 +252,50 @@ package simu {
     
 }
 
+package event{
+    abstract class Evenement implements Comparable<Evenement>{
+        -long date
+
+        +Evenement(long date)
+        +long getDate()
+        +int compareTo(Evenement e)
+        +{abstract} void execute()
+    }
+    class EvenementChangementEtat extends Evenement{
+        -Robot robot
+        -EtatRobot etat
+
+        +EvenementChangementEtat(Robot robot, EtatRobot newEtat, long date)
+        +void execute()
+    }
+    class EvenementDeplacement extends Evenement{
+        -Robot robot
+        -Case destCase
+
+        +EvenementDeplacement(Robot robot, Case destCase, long date)
+        +void execute()
+    }
+    class EvenementDeverserEau extends Evenement{
+        -Robot robot
+        -Incendie incendie
+        -int quantiteEauDeversee
+
+        +EvenementDeverserEau(Robot robot, Incendie incendie, int quantiteEauDeversee, long date)
+        +void execute()
+    }
+    class EvenementErreur extends Evenement{
+        -String msgErreur
+
+        +EvenementErreur(String msgErreur, long date)
+        +void execute()
+    }
+    class EvenementRemplirReservoir extends Evenement{
+        -Robot robot
+
+        +EvenementRemplirReservoir(Robot robot, long date)
+        +void execute()
+    }
+}
 
 
 
