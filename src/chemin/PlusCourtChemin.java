@@ -4,7 +4,7 @@ import model.robot.Robot;
 
 import java.util.List;
 
-import model.map.Carte;
+
 import model.map.Case;
 
 public interface PlusCourtChemin {

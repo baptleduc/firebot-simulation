@@ -1,14 +1,11 @@
 package chemin;
 
 
-import chemin.PlusCourtChemin;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import model.robot.Robot;
-import simu.Simulateur;
 import model.map.Carte;
 import model.map.Case;
 import model.map.Direction;

@@ -201,23 +201,58 @@ package model {
 
 
 package simu {
-    class Simulateur {
-        -DonneesSimulation donnees
-        -List<Evenement> evenements
-        +void ajouterEvenement(Evenement e)
-        +void execute()
+    class Simulateur implements Simulable {
+        -GUISimulator gui
+        -DonneesSimulation model
+        -long dateSimulation
+        -PriorityQueue<Evenement> evenements
+        -{final} int RATIO_BORDURE_X
+        -{final} int RATIO_BORDURE_Y
+        -int taillePixelCases
+        -int xMin
+        -int yMin
+
+        +Simulateur(GUISimulator gui, DonneesSimulation model)
+        +void ajouteEvenement(Evenement e)
+        -void incrementeDate()
+        -boolean simulationTerminee()
+        -void draw()
+        -void drawCarte()
+        -void drawElementBord(Case c, String[] sprites, Carte carte, boolean coin)
+        -void drawCase(int xCase, int yCase, Random random, Case c, Carte carte)
+        -void drawIncendies()
+        -void drawRobots()
+        -void drawRobot(Robot robot)
+        -int calculateXPosition(int colonne)
+        -int calculateYPosition(int ligne)
+        -void drawRobotRectangles(int[][]coordinates, int x, int y, Color robotColor, int tailleElement)
+        -void drawRectangle(int x, int y, int tailleCases, Color color)
+        -void drawRobotPixel(Robot robot)
+        -void int[][] getRobotCoordinates()
+        +void next()
+        +void restart()
+    }
+    class TestSimulateur{
+        +{static} Scenario createScenario(String numScenario)
+        +{static} void main(String[] args)
     }
 
     package scenario {
         class Scenario1 {
             +void createEvenements(Simulateur simulateur, DonneesSimulation model)
         }
-
-        interface Scenario {
+        class Scenario0{
             +void createEvenements(Simulateur simulateur, DonneesSimulation model)
         }
+
+        interface Scenario {
+            +{abstract} void createEvenements(Simulateur simulateur, DonneesSimulation model)
+        }
     }
+    
 }
+
+
 
 
 @enduml
