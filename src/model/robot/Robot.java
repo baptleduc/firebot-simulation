@@ -99,6 +99,8 @@ public abstract class Robot {
     }
 
 
+
+
     private static void checkNiveauEau(int niveauEau, int capaciteReservoir) {
         if (niveauEau < 0) {
             throw new IllegalArgumentException("Le niveau d'eau ne peut pas être négatif.");
@@ -186,7 +188,10 @@ public abstract class Robot {
     public abstract void remplirReservoir();
 
     //recupere le chemin de l'image du robot
-    public abstract String getImagePath();
+    public String getImagePath()
+    {
+        return "images/robot/robot_defaut.png";
+    }
 
     @Override
     public String toString() {

@@ -25,10 +25,7 @@ public class Simulateur implements Simulable {
     private int taillePixelCases;
 
     private int xMin = 60;
-    private int yMin = 60;
-
-    //pour avoir la meme disposition des sprites a chaque execution
-    
+    private int yMin = 60;    
 
     public Simulateur(GUISimulator gui, DonneesSimulation model) {
         this.dateSimulation = (long) 0;
@@ -87,6 +84,9 @@ public class Simulateur implements Simulable {
         int nbLignes = carte.getNbLignes();
         int nbColonnes = carte.getNbColonnes();
 
+
+        //Random pour afficher la diversité dans les cases d'herbe et maison
+        //On fixe la seed pour avoir la même carte à chaque fois
         Random random = new Random(1111);
 
         
@@ -97,37 +97,36 @@ public class Simulateur implements Simulable {
                 int x = calculateXPosition(idx_col);
                 int y = calculateYPosition(idx_lig);
                 Case c = carte.getCase(idx_lig, idx_col);
-                //drawRectangle(x, y, taillePixelCases, c.getDrawColor());
-                drawSprite(x, y,random,c,carte);
+
+                drawCase(x, y,random,c,carte);
             }
         }
     }
 
-    /**
-     * Dessine une case spécifique avec les coordonnées et la couleur données.
-     *
-     * @param x           la coordonnée x de la case.
-     * @param y           la coordonnée y de la case.
-     * @param tailleCases la taille en pixels de la case.
-     * @param color       la couleur de la case.
-     */
-    private void drawRectangle(int x, int y, int tailleCases, Color color) {
-        gui.addGraphicalElement(new Rectangle(x, y, Color.black, color, tailleCases));
-    }
-
+    
    
-
+    /**
+     * Dessine les cases qui prennent en compte les bords en fonction de la nature de la case et de ses voisins.
+     * 
+     * @param c
+     * @param sprites
+     * @param carte
+     * @param coin
+     * @return
+     */
     private String[] drawElementBord(Case c, String[] sprites, Carte carte, boolean coin)
     {
 
         int lig = c.getLigne();
         int col = c.getColonne();
 
+        // Sprites par défaut
         String s1 = sprites[0];
         String s2 = sprites[0];
         String s3 = sprites[0];
         String s4 = sprites[0];
     
+        // Voisins
         boolean left = col > 0 && carte.getCase(lig, col - 1).getNature() == c.getNature();
         boolean right = col < carte.getNbColonnes() - 1 && carte.getCase(lig, col + 1).getNature() == c.getNature();
         boolean top = lig > 0 &&  carte.getCase(lig - 1, col).getNature() == c.getNature();
@@ -154,13 +153,13 @@ public class Simulateur implements Simulable {
             s3 = sprites[1];
             s4 = sprites[0];
         } else if (top && bottom && !left && !right) {
-            s1 = s3 = sprites[1]; // Bas
-            s2 = s4 = sprites[2]; // Milieu
+            s1 = s3 = sprites[1]; 
+            s2 = s4 = sprites[2]; 
         } else if (left && right && !top && !bottom) {
-            s1 = s2 = sprites[3]; // Haut
-            s3 = s4 = sprites[4]; // Bas
+            s1 = s2 = sprites[3]; 
+            s3 = s4 = sprites[4]; 
         } else if (top && bottom && left && right) {
-            s1 = s2 = s3 = s4 = sprites[0]; // Milieu
+            s1 = s2 = s3 = s4 = sprites[0];
         } else if (!top && !bottom && !left && !right) {
             s1 = sprites[5]; // Haut gauche
             s2 = sprites[6]; // Haut droite
@@ -214,14 +213,14 @@ public class Simulateur implements Simulable {
             s3 = sprites[4]; // Bas
             s4 = sprites[4]; // Bas droite
         
-        // Cas où le bas, la gauche et la droite sont connectés, mais pas le haut
         } else if (bottom && left && right && !top) {
             s1 = sprites[3]; // Haut gauche
             s2 = sprites[3]; // Haut
             s3 = sprites[0]; // Gauche
             s4 = sprites[0]; // Milieu
         }
-        
+
+        // Cas des coins suivant la nature des cases en diagonale
         if(coin){
             
             if(s1 == sprites[0] && lig > 0 && col > 0 && carte.getCase(lig - 1, col - 1).getNature() != c.getNature()){
@@ -242,14 +241,15 @@ public class Simulateur implements Simulable {
     }
 
      /**
-     * Dessine un sprite à une position donnée.
+     * Dessine la case à une position donnée.
      * 
      * @param x_sprite
      * @param y_sprite
-     * @param x_case
-     * @param y_case
+     * @param random
+     * @param case
+     * @param carte
      */
-    private void drawSprite( int x_case, int y_case,Random random, Case c,Carte carte) {
+    private void drawCase( int x_case, int y_case,Random random, Case c,Carte carte) {
         
 
 
@@ -259,6 +259,7 @@ public class Simulateur implements Simulable {
         int halfSize = taillePixelCases / 2;
         
 
+        // Images par défaut, une case est consituée de 4 images
         String s1 = "./images/herbe/herbe_1.png";
         String s2 = "./images/herbe/herbe_1.png";
         String s3 = "./images/herbe/herbe_1.png";
@@ -449,7 +450,7 @@ public class Simulateur implements Simulable {
             s4 = "./images/herbe/herbe_1.png";
         }
         
-
+        
         gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY, s1, halfSize, halfSize, null));
         
         gui.addGraphicalElement(new ImageElement(adjustedX + halfSize, adjustedY, s2, halfSize, halfSize, null));
@@ -463,8 +464,7 @@ public class Simulateur implements Simulable {
 
 
     /**
-     * Dessine les incendies en les plaçant sur leurs positions et en utilisant une
-     * couleur spécifique.
+     * Dessine les incendies en les plaçant sur leurs positions.
      */
     private void drawIncendies() {
         int taillePixelIncendie = this.taillePixelCases * 8 / 10;
@@ -473,7 +473,6 @@ public class Simulateur implements Simulable {
                 Case c = incendie.getPosition();
                 int x = calculateXPosition(c.getColonne());
                 int y = calculateYPosition(c.getLigne());
-                //drawRectangle(x, y, taillePixelIncendie, Color.ORANGE);
                 String sprite = "./images/feu/feu.png";
                 int halfSize = taillePixelIncendie / 2;
                 int adjustedX = x - halfSize;
@@ -500,18 +499,9 @@ public class Simulateur implements Simulable {
      */
     private void drawRobot(Robot robot) {
         Case position = robot.getPosition();
-        // Color robotColor = robot.getDrawColor();
-        // int tailleElement = taillePixelCases / 10;
 
-        // Get Top Left x and y
         int x = calculateXPosition(position.getColonne());
         int y = calculateYPosition(position.getLigne());
-
-        // Liste des coordonnées de chaque sous-rectangle pour le robot
-        //int[][] coordinates = getRobotCoordinates();
-
-        // // Ajout des rectangles au gui avec centrage
-        // drawRobotRectangles(coordinates, x, y, robotColor, tailleElement);
 
         String sprite = robot.getImagePath();
         
@@ -520,6 +510,7 @@ public class Simulateur implements Simulable {
         int adjustedY = y - halfSize;
         gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY, sprite, taillePixelCases, taillePixelCases, null));
     }
+
 
     /**
      * Calcule la position x (en pixels) de départ d'une case.
@@ -541,7 +532,67 @@ public class Simulateur implements Simulable {
         return ligne * this.taillePixelCases + this.yMin;
     }
 
+
     /**
+     * NOT USED
+     * Dessine chaque partie d'un robot sous forme de petits rectangles.
+     *
+     * @param coordinates   coordonnées des sous-rectangles représentant le robot.
+     * @param x             la coordonnée x de base du robot.
+     * @param y             la coordonnée y de base du robot.
+     * @param robotColor    la couleur du robot.
+     * @param tailleElement la taille d'un sous-rectangle.
+     */
+    private void drawRobotRectangles(int[][] coordinates, int x, int y, Color robotColor, int tailleElement) {
+        for (int[] coord : coordinates) {
+            int coordX = x + (coord[0] - 40) * tailleElement / 10; // Centrer par rapport à la largeur total = 80
+            int coordY = y + (coord[1] - 45) * tailleElement / 10; // Centrer par rapport à hauteur total = 90
+            Rectangle rect = new Rectangle(coordX, coordY, robotColor, robotColor, tailleElement);
+            gui.addGraphicalElement(rect);
+        }
+    }
+
+
+
+    /**
+     * NOT USED
+     * Utilise des rectangles pour dessiner une case
+     * Dessine une case spécifique avec les coordonnées et la couleur données.
+     *
+     * @param x           la coordonnée x de la case.
+     * @param y           la coordonnée y de la case.
+     * @param tailleCases la taille en pixels de la case.
+     * @param color       la couleur de la case.
+     */
+    private void drawRectangle(int x, int y, int tailleCases, Color color) {
+        gui.addGraphicalElement(new Rectangle(x, y, Color.black, color, tailleCases));
+    }
+
+
+    /**
+     * NOT USED
+     * Dessine un robot spécifique en fonction de sa position et de sa couleur.
+     * Utilise des rectangles pour dessiner le robot.
+     * @param robot l'instance du robot à dessiner.
+     */
+    private void drawRobotPixel(Robot robot) {
+        Case position = robot.getPosition();
+        Color robotColor = robot.getDrawColor();
+        int tailleElement = taillePixelCases / 10;
+
+        // Get Top Left x and y
+        int x = calculateXPosition(position.getColonne());
+        int y = calculateYPosition(position.getLigne());
+
+        // Liste des coordonnées de chaque sous-rectangle pour le robot
+        int[][] coordinates = getRobotCoordinates();
+
+        // Ajout des rectangles au gui avec centrage
+        drawRobotRectangles(coordinates, x, y, robotColor, tailleElement);
+    }
+
+    /**
+     * NOT USED
      * Renvoie les coordonnées des rectangles composant la forme du robot.
      *
      * @return un tableau 2D contenant les coordonnées relatives du robot.
@@ -562,23 +613,7 @@ public class Simulateur implements Simulable {
         };
     }
 
-    /**
-     * Dessine chaque partie d'un robot sous forme de petits rectangles.
-     *
-     * @param coordinates   coordonnées des sous-rectangles représentant le robot.
-     * @param x             la coordonnée x de base du robot.
-     * @param y             la coordonnée y de base du robot.
-     * @param robotColor    la couleur du robot.
-     * @param tailleElement la taille d'un sous-rectangle.
-     */
-    private void drawRobotRectangles(int[][] coordinates, int x, int y, Color robotColor, int tailleElement) {
-        for (int[] coord : coordinates) {
-            int coordX = x + (coord[0] - 40) * tailleElement / 10; // Centrer par rapport à la largeur total = 80
-            int coordY = y + (coord[1] - 45) * tailleElement / 10; // Centrer par rapport à hauteur total = 90
-            Rectangle rect = new Rectangle(coordX, coordY, robotColor, robotColor, tailleElement);
-            gui.addGraphicalElement(rect);
-        }
-    }
+    
 
     @Override
     public void next() { // Hypothèse : un appel à next = 1min
