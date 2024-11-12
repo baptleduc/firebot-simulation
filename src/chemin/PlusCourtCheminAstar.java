@@ -12,17 +12,17 @@ import model.map.Direction;
 
 class NoeudAstar implements Comparable<NoeudAstar> {
 
-    //TODO : mettre les attributs en private
+
     public Case caseNoeud;
     public double cout;
     public double heuristique;
-    public NoeudAstar noeudPrecedente;  // TODO mispell
+    public NoeudAstar noeudPrecedent;
 
     public NoeudAstar(Case caseNoeud, double cout, double heuristique, NoeudAstar noeudPrecedente) {
         this.caseNoeud = caseNoeud;
         this.cout = cout;
         this.heuristique = heuristique;
-        this.noeudPrecedente = noeudPrecedente;
+        this.noeudPrecedent = noeudPrecedente;
     }
 
     @Override
@@ -73,12 +73,12 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
         if(noeud == null){
             return null;
         }
-        noeud = noeud.noeudPrecedente;
+        noeud = noeud.noeudPrecedent;
 
         List<Case> chemin = new ArrayList<Case>();
         while (noeud != null){
             chemin.add(noeud.caseNoeud);
-            noeud = noeud.noeudPrecedente;
+            noeud = noeud.noeudPrecedent;
         }
         return chemin;
     }
