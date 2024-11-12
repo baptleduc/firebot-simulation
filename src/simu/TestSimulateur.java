@@ -54,7 +54,7 @@ public class TestSimulateur {
         try {
             donneesSimulation = LecteurDonnees.creeDonnees(args[0]);
             // crée la fenêtre graphique dans laquelle dessiner
-            GUISimulator gui = new GUISimulator(800, 600, Color.BLACK);
+            GUISimulator gui = new GUISimulator(800, 608, Color.BLACK);
             // crée le simulateur, en l'associant à la fenêtre graphique précédente
             Simulateur simulateur = new Simulateur(gui, donneesSimulation);
             

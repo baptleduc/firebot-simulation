@@ -24,6 +24,12 @@ public class RobotChenilles extends RobotTerrestre {
         return this.vitesse;
     }
 
+    @Override
+    public String getImagePath()
+    {
+        return "./images/robot/robot_chenille.png";
+    }
+
     /**
      * Vérifie si une position donnée est valide sur la carte avant la création d'un robot.
      * Cette méthode est statique, car elle est appelée une factory method, dans un contexte où une instance de 

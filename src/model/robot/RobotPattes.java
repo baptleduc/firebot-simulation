@@ -73,6 +73,11 @@ public class RobotPattes extends RobotTerrestre {
         RobotPattes.checkPositionStatic(position, carte);
     }
 
+    @Override
+    public String getImagePath()
+    {
+        return "./images/robot/robot_pattes.png";
+    }
 
     /**
      * FACTORY METHOD

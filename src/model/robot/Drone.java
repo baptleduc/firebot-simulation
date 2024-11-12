@@ -53,6 +53,12 @@ public class Drone extends RobotAerien {
         return this.vitesse;
     }
 
+    @Override
+    public String getImagePath()
+    {
+        return "./images/robot/robot_drone.png";
+    }
+
 
     /**
      * FACTORY METHOD
