@@ -296,7 +296,30 @@ package event{
         +void execute()
     }
 }
-
+package io{
+    class LecteurDonnees{
+        +{static} void lire(String fichierDonnees)
+        +{static} DonneesSimulation creeDonnees(String fichierDonnees)
+        -{static} Scanner scanner
+        -LecteurDonnees(String fichierDonnees)
+        -void lireCarte()
+        -void creeCarte(DonneesSimulation donneesSimulation)
+        -void lireCase(int lig, int col)
+        -void lireIncendies()
+        -void lireIncendie(int i)
+        -void creeIncendies(DonneesSimulation donneesSimulation)
+        -void creeIncendie(DonneesSimulation donneesSimulation, int i)
+        -void lireRobots()
+        -void lireRobot(int i)
+        -void creeRobots(DonneesSimulation donneesSimulation)
+        -void creeRobot(int i, DonneesSimulation donneesSimulation)
+        -ignorerCommentaires()
+        -void verifieLigneTerminee()
+    }
+    class TestLecteurDonnees{
+        +{static} main(String[] args)
+    }
+}
 
 
 @enduml
