@@ -113,7 +113,8 @@ package model {
             +void deplacementPlusCourtChemin(Simulateur simulateur, Case destination, PlusCourtChemin algo)
             +void createEvenementsInterventionIncendie(Simulateur simulateur, Incendie incendie)
             +void createEvenementsRemplirReservoir(Simulateur simulateur)
-
+            -{static} void checkNiveauEau(int niveauEau, int capaciteReservoir)
+            -{static} void checkVitesse(double vitesse, double vitesseMax)
             +{abstract} double getVitesse(NatureTerrain terrain)
             +{abstract}checkPosition(Case position, Carte carte)
             +{abstract} void remplirReservoir()
@@ -139,7 +140,9 @@ package model {
             +RobotChenilles(Case position, Carte carte, double vitesse)
             +double getVitesse(NatureTerrain terrain)
             +String getImagePath()
+            +{static} checkPositionStatic(Case position, Carte carte)
             +checkPosition(Case position, Carte carte)
+            +{static} RobotChenilles createRobotChenilles(Case caseCourante, Carte carte, double vitesseLue)
         }
         class RobotPattes extends RobotTerrestre{
             -{final} int CAPACITE_RESERVOIR
@@ -152,8 +155,12 @@ package model {
             +RobotPattes(Case position, Carte carte)
             +double getVitesse(NatureTerrain terrain)
             +void deverserEau(int vol, Incendie)
+            +{static} checkPositionStatic(Case position, Carte carte)
             +void checkPosition(Case position, Carte carte)
             +String getImagePath()
+            +{static} RobotPattes createRobotPattes(Case caseCourante, Carte carte)
+        }
+            
         }
 
         class RobotRoues extends RobotTerrestre{
@@ -167,7 +174,9 @@ package model {
             +RobotRoues(Case position, Carte carte, double vitesse)
             +double getVitesse(NatureTerrain terrain)
             +String getImagePath()
-            +void checkPosition()
+            +{static} void checkPositionStatic(Case position, Carte carte)
+            +void checkPosition(Case position, Carte carte)
+            +{static} RobotRoues createRobotRoues(Case caseCourante, Carte carte, double vitesseLue)
         }
 
         class Drone extends RobotAerien{
@@ -182,12 +191,14 @@ package model {
             +void checkPosition()
             +String getImagePath()
         }
-        
+
+        class RobotFactory{
+            +{static} Robot getRobot(String typeRobot, Case caseCourante, Carte carte, double vitesseLue)
+        }
 
     }
 
 
-}
 
 package simu {
     class Simulateur {
@@ -208,13 +219,5 @@ package simu {
     }
 }
 
-Carte --> Case
-Carte --> Direction
-Carte --> Incendie
-Robot --> Case
-Scenario1 --> Simulateur
-Scenario1 --> DonneesSimulation
-Scenario1 --> Robot
-Scenario1 --> Incendie
 
 @enduml
