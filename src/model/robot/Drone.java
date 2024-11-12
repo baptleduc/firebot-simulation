@@ -54,9 +54,9 @@ public class Drone extends RobotAerien {
     }
 
     @Override
-    public String getType()
+    public String getImagePath()
     {
-        return "Drone";
+        return "./images/robot/robot_drone.png";
     }
 
 

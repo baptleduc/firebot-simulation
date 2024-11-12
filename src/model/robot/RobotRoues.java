@@ -20,9 +20,9 @@ public class RobotRoues extends RobotTerrestre {
         return this.vitesse;
     }
     @Override
-    public String getType()
+    public String getImagePath()
     {
-        return "Roues";
+        return "./images/robot/robot_roues.png";
     }
 
     /**

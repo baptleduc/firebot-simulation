@@ -74,9 +74,9 @@ public class RobotPattes extends RobotTerrestre {
     }
 
     @Override
-    public String getType()
+    public String getImagePath()
     {
-        return "Pattes";
+        return "./images/robot/robot_pattes.png";
     }
 
     /**

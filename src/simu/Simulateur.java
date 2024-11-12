@@ -420,7 +420,7 @@ public class Simulateur implements Simulable {
         }
         else if(c.getNature() == NatureTerrain.ROCHE){
             String[] sprites_roche = {
-                "./images/roche/roche_milieu.png",
+                "./images/herbe/herbe_1.png",
                 "./images/roche/roche_gauche.png",
                 "./images/roche/roche_droite.png",
                 "./images/roche/roche_haut.png",
@@ -429,10 +429,10 @@ public class Simulateur implements Simulable {
                 "./images/roche/roche_haut_droite.png",
                 "./images/roche/roche_bas_gauche.png",
                 "./images/roche/roche_bas_droite.png",
-                "./images/roche/coin_bas_droite.png",
-                "./images/roche/coin_bas_gauche.png",
-                "./images/roche/coin_haut_droite.png",
-                "./images/roche/coin_haut_gauche.png",
+                "./images/roche/roche_coin_bas_droite.png",
+                "./images/roche/roche_coin_bas_gauche.png",
+                "./images/roche/roche_coin_haut_droite.png",
+                "./images/roche/roche_coin_haut_gauche.png",
 
             };
             String[] res = drawElementBord(c, sprites_roche, carte, true);
@@ -500,34 +500,21 @@ public class Simulateur implements Simulable {
      */
     private void drawRobot(Robot robot) {
         Case position = robot.getPosition();
-        Color robotColor = robot.getDrawColor();
-        int tailleElement = taillePixelCases / 10;
+        // Color robotColor = robot.getDrawColor();
+        // int tailleElement = taillePixelCases / 10;
 
         // Get Top Left x and y
         int x = calculateXPosition(position.getColonne());
         int y = calculateYPosition(position.getLigne());
 
         // Liste des coordonnées de chaque sous-rectangle pour le robot
-        int[][] coordinates = getRobotCoordinates();
+        //int[][] coordinates = getRobotCoordinates();
 
         // // Ajout des rectangles au gui avec centrage
         // drawRobotRectangles(coordinates, x, y, robotColor, tailleElement);
 
-        String[] sprite_robot = {"./images/robot/robot_roues.png","./images/robot/robot_pattes.png","./images/robot/robot_drone.png","./images/robot/robot_chenilles.png"};
-        String sprite = sprite_robot[0];
-        if(robot.getType() == "Pattes")
-        {
-            sprite = sprite_robot[1];
-        }
-        else if(robot.getType() == "Drone")
-        {
-            sprite = sprite_robot[2];
-        }
-        else if(robot.getType() == "Chenilles")
-        {
-            sprite = sprite_robot[3];
-        }
-
+        String sprite = robot.getImagePath();
+        
         int halfSize = taillePixelCases / 2;
         int adjustedX = x - halfSize;
         int adjustedY = y - halfSize;

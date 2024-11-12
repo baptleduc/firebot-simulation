@@ -25,9 +25,9 @@ public class RobotChenilles extends RobotTerrestre {
     }
 
     @Override
-    public String getType()
+    public String getImagePath()
     {
-        return "Chenille";
+        return "./images/robot/robot_chenille.png";
     }
 
     /**

@@ -185,7 +185,8 @@ public abstract class Robot {
 
     public abstract void remplirReservoir();
 
-    public abstract String getType();
+    //recupere le chemin de l'image du robot
+    public abstract String getImagePath();
 
     @Override
     public String toString() {
