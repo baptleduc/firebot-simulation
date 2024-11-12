@@ -12,10 +12,11 @@ import model.map.Direction;
 
 class NoeudAstar implements Comparable<NoeudAstar> {
 
+    //TODO : mettre les attributs en private
     public Case caseNoeud;
     public double cout;
     public double heuristique;
-    public NoeudAstar noeudPrecedente;
+    public NoeudAstar noeudPrecedente;  // TODO mispell
 
     public NoeudAstar(Case caseNoeud, double cout, double heuristique, NoeudAstar noeudPrecedente) {
         this.caseNoeud = caseNoeud;

@@ -321,5 +321,30 @@ package io{
     }
 }
 
+package chemin{
+    interface PlusCourtChemin{
+        +{abstract} double tempsDeplacement(Robot robot, Case caseDepart, Case caseArrivee)
+        +{abstract} List<Case> creeChemin(Robot robot, Case caseDepart, Case caseArrivee)
+    }
+    class NoeudAstar implements Comparable<NoeudAstar>{
+        +Case caseNoeud
+        +double cout
+        +double heuristique
+        +NoeudAstar noeudPrecedente
 
+        +NoeudAstar(Case caseNoeud, double cout, double heuristique, NoeudAstar noeudPrecedente)
+        +int compareTo(NoeudAstar Noeud2)
+    }
+    class PlusCourtChemin implements PlusCourtChemin{
+        -Carte carte
+
+        +PlusCourtChemin(Carte carte)
+        +{static} double calculerDistance(Case case1, Case case 2)
+        +public double tempsDeplacement(Robot robot, Case caseDepart, Case caseArrivee)
+        +public List<Case. creeChemin(Robot robot, Case caseDepart, Case caseArrivee)
+        -NoeudAstar executeAstar(Robot robot, Case caseDepart, Case caseArrivee) 
+    }
+
+
+}
 @enduml
