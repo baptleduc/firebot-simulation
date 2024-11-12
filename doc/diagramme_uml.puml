@@ -13,6 +13,10 @@ package model {
         +String toString()
     }
 
+    DonneesSimulation "1" *-- "1" map.Carte
+    DonneesSimulation "1" *-- "1..*" map.Incendie
+    DonneesSimulation "1" *-- "1..*" robot.Robot
+
     package map {
         class Carte {
             -int nbLignes
@@ -46,6 +50,7 @@ package model {
             +NatureTerrain getNature() 
             +String toString()
         }
+        Case "1" *-- "1" NatureTerrain
 
         enum Direction {
             NORD,
@@ -66,6 +71,9 @@ package model {
             +void eteindre(int quantiteEau)
             +String toString()
         }
+
+        Incendie "1" o-- "1" Case
+
         class NatureTerrain{
             EAU,
             FORET,
@@ -119,6 +127,8 @@ package model {
             +{abstract}checkPosition(Case position, Carte carte)
             +{abstract} void remplirReservoir()
         }
+        
+        Robot "1" *-- "1" EtatRobot
 
         abstract class RobotAerien extends Robot {
             +RobotAerien(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax, int tempsRemplissage, Carte carte, int interUnitaire)
@@ -161,7 +171,7 @@ package model {
             +{static} RobotPattes createRobotPattes(Case caseCourante, Carte carte)
         }
             
-        }
+        
 
         class RobotRoues extends RobotTerrestre{
             -{final} int CAPACITE_RESERVOIR
@@ -196,8 +206,13 @@ package model {
             +{static} Robot getRobot(String typeRobot, Case caseCourante, Carte carte, double vitesseLue)
         }
 
-    }
+        RobotFactory --> Robot : crée
 
+    }
+    robot.Robot "1" o-- "2" map.Case
+    
+    
+}
 
 
 package simu {
@@ -232,16 +247,20 @@ package simu {
         +void next()
         +void restart()
     }
+
+    Simulateur "1" *-- "1" GUISimulator
+    
+
     class TestSimulateur{
         +{static} Scenario createScenario(String numScenario)
         +{static} void main(String[] args)
     }
 
     package scenario {
-        class Scenario1 {
+        class Scenario1 implements Scenario {
             +void createEvenements(Simulateur simulateur, DonneesSimulation model)
         }
-        class Scenario0{
+        class Scenario0 implements Scenario{
             +void createEvenements(Simulateur simulateur, DonneesSimulation model)
         }
 
@@ -251,6 +270,9 @@ package simu {
     }
     
 }
+
+simu.Simulateur "1" o-- "1" model.DonneesSimulation
+simu.Simulateur "1" *-- "1..*" event.Evenement
 
 package event{
     abstract class Evenement implements Comparable<Evenement>{
@@ -335,16 +357,20 @@ package chemin{
         +NoeudAstar(Case caseNoeud, double cout, double heuristique, NoeudAstar noeudPrecedente)
         +int compareTo(NoeudAstar Noeud2)
     }
-    class PlusCourtChemin implements PlusCourtChemin{
+    
+
+    class PlusCourtCheminAstar implements PlusCourtChemin{
         -Carte carte
 
-        +PlusCourtChemin(Carte carte)
+        +PlusCourtCheminAstar(Carte carte)
         +{static} double calculerDistance(Case case1, Case case 2)
         +public double tempsDeplacement(Robot robot, Case caseDepart, Case caseArrivee)
         +public List<Case. creeChemin(Robot robot, Case caseDepart, Case caseArrivee)
         -NoeudAstar executeAstar(Robot robot, Case caseDepart, Case caseArrivee) 
     }
-
+    PlusCourtCheminAstar "1" o-- "1" Carte
+    NoeudAstar "1" o-- "1" Case
 
 }
+
 @enduml
