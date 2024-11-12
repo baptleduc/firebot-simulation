@@ -78,13 +78,112 @@ package model {
     }
 
     package robot {
-        interface Robot {
+        abstract class Robot {
+            -int niveauEau
+            -int capaciteReservoir
+            -int tempsRemplissage
+            -int interUnitaire
+            -double vitesseMax
+            -Case position
+            -EtatRobot etatCourant
+            -Case positionApresEvenements
+            -long dateApresEvenements
+            #Carte carte
+            #double vitesse
+
+            +Robot(Case position, int niveauEau int capaciteReservoir, double vitesse, double vitesseMax, int tempsRemplissage, Carte carte, int interUnitaire)
             +Case getPosition()
-            +void setPosition(Case newPosCase)
-            +double getVitesse(NatureTerrain terrain)
-            +void deverserEau(int vol)
+            +int getNiveauEau()
+            +Color getDrawColor()
+            +int getCapaciteReservoir()
+            +int getTempsRemplissage()
+            +boolean estOccupe()
+            +int getInterUnitaire()
+            +EtatRobot getEtatCourant()
+            +void setEtatCourant(EtatRobot newEtat)
+            +Case getPositionApresEvenements()
+            +void setNiveauEau(int niveauEau)
+            +void deverserEau(int quantite, Incendie incendie)
+            +void setVitesse(double newVitesse)
+            +double calculerTempsDeplacementMinute(Case caseDepart, Case caseArrivee)
+            +void setPosition(Case newPosistion)
+            +String getImagePath()
+            +String toString()
+            +void createEvenementsDeplacement(Simulateur simulateur, Case nouvellePosition)
+            +void deplacementPlusCourtChemin(Simulateur simulateur, Case destination, PlusCourtChemin algo)
+            +void createEvenementsInterventionIncendie(Simulateur simulateur, Incendie incendie)
+            +void createEvenementsRemplirReservoir(Simulateur simulateur)
+
+            +{abstract} double getVitesse(NatureTerrain terrain)
+            +{abstract}checkPosition(Case position, Carte carte)
+            +{abstract} void remplirReservoir()
+        }
+
+        abstract class RobotAerien extends Robot {
+            +RobotAerien(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax, int tempsRemplissage, Carte carte, int interUnitaire)
             +void remplirReservoir()
         }
+        abstract class RobotTerrestre extends Robot{
+            +RobotTerrestre(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax,
+            int tempsRemplissage, Carte carte, int interUnitaire)
+            +void remplirReservoir()
+        }
+        class RobotChenilles extends RobotTerrestre{
+            -{final} int CAPACITE_RESERVOIR
+            -{final} double NIVEAU_EAU
+            -{final} double VITESSE_DEFAUT
+            -{final} double VITESSE_MAX
+            -{final} int TEMPS_REMPLISSAGE
+            -{final} int INTER_UNITAIRE
+
+            +RobotChenilles(Case position, Carte carte, double vitesse)
+            +double getVitesse(NatureTerrain terrain)
+            +String getImagePath()
+            +checkPosition(Case position, Carte carte)
+        }
+        class RobotPattes extends RobotTerrestre{
+            -{final} int CAPACITE_RESERVOIR
+            -{final} double NIVEAU_EAU
+            -{final} double VITESSE_DEFAUT
+            -{final} double VITESSE_MAX
+            -{final} int TEMPS_REMPLISSAGE
+            -{final} int INTER_UNITAIRE
+
+            +RobotPattes(Case position, Carte carte)
+            +double getVitesse(NatureTerrain terrain)
+            +void deverserEau(int vol, Incendie)
+            +void checkPosition(Case position, Carte carte)
+            +String getImagePath()
+        }
+
+        class RobotRoues extends RobotTerrestre{
+            -{final} int CAPACITE_RESERVOIR
+            -{final} double NIVEAU_EAU
+            -{final} double VITESSE_DEFAUT
+            -{final} double VITESSE_MAX
+            -{final} int TEMPS_REMPLISSAGE
+            -{final} int INTER_UNITAIRE
+
+            +RobotRoues(Case position, Carte carte, double vitesse)
+            +double getVitesse(NatureTerrain terrain)
+            +String getImagePath()
+            +void checkPosition()
+        }
+
+        class Drone extends RobotAerien{
+            -{final} int CAPACITE_RESERVOIR
+            -{final} double NIVEAU_EAU
+            -{final} double VITESSE_DEFAUT
+            -{final} double VITESSE_MAX
+            -{final} int TEMPS_REMPLISSAGE
+            -{final} int INTER_UNITAIRE
+
+            +Drone(Case position, Carte carte, double vitesse)
+            +void checkPosition()
+            +String getImagePath()
+        }
+        
+
     }
 
 

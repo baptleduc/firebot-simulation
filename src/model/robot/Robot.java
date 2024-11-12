@@ -23,7 +23,7 @@ public abstract class Robot {
     private int tempsRemplissage; // en minutes
     private int interUnitaire; // Nombre de litre qu'il peut deverser en 1 min
     private double vitesseMax;
-    private final Color DRAW_COLOR = Color.MAGENTA;
+    private final Color DRAW_COLOR = Color.MAGENTA; //TODO Remove
     private Case position;
     private EtatRobot etatCourant;
 
@@ -199,6 +199,7 @@ public abstract class Robot {
         return output;
     }
 
+    //TODO: A supprimer
     /**
      * Crée les évenements nécessaires afin d'effectuer un déplacement élémentaire dans la direction donnée
      * @param simulateur
