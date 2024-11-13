@@ -11,6 +11,8 @@ public abstract class Evenement implements Comparable<Evenement>{
         return this.date;
     }
 
+    public abstract Evenement clone();
+    
     @Override
     public int compareTo(Evenement e){
         return Long.compare(this.date, e.date);

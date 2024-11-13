@@ -24,6 +24,7 @@ public abstract class Robot {
     private double vitesseMax;
     private final Color DRAW_COLOR = Color.MAGENTA; //TODO Remove
     private Case position;
+    private Case positionInitiale;
     private EtatRobot etatCourant;
 
     private Case positionApresEvenements;       // Position prévue du robot après l'exécution de ses événements planifiés
@@ -37,6 +38,7 @@ public abstract class Robot {
     public Robot(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax,
             int tempsRemplissage, Carte carte, int interUnitaire) {
         this.position = position;
+        this.positionInitiale = position;
         this.carte = carte;
         this.capaciteReservoir = capaciteReservoir;
         this.vitesseMax = vitesseMax;
@@ -54,6 +56,18 @@ public abstract class Robot {
         this.dateApresEvenements = 0; 
         this.positionApresEvenements = this.position;
     }
+
+
+    public abstract Robot clone();
+
+    public void reset(){
+        this.niveauEau = this.capaciteReservoir;
+        this.etatCourant = EtatRobot.DISPONIBLE;
+        this.dateApresEvenements = 0;
+        this.position = this.positionInitiale;
+        this.positionApresEvenements = this.positionInitiale;
+    }
+   
 
     public Case getPosition() {
         return this.position;
@@ -96,6 +110,7 @@ public abstract class Robot {
     public Case getPositionApresEvenements(){
         return this.positionApresEvenements;
     }
+
 
 
 

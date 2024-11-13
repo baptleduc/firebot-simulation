@@ -8,7 +8,7 @@ package model {
 
         +DonneesSimulation()
         +Carte getCarte()
-        +Map<Case, Incendie> getIncendies()
+        +Map<Case, Incendie> getIncendiesParCase()
         +List<Robot> getRobots()
         +String toString()
     }

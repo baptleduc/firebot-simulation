@@ -25,6 +25,11 @@ public class RobotRoues extends RobotTerrestre {
         return "./images/robot/robot_roues.png";
     }
 
+    @Override
+    public Robot clone() {
+        return new RobotRoues(this.getPosition(), super.carte, super.vitesse);
+    }
+
     /**
      * Vérifie si une position donnée est valide sur la carte avant la création d'un robot.
      * Cette méthode est statique, car elle est appelée une factory method, dans un contexte où une instance de 

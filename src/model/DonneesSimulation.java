@@ -15,18 +15,53 @@ public class DonneesSimulation {
     
 
     public DonneesSimulation() {
+        return;
+    }
+
+    public DonneesSimulation clone()
+    {
+        DonneesSimulation clone = new DonneesSimulation();
+        clone.carte = this.getCarte();
+
+        
+        
+        for (Incendie incendie : this.getIncendies()) {
+            clone.incendies.add(incendie.clone());
+        }
+        for (Robot robot : this.getRobots()) {
+            clone.robots.add(robot.clone());
+        }
+
+        
+        return clone;
+        
     }
 
     public void setCarte(Carte carte) {
         this.carte = carte;
     }
 
+    public void setIncendies(List<Incendie> incendies) {
+        this.incendies = incendies;
+        for (Incendie incendie : incendies) {
+            this.incendiesParCase.put(incendie.getPosition(), incendie);
+        }
+    }
+
+    public void setRobots(List<Robot> robots) {
+        this.robots = robots;
+    }
+
     public Carte getCarte() {
         return this.carte;
     }
 
-    public Map<Case, Incendie> getIncendies() {
+    public Map<Case, Incendie> getIncendiesParCase() {
         return this.incendiesParCase;
+    }
+
+    public List<Incendie> getIncendies() {
+        return this.incendies;
     }
 
     public List<Robot> getRobots() {
