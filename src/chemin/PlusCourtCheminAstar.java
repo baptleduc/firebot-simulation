@@ -1,30 +1,28 @@
 package chemin;
 
 
-import chemin.PlusCourtChemin;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import model.robot.Robot;
-import simu.Simulateur;
 import model.map.Carte;
 import model.map.Case;
 import model.map.Direction;
 
 class NoeudAstar implements Comparable<NoeudAstar> {
 
+
     public Case caseNoeud;
     public double cout;
     public double heuristique;
-    public NoeudAstar noeudPrecedente;
+    public NoeudAstar noeudPrecedent;
 
     public NoeudAstar(Case caseNoeud, double cout, double heuristique, NoeudAstar noeudPrecedente) {
         this.caseNoeud = caseNoeud;
         this.cout = cout;
         this.heuristique = heuristique;
-        this.noeudPrecedente = noeudPrecedente;
+        this.noeudPrecedent = noeudPrecedente;
     }
 
     @Override
@@ -75,12 +73,12 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
         if(noeud == null){
             return null;
         }
-        noeud = noeud.noeudPrecedente;
+        noeud = noeud.noeudPrecedent;
 
         List<Case> chemin = new ArrayList<Case>();
         while (noeud != null){
             chemin.add(noeud.caseNoeud);
-            noeud = noeud.noeudPrecedente;
+            noeud = noeud.noeudPrecedent;
         }
         return chemin;
     }

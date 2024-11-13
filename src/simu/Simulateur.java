@@ -249,12 +249,12 @@ public class Simulateur implements Simulable {
      * @param case
      * @param carte
      */
-    private void drawCase( int x_case, int y_case,Random random, Case c,Carte carte) {
+    private void drawCase(int xCase, int yCase, Random random, Case c, Carte carte) { 
         
 
 
-        int adjustedX = x_case - taillePixelCases / 2;
-        int adjustedY = y_case - taillePixelCases / 2;
+        int adjustedX = xCase- taillePixelCases / 2;
+        int adjustedY = yCase - taillePixelCases / 2;
         
         int halfSize = taillePixelCases / 2;
         

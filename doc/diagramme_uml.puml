@@ -1,0 +1,376 @@
+@startuml
+
+package model {
+    class DonneesSimulation {
+        -Carte carte
+        -Map<Case, Incendie> incendiesParCase
+        -List<Robot> robots
+
+        +DonneesSimulation()
+        +Carte getCarte()
+        +Map<Case, Incendie> getIncendies()
+        +List<Robot> getRobots()
+        +String toString()
+    }
+
+    DonneesSimulation "1" *-- "1" map.Carte
+    DonneesSimulation "1" *-- "1..*" map.Incendie
+    DonneesSimulation "1" *-- "1..*" robot.Robot
+
+    package map {
+        class Carte {
+            -int nbLignes
+            -int nbColonnes
+            -Case[][] cases
+            -int tailleCases
+
+            +Carte(int nbLignes, int nbColonnes, int tailleCases, Case[][] cases)
+
+            +int getNbLignes()
+            +int getNbColonnes()
+            +int getTailleCases()
+            +Case getCase()
+            +Case getVoisin()
+            +boolean caseExiste(Case src)
+            +boolean estVoisin(Case src, Case dest)
+            +boolean estIndiceValide(int lig, int col)
+            +String toString()
+        }
+
+        class Case {
+            -int ligne
+            -int colonne
+            -NatureTerrain nature
+            -Color drawColor
+
+            +Case(int ligne, int colonne, NatureTerrain natureTerrain)
+            +int getLigne()
+            +int getColonne()
+            +Color getDrawColor()
+            +NatureTerrain getNature() 
+            +String toString()
+        }
+        Case "1" *-- "1" NatureTerrain
+
+        enum Direction {
+            NORD,
+            SUD,
+            EST,
+            OUEST
+        }
+
+        class Incendie {
+            -Case position
+            -int quantiteEau
+            -Color drawColor
+
+            +Incendie(Case position, int quantiteEau)
+            +Case getPosition()
+            +Color getDrawColor()
+            +int getQuantiteEau()
+            +void eteindre(int quantiteEau)
+            +String toString()
+        }
+
+        Incendie "1" o-- "1" Case
+
+        class NatureTerrain{
+            EAU,
+            FORET,
+            ROCHE,
+            TERRAIN_LIBRE,
+            HABITAT
+
+            +Color getDrawColor()
+        }
+    }
+
+    package robot {
+        abstract class Robot {
+            -int niveauEau
+            -int capaciteReservoir
+            -int tempsRemplissage
+            -int interUnitaire
+            -double vitesseMax
+            -Case position
+            -EtatRobot etatCourant
+            -Case positionApresEvenements
+            -long dateApresEvenements
+            #Carte carte
+            #double vitesse
+
+            +Robot(Case position, int niveauEau int capaciteReservoir, double vitesse, double vitesseMax, int tempsRemplissage, Carte carte, int interUnitaire)
+            +Case getPosition()
+            +int getNiveauEau()
+            +Color getDrawColor()
+            +int getCapaciteReservoir()
+            +int getTempsRemplissage()
+            +boolean estOccupe()
+            +int getInterUnitaire()
+            +EtatRobot getEtatCourant()
+            +void setEtatCourant(EtatRobot newEtat)
+            +Case getPositionApresEvenements()
+            +void setNiveauEau(int niveauEau)
+            +void deverserEau(int quantite, Incendie incendie)
+            +void setVitesse(double newVitesse)
+            +double calculerTempsDeplacementMinute(Case caseDepart, Case caseArrivee)
+            +void setPosition(Case newPosistion)
+            +String getImagePath()
+            +String toString()
+            +void createEvenementsDeplacement(Simulateur simulateur, Case nouvellePosition)
+            +void deplacementPlusCourtChemin(Simulateur simulateur, Case destination, PlusCourtChemin algo)
+            +void createEvenementsInterventionIncendie(Simulateur simulateur, Incendie incendie)
+            +void createEvenementsRemplirReservoir(Simulateur simulateur)
+            -{static} void checkNiveauEau(int niveauEau, int capaciteReservoir)
+            -{static} void checkVitesse(double vitesse, double vitesseMax)
+            +{abstract} double getVitesse(NatureTerrain terrain)
+            +{abstract}checkPosition(Case position, Carte carte)
+            +{abstract} void remplirReservoir()
+        }
+        
+        Robot "1" *-- "1" EtatRobot
+
+        abstract class RobotAerien extends Robot {
+            +RobotAerien(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax, int tempsRemplissage, Carte carte, int interUnitaire)
+            +void remplirReservoir()
+        }
+        abstract class RobotTerrestre extends Robot{
+            +RobotTerrestre(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax,
+            int tempsRemplissage, Carte carte, int interUnitaire)
+            +void remplirReservoir()
+        }
+        class RobotChenilles extends RobotTerrestre{
+            -{final} int CAPACITE_RESERVOIR
+            -{final} double NIVEAU_EAU
+            -{final} double VITESSE_DEFAUT
+            -{final} double VITESSE_MAX
+            -{final} int TEMPS_REMPLISSAGE
+            -{final} int INTER_UNITAIRE
+
+            +RobotChenilles(Case position, Carte carte, double vitesse)
+            +double getVitesse(NatureTerrain terrain)
+            +String getImagePath()
+            +{static} checkPositionStatic(Case position, Carte carte)
+            +checkPosition(Case position, Carte carte)
+            +{static} RobotChenilles createRobotChenilles(Case caseCourante, Carte carte, double vitesseLue)
+        }
+        class RobotPattes extends RobotTerrestre{
+            -{final} int CAPACITE_RESERVOIR
+            -{final} double NIVEAU_EAU
+            -{final} double VITESSE_DEFAUT
+            -{final} double VITESSE_MAX
+            -{final} int TEMPS_REMPLISSAGE
+            -{final} int INTER_UNITAIRE
+
+            +RobotPattes(Case position, Carte carte)
+            +double getVitesse(NatureTerrain terrain)
+            +void deverserEau(int vol, Incendie)
+            +{static} checkPositionStatic(Case position, Carte carte)
+            +void checkPosition(Case position, Carte carte)
+            +String getImagePath()
+            +{static} RobotPattes createRobotPattes(Case caseCourante, Carte carte)
+        }
+            
+        
+
+        class RobotRoues extends RobotTerrestre{
+            -{final} int CAPACITE_RESERVOIR
+            -{final} double NIVEAU_EAU
+            -{final} double VITESSE_DEFAUT
+            -{final} double VITESSE_MAX
+            -{final} int TEMPS_REMPLISSAGE
+            -{final} int INTER_UNITAIRE
+
+            +RobotRoues(Case position, Carte carte, double vitesse)
+            +double getVitesse(NatureTerrain terrain)
+            +String getImagePath()
+            +{static} void checkPositionStatic(Case position, Carte carte)
+            +void checkPosition(Case position, Carte carte)
+            +{static} RobotRoues createRobotRoues(Case caseCourante, Carte carte, double vitesseLue)
+        }
+
+        class Drone extends RobotAerien{
+            -{final} int CAPACITE_RESERVOIR
+            -{final} double NIVEAU_EAU
+            -{final} double VITESSE_DEFAUT
+            -{final} double VITESSE_MAX
+            -{final} int TEMPS_REMPLISSAGE
+            -{final} int INTER_UNITAIRE
+
+            +Drone(Case position, Carte carte, double vitesse)
+            +void checkPosition()
+            +String getImagePath()
+        }
+
+        class RobotFactory{
+            +{static} Robot getRobot(String typeRobot, Case caseCourante, Carte carte, double vitesseLue)
+        }
+
+        RobotFactory --> Robot : crée
+
+    }
+    robot.Robot "1" o-- "2" map.Case
+    
+    
+}
+
+
+package simu {
+    class Simulateur implements Simulable {
+        -GUISimulator gui
+        -DonneesSimulation model
+        -long dateSimulation
+        -PriorityQueue<Evenement> evenements
+        -{final} int RATIO_BORDURE_X
+        -{final} int RATIO_BORDURE_Y
+        -int taillePixelCases
+        -int xMin
+        -int yMin
+
+        +Simulateur(GUISimulator gui, DonneesSimulation model)
+        +void ajouteEvenement(Evenement e)
+        -void incrementeDate()
+        -boolean simulationTerminee()
+        -void draw()
+        -void drawCarte()
+        -void drawElementBord(Case c, String[] sprites, Carte carte, boolean coin)
+        -void drawCase(int xCase, int yCase, Random random, Case c, Carte carte)
+        -void drawIncendies()
+        -void drawRobots()
+        -void drawRobot(Robot robot)
+        -int calculateXPosition(int colonne)
+        -int calculateYPosition(int ligne)
+        -void drawRobotRectangles(int[][]coordinates, int x, int y, Color robotColor, int tailleElement)
+        -void drawRectangle(int x, int y, int tailleCases, Color color)
+        -void drawRobotPixel(Robot robot)
+        -void int[][] getRobotCoordinates()
+        +void next()
+        +void restart()
+    }
+
+    Simulateur "1" *-- "1" GUISimulator
+    
+
+    class TestSimulateur{
+        +{static} Scenario createScenario(String numScenario)
+        +{static} void main(String[] args)
+    }
+
+    package scenario {
+        class Scenario1 implements Scenario {
+            +void createEvenements(Simulateur simulateur, DonneesSimulation model)
+        }
+        class Scenario0 implements Scenario{
+            +void createEvenements(Simulateur simulateur, DonneesSimulation model)
+        }
+
+        interface Scenario {
+            +{abstract} void createEvenements(Simulateur simulateur, DonneesSimulation model)
+        }
+    }
+    
+}
+
+simu.Simulateur "1" o-- "1" model.DonneesSimulation
+simu.Simulateur "1" *-- "1..*" event.Evenement
+
+package event{
+    abstract class Evenement implements Comparable<Evenement>{
+        -long date
+
+        +Evenement(long date)
+        +long getDate()
+        +int compareTo(Evenement e)
+        +{abstract} void execute()
+    }
+    class EvenementChangementEtat extends Evenement{
+        -Robot robot
+        -EtatRobot etat
+
+        +EvenementChangementEtat(Robot robot, EtatRobot newEtat, long date)
+        +void execute()
+    }
+    class EvenementDeplacement extends Evenement{
+        -Robot robot
+        -Case destCase
+
+        +EvenementDeplacement(Robot robot, Case destCase, long date)
+        +void execute()
+    }
+    class EvenementDeverserEau extends Evenement{
+        -Robot robot
+        -Incendie incendie
+        -int quantiteEauDeversee
+
+        +EvenementDeverserEau(Robot robot, Incendie incendie, int quantiteEauDeversee, long date)
+        +void execute()
+    }
+    class EvenementErreur extends Evenement{
+        -String msgErreur
+
+        +EvenementErreur(String msgErreur, long date)
+        +void execute()
+    }
+    class EvenementRemplirReservoir extends Evenement{
+        -Robot robot
+
+        +EvenementRemplirReservoir(Robot robot, long date)
+        +void execute()
+    }
+}
+package io{
+    class LecteurDonnees{
+        +{static} void lire(String fichierDonnees)
+        +{static} DonneesSimulation creeDonnees(String fichierDonnees)
+        -{static} Scanner scanner
+        -LecteurDonnees(String fichierDonnees)
+        -void lireCarte()
+        -void creeCarte(DonneesSimulation donneesSimulation)
+        -void lireCase(int lig, int col)
+        -void lireIncendies()
+        -void lireIncendie(int i)
+        -void creeIncendies(DonneesSimulation donneesSimulation)
+        -void creeIncendie(DonneesSimulation donneesSimulation, int i)
+        -void lireRobots()
+        -void lireRobot(int i)
+        -void creeRobots(DonneesSimulation donneesSimulation)
+        -void creeRobot(int i, DonneesSimulation donneesSimulation)
+        -ignorerCommentaires()
+        -void verifieLigneTerminee()
+    }
+    class TestLecteurDonnees{
+        +{static} main(String[] args)
+    }
+}
+
+package chemin{
+    interface PlusCourtChemin{
+        +{abstract} double tempsDeplacement(Robot robot, Case caseDepart, Case caseArrivee)
+        +{abstract} List<Case> creeChemin(Robot robot, Case caseDepart, Case caseArrivee)
+    }
+    class NoeudAstar implements Comparable<NoeudAstar>{
+        +Case caseNoeud
+        +double cout
+        +double heuristique
+        +NoeudAstar noeudPrecedente
+
+        +NoeudAstar(Case caseNoeud, double cout, double heuristique, NoeudAstar noeudPrecedente)
+        +int compareTo(NoeudAstar Noeud2)
+    }
+    
+
+    class PlusCourtCheminAstar implements PlusCourtChemin{
+        -Carte carte
+
+        +PlusCourtCheminAstar(Carte carte)
+        +{static} double calculerDistance(Case case1, Case case 2)
+        +public double tempsDeplacement(Robot robot, Case caseDepart, Case caseArrivee)
+        +public List<Case. creeChemin(Robot robot, Case caseDepart, Case caseArrivee)
+        -NoeudAstar executeAstar(Robot robot, Case caseDepart, Case caseArrivee) 
+    }
+    PlusCourtCheminAstar "1" o-- "1" Carte
+    NoeudAstar "1" o-- "1" Case
+
+}
+
+@enduml
