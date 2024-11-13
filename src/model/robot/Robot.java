@@ -60,6 +60,9 @@ public abstract class Robot {
 
     public abstract Robot clone();
 
+    /**
+     * Réinitialise le robot à son état initial.
+     */
     public void reset(){
         this.niveauEau = this.capaciteReservoir;
         this.etatCourant = EtatRobot.DISPONIBLE;

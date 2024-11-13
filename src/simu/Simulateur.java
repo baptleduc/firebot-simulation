@@ -635,6 +635,10 @@ public class Simulateur implements Simulable {
         
     }
 
+     
+    /**
+     * Redémarre la simulation en réinitialisant les robots, les incendies et les événements.
+     */ 
     @Override
     public void restart() {
         // Réinitialisation de la simulation

@@ -18,6 +18,10 @@ public class DonneesSimulation {
         return;
     }
 
+    /*
+     * Clone l'ojet DonneesSimulation
+     * @return DonneesSimulation 
+     */
     public DonneesSimulation clone()
     {
         DonneesSimulation clone = new DonneesSimulation();
