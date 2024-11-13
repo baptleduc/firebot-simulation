@@ -16,6 +16,11 @@ public class EvenementDeplacement extends Evenement {
     }
 
     @Override
+    public Evenement clone(){
+        return new EvenementDeplacement(robot, destCase, super.getDate());
+    }
+
+    @Override
     public void execute(){
         assert(robot.getEtatCourant() == EtatRobot.EN_DEPLACEMENT);
         System.out.println(destCase);

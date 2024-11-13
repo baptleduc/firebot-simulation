@@ -11,6 +11,12 @@ public class EvenementRemplirReservoir extends Evenement {
         this.robot = robot;
 
     }
+
+    @Override
+    public Evenement clone(){
+        return new EvenementRemplirReservoir(robot, super.getDate());
+    }
+    
     @Override
     public void execute(){
         assert(robot.getEtatCourant() == EtatRobot.EN_REMPLISSAGE);

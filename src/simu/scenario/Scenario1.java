@@ -16,7 +16,7 @@ public class Scenario1 implements Scenario {
         robot.deplacerDirection(simulateur, Direction.NORD);
     
         // Gérer l'incendie sur la case actuelle
-        Incendie incendie = model.getIncendies().get(robot.getPositionApresEvenements());
+        Incendie incendie = model.getIncendiesParCase().get(robot.getPositionApresEvenements());
         robot.createEvenementsInterventionIncendie(simulateur, incendie);
     
         // Déplacer le robot vers l'OUEST deux fois
@@ -33,7 +33,7 @@ public class Scenario1 implements Scenario {
         
 
         // Gérer l'incendie sur la case actuelle
-        incendie = model.getIncendies().get(robot.getPositionApresEvenements());
+        incendie = model.getIncendiesParCase().get(robot.getPositionApresEvenements());
         robot.createEvenementsInterventionIncendie(simulateur, incendie);
     }
 }

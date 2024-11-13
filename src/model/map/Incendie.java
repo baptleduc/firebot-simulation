@@ -5,12 +5,14 @@ import java.awt.Color;
 public class Incendie {
     private Case position;
     private int quantiteEau;
+    private int quantiteInitiale;
 
     private Color drawColor;
 
     public Incendie(Case position, int quantiteEau) {
         this.position = position;
         this.quantiteEau = quantiteEau;
+        this.quantiteInitiale = quantiteEau;
     }
 
     public Case getPosition() {
@@ -27,6 +29,15 @@ public class Incendie {
 
     public void eteindre(int quantiteEau){
         this.quantiteEau -= quantiteEau;
+    }
+
+    public Incendie clone() {
+        Incendie clone = new Incendie(this.position, this.quantiteEau);
+        return clone;
+    }
+
+    public void reset(){
+        this.quantiteEau = quantiteInitiale;
     }
 
     @Override

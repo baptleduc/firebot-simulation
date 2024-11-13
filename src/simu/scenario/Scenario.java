@@ -8,9 +8,5 @@ public interface Scenario {
     
     public abstract void createEvenements(Simulateur simulateur, DonneesSimulation model);
 
-
-
-    
-
     
 }

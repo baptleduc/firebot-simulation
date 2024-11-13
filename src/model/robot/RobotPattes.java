@@ -26,6 +26,10 @@ public class RobotPattes extends RobotTerrestre {
         return this.vitesse;
     }
 
+    @Override
+    public Robot clone() {
+        return new RobotPattes(this.getPosition(), super.carte);
+    }
     /**
      * Redéfinit la méthode de déversement pour le robot à pattes.
      * 

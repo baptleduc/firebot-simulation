@@ -18,6 +18,11 @@ public class EvenementChangementEtat extends Evenement {
     }
 
     @Override
+    public Evenement clone(){
+        return new EvenementChangementEtat(robot, etat, super.getDate());
+    }
+
+    @Override
     public void execute() throws NoSuchElementException{
         robot.setEtatCourant(etat);
     }
