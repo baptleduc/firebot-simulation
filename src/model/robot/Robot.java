@@ -7,12 +7,14 @@ import chemin.PlusCourtChemin;
 import event.EvenementChangementEtat;
 import event.EvenementDeplacement;
 import event.EvenementDeverserEau;
+import event.EvenementPreventionStrategie;
 import event.EvenementRemplirReservoir;
 import model.map.Case;
 import model.map.Direction;
 import model.map.Incendie;
 import model.map.NatureTerrain;
 import simu.Simulateur;
+import strategie.FinInterventionAction;
 import model.map.Carte;
 
 public abstract class Robot {
@@ -22,8 +24,8 @@ public abstract class Robot {
     private int tempsRemplissage; // en minutes
     private int interUnitaire; // Nombre de litre qu'il peut deverser en 1 min
     private double vitesseMax;
-    private final Color DRAW_COLOR = Color.MAGENTA; //TODO Remove
-    private Case position;
+    private final Color DRAW_COLOR = Color.MAGENTA;
+    protected Case position;
     private Case positionInitiale;
     private EtatRobot etatCourant;
 
@@ -204,6 +206,14 @@ public abstract class Robot {
 
     public abstract void remplirReservoir();
 
+    /**
+     * Retourne la case de remplissage associée à un point d'eau donné, c'est sur cette case que le robot se déplacera pour se remplir
+     * @param pointEau le point d'eau à associer
+     * @param algo l'algorithme de plus court chemin à utiliser
+     * @return la case de remplissage associée
+     */
+    public abstract Case obtenirCaseRemplissageAssocié(Case pointEau, PlusCourtChemin algo, Carte carte) throws IllegalArgumentException;
+
     //recupere le chemin de l'image du robot
     public String getImagePath()
     {
@@ -234,9 +244,9 @@ public abstract class Robot {
 
         // Met à jour la position et la date après le déplacement
         this.positionApresEvenements = nouvellePosition;
-        this.dateApresEvenements += tempsDeplacement;
-
-        // Ajoute un événement pour le déplacement effectif à la nouvelle position
+        this.dateApresEvenements += Math.max(tempsDeplacement, 1);
+    
+        // Ajoute un événement pour effectuer le déplacement effectif à la date prévue
         simulateur.ajouteEvenement(new EvenementDeplacement(this, this.positionApresEvenements, this.dateApresEvenements));
 
         // Met à jour la date pour le prochain événement
@@ -266,8 +276,22 @@ public abstract class Robot {
                     String.format("La case : %s n'est pas voisine de la position actuelle : %s (deplacerVersCase)", nouvellePosition,
                             this.positionApresEvenements));
         }
+        // Verifie que la case d'arrivée est accessible
+        this.checkPosition(nouvellePosition, this.carte);
 
-        effectuerDeplacement(simulateur, nouvellePosition);
+        // Arrondit le temps de déplacement en minutes vers le haut pour garantir le temps nécessaire
+        long tempsDeplacement = (long) Math.ceil(this.calculerTempsDeplacementMinute(this.positionApresEvenements, nouvellePosition));
+
+        simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_DEPLACEMENT, this.dateApresEvenements)); // Le robot est en état "EN_DEPLACEMENT" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsDeplacement
+
+        this.positionApresEvenements = nouvellePosition;
+        this.dateApresEvenements += Math.max(tempsDeplacement, 1);
+    
+        // Ajoute un événement pour effectuer le déplacement effectif à la date prévue
+        simulateur.ajouteEvenement(new EvenementDeplacement(this, this.positionApresEvenements, this.dateApresEvenements));
+
+        this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
+
     }
 
     /*
@@ -288,8 +312,6 @@ public abstract class Robot {
         }
     }
 
-   
-
     public void createEvenementsInterventionIncendie(Simulateur simulateur, Incendie incendie){
 
         int quantiteEauDeversee = Math.min(this.getNiveauEau(), incendie.getQuantiteEau());
@@ -297,11 +319,10 @@ public abstract class Robot {
 
         simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_DEVERSAGE, this.dateApresEvenements));// Le robot est en état "EN_DEVERSAGE" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsIntervention
 
-        this.dateApresEvenements += tempsIntervention;
+        this.dateApresEvenements += Math.max(1, tempsIntervention);
         simulateur.ajouteEvenement(new EvenementDeverserEau(this, incendie, quantiteEauDeversee, this.dateApresEvenements));
 
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
-
     }
 
 
@@ -310,10 +331,16 @@ public abstract class Robot {
 
         simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_REMPLISSAGE, this.dateApresEvenements)); // Le robot est en état "EN_REMPLISSAGE" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsRemplissage
 
-        this.dateApresEvenements += tempsRemplissage;
+        this.dateApresEvenements += Math.max(tempsRemplissage, 1);
         simulateur.ajouteEvenement(new EvenementRemplirReservoir(this, this.dateApresEvenements));
 
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
-
     }
+
+    public void createEvenementsPrevenirFinIntervention(Simulateur simulateur, FinInterventionAction action){
+        // simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.DISPONIBLE, this.dateApresEvenements)); 
+        simulateur.ajouteEvenement(new EvenementPreventionStrategie(this, this.dateApresEvenements, action));
+        this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
+    }
+
 }

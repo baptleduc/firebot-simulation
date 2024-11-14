@@ -10,6 +10,7 @@ import java.util.Map;
 public class DonneesSimulation {
     private Carte carte;
     private List<Robot> robots = new ArrayList<Robot>();
+    private List<Case> pointsEaux = new ArrayList<Case>();
     private Map<Case, Incendie> incendiesParCase = new HashMap<>();
     private List<Incendie> incendies = new ArrayList<Incendie>();
     
@@ -70,6 +71,10 @@ public class DonneesSimulation {
 
     public List<Robot> getRobots() {
         return this.robots;
+    }
+
+    public List<Case> getPointsEau() {
+        return this.pointsEaux;
     }
 
     @Override

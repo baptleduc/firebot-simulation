@@ -8,6 +8,9 @@ import simu.scenario.Scenario;
 import simu.scenario.Scenario0;
 import simu.scenario.Scenario1;
 import simu.scenario.Scenario2;
+import strategie.Strategie;
+import strategie.StrategieElementaire;
+import strategie.StrategieEvoluee;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
@@ -30,25 +33,25 @@ public class TestSimulateur {
                 throw new IllegalArgumentException(String.format("Scenario numero : %s not found", numScenario));
         }
     }
+
     public static void main(String[] args) {
 
         if (args.length < 1) {
-            System.out.println("Syntaxe: java TestLecteurDonnees <nomDeFichier> <numScenario>");
+            System.out
+                    .println("Syntaxe: java TestLecteurDonnees <nomDeFichier> [-strategie] <numScenario/numStrategie>");
             System.exit(1);
         }
 
         Scenario scenario = null;
-        if (args.length == 2){
-            try{
-              scenario = createScenario(args[1]);  
-            }
-            catch (IllegalArgumentException e){
+        if (args.length == 2) {
+            try {
+                scenario = createScenario(args[1]);
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 System.exit(1);
             }
-            
         }
-        
+
         // Creation du model
         DonneesSimulation donneesSimulation = null;
         try {
@@ -57,19 +60,39 @@ public class TestSimulateur {
             GUISimulator gui = new GUISimulator(800, 608, Color.BLACK);
             // crée le simulateur, en l'associant à la fenêtre graphique précédente
             Simulateur simulateur = new Simulateur(gui, donneesSimulation);
-            
-            if (scenario != null){
+
+            if (scenario != null) {
                 scenario.createEvenements(simulateur, donneesSimulation);
+            } else if (args.length == 3 && args[1].equals("-strategie")) {
+                try {
+                    Strategie strategie = null;
+                    if (args[2].toLowerCase().equals("elementaire")) {
+    
+                        strategie = new StrategieElementaire(simulateur, donneesSimulation.getCarte(),
+                                donneesSimulation.getIncendiesParCase(), donneesSimulation.getRobots(),
+                                donneesSimulation.getPointsEau());
+                    } else if (args[2].toLowerCase().equals("evoluee")) {
+                        strategie = new StrategieEvoluee(simulateur, donneesSimulation.getCarte(),
+                        donneesSimulation.getIncendiesParCase(), donneesSimulation.getRobots(),
+                        donneesSimulation.getPointsEau());
+                    } else {
+                        throw new IllegalArgumentException("Strategie inconnue");
+                        
+                    }
+                    strategie.executeStrategie();
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                    System.exit(1);
+                }
             }
 
-            
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
             System.exit(1);
         } catch (DataFormatException e) {
             System.out.println("\n\t**format du fichier " + args[0] + " invalide: " + e.getMessage());
             System.exit(1);
-        }  
+        }
 
     }
 
