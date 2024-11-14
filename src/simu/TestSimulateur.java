@@ -67,12 +67,13 @@ public class TestSimulateur {
                 try {
                     Strategie strategie = null;
                     if (args[2].toLowerCase().equals("elementaire")) {
+    
                         strategie = new StrategieElementaire(simulateur, donneesSimulation.getCarte(),
-                                donneesSimulation.getIncendies(), donneesSimulation.getRobots(),
+                                donneesSimulation.getIncendiesParCase(), donneesSimulation.getRobots(),
                                 donneesSimulation.getPointsEau());
                     } else if (args[2].toLowerCase().equals("evoluee")) {
                         strategie = new StrategieEvoluee(simulateur, donneesSimulation.getCarte(),
-                        donneesSimulation.getIncendies(), donneesSimulation.getRobots(),
+                        donneesSimulation.getIncendiesParCase(), donneesSimulation.getRobots(),
                         donneesSimulation.getPointsEau());
                     } else {
                         throw new IllegalArgumentException("Strategie inconnue");

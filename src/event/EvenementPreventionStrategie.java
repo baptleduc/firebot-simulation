@@ -13,6 +13,11 @@ public class EvenementPreventionStrategie extends Evenement {
         this.robot = robot;
         this.action = action;
     }
+    
+    @Override
+    public Evenement clone(){
+        return new EvenementPreventionStrategie(robot, super.getDate(), action);
+    }
 
     @Override
     public void execute(){

@@ -26,6 +26,7 @@ public abstract class Robot {
     private double vitesseMax;
     private final Color DRAW_COLOR = Color.MAGENTA;
     protected Case position;
+    private Case positionInitiale;
     private EtatRobot etatCourant;
 
     private Case positionApresEvenements;       // Position prévue du robot après l'exécution de ses événements planifiés
