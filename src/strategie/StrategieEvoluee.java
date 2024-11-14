@@ -27,12 +27,7 @@ public class StrategieEvoluee extends Strategie {
      */
     public StrategieEvoluee(Simulateur simulateur, Carte carte, Map<Case, Incendie> incendies, List<Robot> robots,
             List<Case> pointsEau) {
-
-                Map<Case, Incendie> incendiesCopy = new HashMap<>();
-                for (Incendie incendie : incendies.values()) {
-                    incendiesCopy.put(incendie.getPosition(), incendie);
-                }
-        super(simulateur, carte, incendiesCopy, robots, pointsEau);
+        super(simulateur, carte, incendies, robots, pointsEau);
         this.carte = carte;
     }
 
