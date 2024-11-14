@@ -53,6 +53,10 @@ SimuStrategieElementaire:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
 	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map -strategie elementaire
 
+SimuStrategieElementaireDesert:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/desertOfDeath-20x20.map -strategie elementaire
+
 SimuStrategieEvoluee:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
 	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map -strategie evoluee
@@ -60,6 +64,14 @@ SimuStrategieEvoluee:
 SimuStrategieEvolueeDesert:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
 	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/desertOfDeath-20x20.map -strategie evoluee
+
+SimuStrategieEvolueeMushroom:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/mushroomOfHell-20x20.map -strategie evoluee
+
+SimuStrategieEvolueeSpiral:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/spiralOfMadness-50x50.map -strategie evoluee
 
 # Execution:
 # on peut taper directement la ligne de commande :

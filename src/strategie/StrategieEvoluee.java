@@ -57,7 +57,7 @@ public class StrategieEvoluee extends Strategie {
      * @param incendie l'incendie associé
      * @return le temps d'extinction de l'incendie par le robot
      */
-    private double obtenirTempsExtinctionIncendie(Robot robot, Incendie incendie) {
+    private double obtenirTempsExtinctionIncendie(Robot robot, Incendie incendie) throws IllegalArgumentException{
         double tempsDeplacementVersIncendie = this.algoPlusCourtChemin.tempsDeplacement(robot, robot.getPosition(),
                 incendie.getPosition());
         double nombreDeRecharges = Math.floor(incendie.getQuantiteEau() / robot.getCapaciteReservoir());
@@ -66,6 +66,9 @@ public class StrategieEvoluee extends Strategie {
         }
 
         List<Case> pointsRemplissage = this.obtenirPointsRemplissageAccessibles(robot);
+        if (pointsRemplissage.isEmpty()) {
+            throw new IllegalArgumentException("Aucun point de remplissage accessible");
+        }
 
         Case pointRemplissageAProximite = super.obtenirCaseLaPlusProche(robot, incendie.getPosition(),
                 pointsRemplissage);
@@ -76,90 +79,126 @@ public class StrategieEvoluee extends Strategie {
         return tempsDeplacementVersIncendie + tempsDeplacementIncendieVersEau * nombreDeRecharges * 2;
     }
 
+    /**
+     * Déplace le robot vers un point de remplissage et rempli son réservoir
+     * 
+     * @param robot le robot associé
+     */
+    private void deplacementEtRemplissementReservoir(Robot robot) {
+        List<Case> pointsRemplissage = obtenirPointsRemplissageAccessibles(robot);
+        if (pointsRemplissage.isEmpty()) {
+            return;
+        }
+        Case pointRemplissageAProximite = super.obtenirCaseLaPlusProche(robot, robot.getPosition(), pointsRemplissage);
+        robot.deplacementPlusCourtChemin(simulateur, pointRemplissageAProximite, algoPlusCourtChemin);
+        robot.createEvenementsRemplirReservoir(simulateur);
+        robot.createEvenementsPrevenirFinIntervention(simulateur, this::finRemplissementAction);
+    }
+
+    /**
+     * Traite le cas où l'incendie affecté à un robot est éteint
+     * 
+     * @param robot le robot associé
+     */
+    private void traiterIncendieEteint(Robot robot) {
+        this.incendies.remove(this.affectationRobots.get(robot).getPosition());
+        super.desaffecterRobot(robot);
+
+        Incendie incendie = this.trouverIncendieLePlusRapideAEteindre(robot);
+        if (incendie == null) {
+            return;
+        }
+        
+        super.affecterRobot(robot, incendie);
+        super.ordonnerInterventionIncendie(robot, incendie);
+    }
+
+    /**
+     * Affecte le robot le plus rapide à éteindre un incendie sur ce dernier
+     * @param robots la liste des robots disponibles
+     */
+    private void assignerRobotPlusRapide(List<Robot> robots) {
+        Robot robotPlusRapide = null;
+        Incendie incendiePlusRapide = null;
+        Double tempsMinToutRobot = Double.MAX_VALUE;
+
+        Iterator<Robot> iterator = robots.iterator();
+        while (iterator.hasNext()) {
+            Robot robot = iterator.next();
+            if (robot.estOccupe()) {
+                iterator.remove();
+                continue;
+            }
+
+            Incendie incendieCible = trouverIncendieLePlusRapideAEteindre(robot);
+            if (incendieCible == null) {
+                iterator.remove();
+                continue;
+            }
+
+            double temps;
+            try {
+                temps = obtenirTempsExtinctionIncendie(robot, incendieCible);
+            } catch (Exception e) {
+                iterator.remove();
+                continue;
+            }
+            if (temps < tempsMinToutRobot) {
+                tempsMinToutRobot = temps;
+                robotPlusRapide = robot;
+                incendiePlusRapide = incendieCible;
+            }
+        }
+
+        if (robotPlusRapide != null) {
+            super.affecterRobot(robotPlusRapide, incendiePlusRapide);
+            robots.remove(robotPlusRapide);
+        }
+    }
+
+    /**
+     * Trouve l'incendie le plus rapide à éteindre pour un robot
+     * @param robot le robot associé
+     * @return l'incendie le plus rapide à éteindre, null si aucun incendie n'est accessible
+     */
+    private Incendie trouverIncendieLePlusRapideAEteindre(Robot robot) {
+        Incendie incendiePlusProche = null;
+        Double tempsMin = Double.MAX_VALUE;
+
+        for (Incendie incendie : this.incendies.values()) {
+            double temps;
+            try {
+                temps = obtenirTempsExtinctionIncendie(robot, incendie);
+            } catch (Exception e) {
+                continue;
+            }
+
+            if (temps < tempsMin) {
+                tempsMin = temps;
+                incendiePlusProche = incendie;
+            }
+        }
+        return incendiePlusProche;
+    }
+
     @Override
     protected void affectationsInitiales() {
         List<Robot> copieRobots = new ArrayList<>(this.robots); // Copie modifiable de la liste des robots
-        while (copieRobots.size() > 0) {
-            Double tempsMinToutRobot = Double.MAX_VALUE;
-            Robot robotPlusRapide = null;
-            Incendie incendiePlusRapide = null;
-
-            // Utilisation d'un Iterator pour parcourir et modifier copieRobots en toute
-            // sécurité
-            Iterator<Robot> iterator = copieRobots.iterator();
-            while (iterator.hasNext()) {
-                Robot r = iterator.next();
-                if (r.estOccupe()) { // Le robot est occupé, il ne sera donc pas affecté
-                    iterator.remove(); // Suppression sécurisée avec l'Iterator
-                    continue;
-                }
-
-                Incendie incendiePlusProche = null;
-                Double tempsMin = Double.MAX_VALUE;
-
-                for (Incendie i : this.incendies.values()) {
-                    Double temps;
-                    try {
-                        temps = this.obtenirTempsExtinctionIncendie(r, i);
-                    } catch (Exception e) {
-                        continue; // Ignorer cet incendie en cas d'exception
-                    }
-
-                    if (temps < tempsMin) { // Recherche de l'incendie le plus proche
-                        tempsMin = temps;
-                        incendiePlusProche = i;
-                    }
-                }
-
-                if (incendiePlusProche == null) { // Aucun incendie n'est atteignable par le robot
-                    iterator.remove(); // Suppression sécurisée avec l'Iterator
-                    continue;
-                }
-
-                // Recherche du robot le plus rapide pour atteindre un incendie
-                if (tempsMin < tempsMinToutRobot) {
-                    tempsMinToutRobot = tempsMin;
-                    robotPlusRapide = r;
-                    incendiePlusRapide = incendiePlusProche;
-                }
-            }
-
-            if (robotPlusRapide == null) { // Aucun robot n'est affectable
-                break;
-            }
-
-            // Affecter le robot le plus rapide à l'incendie le plus proche
-            super.affecterRobot(robotPlusRapide, incendiePlusRapide);
-            copieRobots.remove(robotPlusRapide); // Retirer le robot affecté de la liste copieRobots
+        while (!copieRobots.isEmpty()) {
+            assignerRobotPlusRapide(copieRobots);
         }
     }
 
     @Override
     public void finEvenementsAction(Robot robot) {
-        if (robot.getNiveauEau() == 0) { // Le robot n'a plus d'eau, il doit se remplir
-            List<Case> pointsRemplissage = this.obtenirPointsRemplissageAccessibles(robot);
-            Case pointRemplissageAProximite = super.obtenirCaseLaPlusProche(robot, robot.getPosition(),
-                    pointsRemplissage);
-            robot.deplacementPlusCourtChemin(simulateur, pointRemplissageAProximite, algoPlusCourtChemin);
-            robot.createEvenementsRemplirReservoir(simulateur);
-            robot.createEvenementsPrevenirFinIntervention(simulateur, this::finRemplissageAction);
+        if (robot.getNiveauEau() == 0) {
+            this.deplacementEtRemplissementReservoir(robot);
             return;
         }
-        
-        this.incendies.remove(robot.getPosition()); // L'incendie est éteint
-        super.desaffecterRobot(robot);
-
-        Case caseIncendie = super.obtenirCaseLaPlusProche(robot, robot.getPosition(),
-                new ArrayList<>(this.incendies.keySet()));
-        if (caseIncendie == null) { // Plus d'incendie à éteindre pour ce robot
-            return;
-        }
-        Incendie incendie = this.incendies.get(caseIncendie);
-        super.affecterRobot(robot, incendie);
-        super.ordonnerInterventionIncendie(robot, incendie);
+        this.traiterIncendieEteint(robot);
     }
 
-    public void finRemplissageAction(Robot robot) {
+    public void finRemplissementAction(Robot robot) {
         super.ordonnerInterventionIncendie(robot, this.affectationRobots.get(robot));
     }
 

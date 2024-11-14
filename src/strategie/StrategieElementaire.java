@@ -26,6 +26,24 @@ public class StrategieElementaire extends Strategie {
         super(simulateur, carte, incendies, robots, pointsEau);
     }
 
+    /**
+     * Traite le cas où l'incendie affecté à un robot est éteint
+     * @param robot le robot associé
+     */
+    private void traiterIncendieEteint(Robot robot) {
+        this.incendies.remove(this.affectationRobots.get(robot).getPosition());
+        super.desaffecterRobot(robot);
+
+        Case caseIncendie = super.obtenirCaseLaPlusProche(robot, robot.getPosition(),
+                new ArrayList<>(this.incendies.keySet()));
+        if (caseIncendie == null) {
+            return;
+        }
+        Incendie incendie = this.incendies.get(caseIncendie);
+        super.affecterRobot(robot, incendie);
+        super.ordonnerInterventionIncendie(robot, incendie);
+    }
+
     @Override
     protected void affectationsInitiales() {
         List<Robot> copieRobots = new ArrayList<>(this.robots);
@@ -52,16 +70,7 @@ public class StrategieElementaire extends Strategie {
             super.desaffecterRobot(robot);
             return;
         }
-        this.incendies.remove(robot.getPosition()); // L'incendie est éteint
-        super.desaffecterRobot(robot);
-
-        Case caseIncendie = super.obtenirCaseLaPlusProche(robot, robot.getPosition(), new ArrayList<>(this.incendies.keySet()));
-        if (caseIncendie == null) { // Plus d'incendie à éteindre pour ce robot
-            return;
-        }
-        Incendie incendie = this.incendies.get(caseIncendie);
-        super.affecterRobot(robot, incendie);
-        super.ordonnerInterventionIncendie(robot, incendie);
+        this.traiterIncendieEteint(robot);
     }
 
 }
