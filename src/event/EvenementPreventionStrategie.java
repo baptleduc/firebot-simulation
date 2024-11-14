@@ -3,12 +3,12 @@ package event;
 import model.robot.Robot;
 import strategie.FinInterventionAction;
 
-public class EvenementPreventionChefPompier extends Evenement {
+public class EvenementPreventionStrategie extends Evenement {
 
     private Robot robot;
     private FinInterventionAction action;
 
-    public EvenementPreventionChefPompier(Robot robot, long date, FinInterventionAction action){
+    public EvenementPreventionStrategie(Robot robot, long date, FinInterventionAction action){
         super(date);
         this.robot = robot;
         this.action = action;

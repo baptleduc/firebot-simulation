@@ -7,7 +7,7 @@ import chemin.PlusCourtChemin;
 import event.EvenementChangementEtat;
 import event.EvenementDeplacement;
 import event.EvenementDeverserEau;
-import event.EvenementPreventionChefPompier;
+import event.EvenementPreventionStrategie;
 import event.EvenementRemplirReservoir;
 import model.map.Case;
 import model.map.Direction;
@@ -338,7 +338,7 @@ public abstract class Robot {
 
     public void createEvenementsPrevenirFinIntervention(Simulateur simulateur, FinInterventionAction action){
         // simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.DISPONIBLE, this.dateApresEvenements)); 
-        simulateur.ajouteEvenement(new EvenementPreventionChefPompier(this, this.dateApresEvenements, action));
+        simulateur.ajouteEvenement(new EvenementPreventionStrategie(this, this.dateApresEvenements, action));
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
     }
 
