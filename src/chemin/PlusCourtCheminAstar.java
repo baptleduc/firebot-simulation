@@ -57,10 +57,14 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
 
     /**
      * Calcule le temps de déplacement entre deux cases pour un robot donné.
-     * retourne -1 si le chemin n'existe pas.
+     * une erreur est levée si le robot ne peut pas effectuer le déplacement.
      */
     public double tempsDeplacement(Robot robot, Case caseDepart, Case caseArrivee) {
-        return executeAstar(robot, caseDepart, caseArrivee).cout;
+        NoeudAstar ndAstar = executeAstar(robot, caseDepart, caseArrivee);
+        if (ndAstar == null) {
+            throw new IllegalArgumentException("Le robot ne peut pas effectuer ce déplacement");
+        }
+        return ndAstar.cout;
     }
 
     public List<Case> creeChemin(Robot robot, Case caseDepart, Case caseArrivee) {
@@ -128,6 +132,7 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
             }
         }
         // On n'a pas trouvé de chemin
+        System.out.println("Le probleme est dans le parcours");
         return null;
     }
 }

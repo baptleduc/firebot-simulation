@@ -1,5 +1,6 @@
 package model.robot;
 
+import chemin.PlusCourtChemin;
 import model.map.*;
 
 public abstract class RobotAerien extends Robot {
@@ -21,9 +22,14 @@ public abstract class RobotAerien extends Robot {
 
         NatureTerrain terrain = posCourante.getNature();
         if (terrain == NatureTerrain.EAU) {
-            System.out.println("Le robot aerien se rempli");
+            this.setNiveauEau(this.getCapaciteReservoir());
         } else {
             System.out.println("Le robot aérien ne peut pas se remplir car il n'est pas sur une case d'eau !");
         }
+    }
+
+    @Override
+    public Case obtenirCaseRemplissageAssocié(Case pointEau, PlusCourtChemin algo, Carte carte) throws IllegalArgumentException {
+        return pointEau;
     }
 }

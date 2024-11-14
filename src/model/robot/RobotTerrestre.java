@@ -1,7 +1,10 @@
 package model.robot;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
+import chemin.PlusCourtChemin;
 import model.map.*;
 
 public abstract class RobotTerrestre extends Robot {
@@ -26,6 +29,25 @@ public abstract class RobotTerrestre extends Robot {
             }
         }
         throw new NoSuchElementException("Pas de case eau voisine");
+    }
+
+    @Override
+    public Case obtenirCaseRemplissageAssocié(Case pointEau, PlusCourtChemin algo, Carte carte) throws IllegalArgumentException {
+        List<Case> destinationsPossibles = new ArrayList<>();
+        for (Direction direction : Direction.values()){
+            Case voisin = carte.getVoisin(pointEau, direction);
+            if (voisin.getNature() == NatureTerrain.EAU){
+                continue;
+            }
+            destinationsPossibles.add(voisin);
+        }
+        for (Case destination : destinationsPossibles){
+            List<Case> chemin = algo.creeChemin(this, this.position, destination);
+            if(chemin != null){
+                return destination;
+            }
+        }
+        throw new IllegalArgumentException("Le robot ne peut pas atteindre de point de remplissage associé à ce point d'eau.");
     }
 
 }

@@ -48,6 +48,19 @@ SimuScenario1:
 SimuScenario2:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
 	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map 2
+
+SimuStrategieElementaire:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map -strategie elementaire
+
+SimuStrategieEvoluee:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map -strategie evoluee
+
+SimuStrategieEvolueeDesert:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/desertOfDeath-20x20.map -strategie evoluee
+
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:lib/gui.jar TestInvader
