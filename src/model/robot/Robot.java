@@ -36,7 +36,18 @@ public abstract class Robot {
     protected Carte carte;
     protected double vitesse; // en km/min
     
-
+    /**
+     * Constructeur de la classe Robot.
+     *
+     * @param position La position initiale du robot sur la carte.
+     * @param niveauEau Le niveau initial d'eau du robot en litres.
+     * @param capaciteReservoir La capacité maximale du réservoir d'eau du robot en litres.
+     * @param vitesse La vitesse initiale du robot en km/min.
+     * @param vitesseMax La vitesse maximale du robot en km/min.
+     * @param tempsRemplissage Le temps nécessaire pour remplir le réservoir en minutes.
+     * @param carte La carte sur laquelle le robot évolue.
+     * @param interUnitaire Le nombre de litres d'eau que le robot peut déverser en une minute.
+     */
     public Robot(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax,
             int tempsRemplissage, Carte carte, int interUnitaire) {
         this.position = position;

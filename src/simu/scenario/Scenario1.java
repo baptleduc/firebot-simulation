@@ -8,7 +8,7 @@ import model.robot.Robot;
 import simu.Simulateur;
 
 public class Scenario1 implements Scenario {
-
+    @Override
     public void createEvenements(Simulateur simulateur, DonneesSimulation model) {
         Robot robot = model.getRobots().get(1); // Choisir le deuxième robot
     

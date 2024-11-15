@@ -6,7 +6,7 @@ import model.robot.Robot;
 import simu.Simulateur;
 
 public class Scenario0 implements Scenario {
-
+    @Override
     public void createEvenements(Simulateur simulateur, DonneesSimulation model){
             Robot robot = model.getRobots().get(0); // Choisi le premier robot du model : 'Drone'
             for (long i = 0; i < 4; i++){
