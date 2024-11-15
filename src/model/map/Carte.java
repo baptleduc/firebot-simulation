@@ -1,22 +1,11 @@
 package model.map;
 
-/**
- * Classe représentant la carte composée d'une matrice de cases.
- */
 public class Carte {
     private final int nbLignes;
     private final int nbColonnes;
     private int tailleCases;
     private Case[][] cases;
 
-    /**
-     * Constructeur de la classe Carte.
-     *
-     * @param nbLignes     le nombre de lignes de la carte.
-     * @param nbColonnes   le nombre de colonnes de la carte.
-     * @param tailleCases  la taille des cases de la carte.
-     * @param cases        la matrice de cases de la carte.
-     */
     public Carte(int nbLignes, int nbColonnes, int tailleCases, Case[][] cases) {
         this.nbLignes = nbLignes;
         this.nbColonnes = nbColonnes;

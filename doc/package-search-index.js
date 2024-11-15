@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"chemin"},{"l":"event"},{"l":"io"},{"l":"model"},{"l":"model.map"},{"l":"model.robot"},{"l":"simu"},{"l":"simu.scenario"},{"l":"strategie"},{"l":"test"}];updateSearchResults();

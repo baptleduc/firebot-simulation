@@ -4,25 +4,15 @@ import model.map.Carte;
 import model.map.Case;
 import model.map.NatureTerrain;
 
-/**
- * Classe Drone héritant de RobotAerien et implémentant les méthodes abstraites de Robot.
- */
 public class Drone extends RobotAerien {
     // Constantes
     private static final int CAPACITE_RESERVOIR = 10000;
     private static final int NIVEAU_EAU = CAPACITE_RESERVOIR; // Hypothèse : un robot est créé avec son reservoir rempli
-    public static final double VITESSE_DEFAUT = 100; 
+    public static final double VITESSE_DEFAUT = 100;
     private static final double VITESSE_MAX = 150;
     private static final int TEMPS_REMPLISSAGE = 30;
     private static int INTER_UNITAIRE = CAPACITE_RESERVOIR * 60 / 30; // Intervention unitaire : 6000000/30 litres en 1 min
 
-    /**
-     * Constructeur de la classe Drone
-     * 
-     * @param position la case sur laquelle le drone doit être positionné.
-     * @param carte    la carte dans laquelle le drone évolue.
-     * @param vitesse  la vitesse du drone.
-     **/
     public Drone(Case position, Carte carte, double vitesse) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);
     }

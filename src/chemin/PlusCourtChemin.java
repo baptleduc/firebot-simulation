@@ -12,5 +12,4 @@ public interface PlusCourtChemin {
 
     public abstract List<Case> creeChemin(Robot robot, Case caseDepart, Case caseArrivee);
 }
- 
- 
+

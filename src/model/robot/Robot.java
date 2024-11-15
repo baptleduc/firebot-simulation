@@ -36,18 +36,7 @@ public abstract class Robot {
     protected Carte carte;
     protected double vitesse; // en km/min
     
-    /**
-     * Constructeur de la classe Robot.
-     *
-     * @param position La position initiale du robot sur la carte.
-     * @param niveauEau Le niveau initial d'eau du robot en litres.
-     * @param capaciteReservoir La capacité maximale du réservoir d'eau du robot en litres.
-     * @param vitesse La vitesse initiale du robot en km/min.
-     * @param vitesseMax La vitesse maximale du robot en km/min.
-     * @param tempsRemplissage Le temps nécessaire pour remplir le réservoir en minutes.
-     * @param carte La carte sur laquelle le robot évolue.
-     * @param interUnitaire Le nombre de litres d'eau que le robot peut déverser en une minute.
-     */
+
     public Robot(Case position, int niveauEau, int capaciteReservoir, double vitesse, double vitesseMax,
             int tempsRemplissage, Carte carte, int interUnitaire) {
         this.position = position;
@@ -93,11 +82,6 @@ public abstract class Robot {
         return this.niveauEau;
     }
 
-    /**
-     * NOT USED
-     * Retourne la couleur de dessin du robot lorsque nous dessinons les robots avec les rectangles.
-     * @return
-     */
     public Color getDrawColor() {
         return this.DRAW_COLOR;
     }
@@ -110,10 +94,6 @@ public abstract class Robot {
         return this.tempsRemplissage;
     }
 
-    /**
-     * Retourne vrai si le robot n'est pas disponible.
-     * @return
-     */
     public boolean estOccupe() {
         return this.etatCourant == EtatRobot.EN_REMPLISSAGE || this.etatCourant == EtatRobot.EN_DEVERSAGE || this.etatCourant == EtatRobot.EN_DEPLACEMENT;
     }
@@ -158,11 +138,9 @@ public abstract class Robot {
     /**
      * Déverse une quantité d'eau du réservoir.
      *
-     * @param quantite la quantité d'eau à déverser en litres.
-     * @param incendie l'incendie à éteindre.
+     * @param vol la quantité d'eau à déverser en litres.
      * @throws IllegalArgumentException si la quantité demandée est supérieure au
      *                                  niveau actuel d'eau.
-     * @throws IllegalArgumentException si le robot n'est pas sur la case de l'incendie.
      */
     public void deverserEau(int quantite, Incendie incendie) {
         // Vérifiez que le robot est sur la même case que l'incendie
@@ -226,25 +204,17 @@ public abstract class Robot {
 
     public abstract void checkPosition(Case position, Carte carte);
 
-    /**
-     * Méthode abstraite qui permet de remplir le réservoir du robot.
-     * 
-     */
     public abstract void remplirReservoir();
 
     /**
      * Retourne la case de remplissage associée à un point d'eau donné, c'est sur cette case que le robot se déplacera pour se remplir
      * @param pointEau le point d'eau à associer
      * @param algo l'algorithme de plus court chemin à utiliser
-     * @param carte la carte sur laquelle se déplace le robot
      * @return la case de remplissage associée
      */
     public abstract Case obtenirCaseRemplissageAssocié(Case pointEau, PlusCourtChemin algo, Carte carte) throws IllegalArgumentException;
 
-    /**
-     * Retourne l'image par défaut du robot
-     * @return
-     */
+    //recupere le chemin de l'image du robot
     public String getImagePath()
     {
         return "images/robot/robot_defaut.png";
@@ -313,7 +283,7 @@ public abstract class Robot {
     }
 
 
-    /**
+    /*
      * Crée les évenements nécessaires afin d'effectuer un déplacement vers une case donnée en utilisant l'algorithme A*
      * @param simulateur
      * @param destination
@@ -331,11 +301,6 @@ public abstract class Robot {
         }
     }
 
-    /**
-     * Crée les événements nécessaires pour éteindre un incendie.
-     * @param simulateur
-     * @param incendie
-     */
     public void createEvenementsInterventionIncendie(Simulateur simulateur, Incendie incendie){
 
         int quantiteEauDeversee = Math.min(this.getNiveauEau(), incendie.getQuantiteEau());
@@ -353,10 +318,6 @@ public abstract class Robot {
     }
 
 
-    /**
-     * Crée les événements nécessaires pour remplir le réservoir du robot.
-     * @param simulateur
-     */
     public void createEvenementsRemplirReservoir(Simulateur simulateur){
         long tempsRemplissage = this.getTempsRemplissage();
         
@@ -371,11 +332,6 @@ public abstract class Robot {
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
     }
 
-    /**
-     * Crée les événements nécessaires pour prévenir la stratégie de fin d'intervention.
-     * @param simulateur
-     * @param action
-     */
     public void createEvenementsPrevenirFinIntervention(Simulateur simulateur, FinInterventionAction action){
         // simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.DISPONIBLE, this.dateApresEvenements)); 
         simulateur.ajouteEvenement(new EvenementPreventionStrategie(this, this.dateApresEvenements, action));
