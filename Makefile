@@ -51,7 +51,7 @@ SimuScenario1:
 
 SimuScenario2:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
-	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map 2
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/spiralOfMadness-50x50.map 2
 
 SimuStrategieElementaire:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
