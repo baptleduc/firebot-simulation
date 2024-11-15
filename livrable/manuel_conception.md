@@ -6,16 +6,52 @@ Ce projet, développé pour le module de POO à Ensimag, vise à modéliser une 
 
 ## 2. Choix de conception
 
-##### A. Les classes
+#### A. Utilisation du Stratégie Pattern
+
+Le Stratégie Pattern permet de définir une famille d’algorithmes, de les encapsuler et de les rendre interchangeables. Nous avons utilisé ce patron notamment avec les classes robots, les stratégies, la recherche de plus court chemin ou les evenements.
+
+##### Exemple du strategy pattern avec les classes liées aux robots :
 
 
-Nous avons choisi d'organiser les classes de robot de la manière suivante :
 
-Nous utilisons le **factory pattern**. Nous définissons une interface qui créer de manière commune tous les types de robot dans une classe mère mais qui délègue les choix du type de robot aux sous classes.
+**`Robot` :**
+- Contient les méthodes communes à tous les robots, comme la gestion de leur position, la vitesse ou le niveau d’eau.
+
+- Définit des méthodes abstraites comme `getVitesse(NatureTerrain terrain)` ou `remplirReservoir()`, permettant à chaque type de robot de fournir une implémentation spécifique.
+
+**`RobotTerrestre`:**
+- Contient les méthodes communes aux robots terrestres comme `remplirReservoir()`
+
+
+**`RobotChenilles` :** 
+
+- Sous classe concrète
+- Implémente par exemple la méthode `getVitesse()` pour retourner une vitesse réduite sur certains terrains spécifique au type de robot chenille.
+
+##### Avantages
+
+- Extensibilité : Ajouter un nouveau type de robot ne nécessite pas de modifier les classes existantes.
+
+- Séparation des responsabilités : Chaque sous-classe est responsable de ses propres comportements spécifiques.
+
+- Réutilisation du code : Les comportements communs sont centralisés dans la classe abstraite.
+
+
+#### B. Utilisation du Factory Pattern
+
+
+Nous définissons une interface qui créer de manière commune tous les types de robot dans une classe mère mais qui délègue les choix du type de robot aux sous classes.
+
+
+`RobotFactory :`
+
+- Contient la méthode statique `getRobot(String typeRobot, Case caseCourante, Carte carte, double vitesseLue)`.
+En fonction de la chaîne typeRobot, elle instancie et retourne l’un des sous-types de Robot (par exemple, RobotChenilles, Drone, etc.).
+
 
 Cette organisation permet de facilement étendre la simulation en ajoutant de nouveaux types de robots ou en modifiant les comportements des robots existants, en respectant notamment aussi le patron stratégie.
 
-##### B. -
+
 
 ##### C. Plus court chemin
 
