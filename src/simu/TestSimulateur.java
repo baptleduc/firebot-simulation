@@ -71,12 +71,13 @@ public class TestSimulateur {
                         throw new IllegalArgumentException("Strategie inconnue");
                         
                     }
-                    scenario.createEvenements();
+                    
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                     System.exit(1);
                 }
             }
+            scenario.createEvenements();
 
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
