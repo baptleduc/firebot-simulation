@@ -12,6 +12,12 @@ public class EvenementErreur extends Evenement {
     }
 
     @Override
+    public Evenement clone(){
+        return new EvenementErreur(msgErreur, super.getDate());
+    }
+    
+
+    @Override
     public void execute(){
         System.err.println(this.msgErreur);
     }

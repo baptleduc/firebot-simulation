@@ -9,31 +9,39 @@ import simu.Simulateur;
 
 public class Scenario1 implements Scenario {
 
-    public void createEvenements(Simulateur simulateur, DonneesSimulation model) {
+    private Simulateur simulateur;
+    private DonneesSimulation model;
+
+    public Scenario1(Simulateur simulateur, DonneesSimulation model){
+        this.simulateur = simulateur;
+        this.model = model;
+    }
+
+    public void createEvenements() {
         Robot robot = model.getRobots().get(1); // Choisir le deuxième robot
     
         // Déplacer le robot vers le NORD pour atteindre la case (5, 5)
-        robot.createEvenementsDeplacement(simulateur, Direction.NORD);
+        robot.deplacerDirection(simulateur, Direction.NORD);
     
         // Gérer l'incendie sur la case actuelle
-        Incendie incendie = model.getIncendies().get(robot.getPositionApresEvenements());
+        Incendie incendie = model.getIncendiesParCase().get(robot.getPositionApresEvenements());
         robot.createEvenementsInterventionIncendie(simulateur, incendie);
     
         // Déplacer le robot vers l'OUEST deux fois
-        robot.createEvenementsDeplacement(simulateur, Direction.OUEST);
-        robot.createEvenementsDeplacement(simulateur, Direction.OUEST);
+        robot.deplacerDirection(simulateur, Direction.OUEST);
+        robot.deplacerDirection(simulateur, Direction.OUEST);
 
         
         // Remplir Reservoir 
         robot.createEvenementsRemplirReservoir(simulateur);;
 
         // Déplacer le robot vers l'EST deux fois
-        robot.createEvenementsDeplacement(simulateur, Direction.EST);
-        robot.createEvenementsDeplacement(simulateur, Direction.EST);
+        robot.deplacerDirection(simulateur, Direction.EST);
+        robot.deplacerDirection(simulateur, Direction.EST);
         
 
         // Gérer l'incendie sur la case actuelle
-        incendie = model.getIncendies().get(robot.getPositionApresEvenements());
+        incendie = model.getIncendiesParCase().get(robot.getPositionApresEvenements());
         robot.createEvenementsInterventionIncendie(simulateur, incendie);
     }
 }

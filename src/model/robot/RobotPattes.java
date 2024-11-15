@@ -26,6 +26,10 @@ public class RobotPattes extends RobotTerrestre {
         return this.vitesse;
     }
 
+    @Override
+    public Robot clone() {
+        return new RobotPattes(this.getPosition(), super.carte);
+    }
     /**
      * Redéfinit la méthode de déversement pour le robot à pattes.
      * 
@@ -35,7 +39,14 @@ public class RobotPattes extends RobotTerrestre {
      */
     @Override
     public void deverserEau(int vol, Incendie incendie) {
-        System.out.println("Le robot à pattes utilise de la poudre pour éteindre l'incendie.");
+        // Vérifiez que le robot est sur la même case que l'incendie
+        if (!this.position.equals(incendie.getPosition())) {
+            System.err.println(this.position);
+            System.err.println(incendie.getPosition());
+            throw new IllegalArgumentException("Le robot n'est pas sur la case de l'incendie.");
+        }
+
+        incendie.eteindre(incendie.getQuantiteEau());
     }
 
     /**

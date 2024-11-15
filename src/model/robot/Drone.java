@@ -59,6 +59,11 @@ public class Drone extends RobotAerien {
         return "./images/robot/robot_drone.png";
     }
 
+    @Override
+    public Robot clone()
+    {
+        return new Drone(this.getPosition(), super.carte, super.vitesse);
+    }
 
     /**
      * FACTORY METHOD

@@ -19,19 +19,20 @@ public class Simulateur implements Simulable {
     private DonneesSimulation model;
     private long dateSimulation;
     private PriorityQueue<Evenement> evenements = new PriorityQueue<>(); 
+    private PriorityQueue<Evenement> evenementsInit = new PriorityQueue<>();
     private final int RATIO_BORDURE_X = 10;
     private final int RATIO_BORDURE_Y = 10;
 
     private int taillePixelCases;
 
     private int xMin = 60;
-    private int yMin = 60;    
+    private int yMin = 60;   
 
     public Simulateur(GUISimulator gui, DonneesSimulation model) {
         this.dateSimulation = (long) 0;
         this.gui = gui;
         this.model = model;
-
+        
         this.xMin = gui.getWidth() / RATIO_BORDURE_X;
         this.yMin = gui.getHeight() / RATIO_BORDURE_Y;
 
@@ -48,6 +49,7 @@ public class Simulateur implements Simulable {
 
     public void ajouteEvenement(Evenement e){
         this.evenements.add(e);
+        this.evenementsInit.add(e.clone());
     }
     
     /**
@@ -69,8 +71,9 @@ public class Simulateur implements Simulable {
     private void draw() {
         this.gui.reset(); // Clear the window
         drawCarte();
-        drawIncendies();
         drawRobots();
+        drawIncendies();
+
     }
 
     /**
@@ -249,12 +252,12 @@ public class Simulateur implements Simulable {
      * @param case
      * @param carte
      */
-    private void drawCase( int x_case, int y_case,Random random, Case c,Carte carte) {
+    private void drawCase(int xCase, int yCase, Random random, Case c, Carte carte) { 
         
 
 
-        int adjustedX = x_case - taillePixelCases / 2;
-        int adjustedY = y_case - taillePixelCases / 2;
+        int adjustedX = xCase- taillePixelCases / 2;
+        int adjustedY = yCase - taillePixelCases / 2;
         
         int halfSize = taillePixelCases / 2;
         
@@ -468,7 +471,7 @@ public class Simulateur implements Simulable {
      */
     private void drawIncendies() {
         int taillePixelIncendie = this.taillePixelCases * 8 / 10;
-        for (Incendie incendie : this.model.getIncendies().values()) {
+        for (Incendie incendie : this.model.getIncendiesParCase().values()) {
             if (incendie.getQuantiteEau() > 0){
                 Case c = incendie.getPosition();
                 int x = calculateXPosition(c.getColonne());
@@ -481,6 +484,8 @@ public class Simulateur implements Simulable {
 
             }    
         }
+
+        
     }
 
     /**
@@ -618,7 +623,7 @@ public class Simulateur implements Simulable {
     @Override
     public void next() { // Hypothèse : un appel à next = 1min
         incrementeDate();
-        while (!simulationTerminee() && evenements.peek().getDate() <= dateSimulation) {
+        while (!simulationTerminee() && evenements.peek().getDate() <= dateSimulation ) {
             Evenement event = evenements.poll();
             try {
                 event.execute();   
@@ -632,8 +637,30 @@ public class Simulateur implements Simulable {
         
     }
 
+     
+    /**
+     * Redémarre la simulation en réinitialisant les robots, les incendies et les événements.
+     */ 
     @Override
     public void restart() {
+        // Réinitialisation de la simulation
+
+        this.dateSimulation = (long) 0;
+        for (Robot robot : this.model.getRobots()) {
+            robot.reset();
+        }
+        for (Incendie incendie : this.model.getIncendiesParCase().values()) {
+            incendie.reset();
+        }
+
+        this.evenements.clear();
+
+        for (Evenement e : this.evenementsInit) {
+            
+            this.evenements.add(e.clone());
+        }
+
+        draw();
     }
 
 }

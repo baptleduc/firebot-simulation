@@ -127,6 +127,9 @@ public class LecteurDonnees {
                         NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
                         verifieLigneTerminee();
                         Case newCase = new Case(lig, col, nature);
+                        if (nature == NatureTerrain.EAU) { // On conserve les coordonnées des points d'eau afin de les utiliser dans les stratégies
+                            donneesSimulation.getPointsEau().add(newCase);
+                        }
                         cases[lig][col] = newCase;
 
                     } catch (NoSuchElementException e) {
@@ -263,7 +266,7 @@ public class LecteurDonnees {
 
             Case caseIncendie = donneesSimulation.getCarte().getCase(lig, col);
             Incendie incendie = new Incendie(caseIncendie, intensite);
-            donneesSimulation.getIncendies().put(incendie.getPosition(), incendie); // À une case est associée un incendie
+            donneesSimulation.getIncendiesParCase().put(incendie.getPosition(), incendie); // À une case est associée un incendie
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format d'incendie invalide. "
