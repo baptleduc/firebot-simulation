@@ -48,6 +48,10 @@ SimuScenario1:
 SimuScenario2:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
 	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map 2
+
+SimuScenario3:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/cartePlusCourtChemin.map 3
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:lib/gui.jar TestInvader

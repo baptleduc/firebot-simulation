@@ -38,5 +38,5 @@ Nous avons choisi d’utiliser l'algorithme A* pour trouver le plus court chemin
 
 Le choix de l'algorithme utilisé se fait au moment de la configuration du scénario. Le robot dispose d'une classe qui utilise l'algorithme de recherche de chemin passé en argument via la méthode `robot.deplacementPlusCourtChemin`. Cette méthode applique l'algorithme de recherche sélectionné pour calculer et effectuer le déplacement du robot sur son chemin optimal.
 
-
+Afin de tester notre algo de plus court chemin, nous avons mis en place une carte 
 

@@ -8,6 +8,7 @@ import simu.scenario.Scenario;
 import simu.scenario.Scenario0;
 import simu.scenario.Scenario1;
 import simu.scenario.Scenario2;
+import simu.scenario.Scenario3;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
@@ -25,6 +26,9 @@ public class TestSimulateur {
             case "2":
                 System.out.println("Scenario 2 choisi");
                 return new Scenario2();
+            case "3":
+                System.out.println("Scenario 3 choisi");
+                return new Scenario3();
 
             default:
                 throw new IllegalArgumentException(String.format("Scenario numero : %s not found", numScenario));
