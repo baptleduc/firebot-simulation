@@ -72,19 +72,29 @@ Lance la simulation de base avec la carte `carteSujet.map`. 🏞️
   ```
 
 #### Simulation avec stratégies
-- **Stratégie élémentaire** :
+- **Stratégie élémentaire sur la carte du sujet** :
   ```bash
   make SimuStrategieElementaire
   ```
 
-- **Stratégie évoluée** :
+- **Stratégie évoluée sur la carte du sujet** :
   ```bash
   make SimuStrategieEvoluee
   ```
-
-- **Stratégie évoluée dans un désert** :
+  *Pour les commandes suivantes, substituez 'Evoluee' par 'Elementaire' pour changer de stratégie.*
+- **Stratégie évoluée sur la carte desert** :
   ```bash
   make SimuStrategieEvolueeDesert
+  ```
+
+- **Stratégie évoluée sur la carte mushroom** :
+  ```bash
+  make SimuStrategieEvolueeMushroom
+  ```
+
+- **Stratégie évoluée sur la carte spiral** :
+  ```bash
+  make SimuStrategieEvolueeSpiral
   ```
 
 ---
