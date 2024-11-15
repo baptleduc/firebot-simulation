@@ -7,7 +7,15 @@ import simu.Simulateur;
 
 public class Scenario2 implements Scenario {
 
-    public void createEvenements(Simulateur simulateur, DonneesSimulation model){
+    private Simulateur simulateur;
+    private DonneesSimulation model;
+
+    public Scenario2(Simulateur simulateur, DonneesSimulation model){
+        this.simulateur = simulateur;
+        this.model = model;
+    }
+
+    public void createEvenements(){
             Robot robot = model.getRobots().get(2); 
 
             PlusCourtCheminAstar algo = new PlusCourtCheminAstar(model.getCarte());

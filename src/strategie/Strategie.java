@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import chemin.PlusCourtCheminAstar;
+import model.DonneesSimulation;
 import model.map.Carte;
 import model.map.Case;
 import model.map.Incendie;
 import model.robot.Robot;
 import simu.Simulateur;
+import simu.scenario.Scenario;
 
-public abstract class Strategie {
+public abstract class Strategie implements Scenario {
 
     protected Simulateur simulateur;
     protected PlusCourtCheminAstar algoPlusCourtChemin;
@@ -23,6 +25,8 @@ public abstract class Strategie {
     protected List<Robot> robots = new ArrayList<Robot>();
     protected List<Case> pointsEau = new ArrayList<Case>();
 
+    protected Carte carte;
+
     /**
      * Constructeur de la classe abstraite Strategie
      * 
@@ -32,16 +36,16 @@ public abstract class Strategie {
      * @param robots     les robots disponibles
      * @param pointsEau  les points d'eau disponibles
      */
-    public Strategie(Simulateur simulateur, Carte carte, Map<Case, Incendie> incendies, List<Robot> robots,
-            List<Case> pointsEau) {
+    public Strategie(Simulateur simulateur, DonneesSimulation model) {
 
-                for (Incendie incendie : incendies.values()) {
+                for (Incendie incendie : model.getIncendiesParCase().values()) {
                     this.incendies.put(incendie.getPosition(), incendie);
                 }
         this.simulateur = simulateur;
-        this.algoPlusCourtChemin = new PlusCourtCheminAstar(carte);
-        this.robots = robots;
-        this.pointsEau = pointsEau;
+        this.algoPlusCourtChemin = new PlusCourtCheminAstar(model.getCarte());
+        this.robots = model.getRobots();
+        this.pointsEau = model.getPointsEau();
+        this.carte = model.getCarte();
     }
 
     /**
@@ -133,7 +137,7 @@ public abstract class Strategie {
     /**
      * Exécute la stratégie
      */
-    public void executeStrategie() {
+    public void createEvenements() {
         this.affectationsInitiales();
         this.ordonnerToutesLesInterventionsIncendies();
     }
