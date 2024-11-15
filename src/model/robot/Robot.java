@@ -239,15 +239,17 @@ public abstract class Robot {
         // Arrondit le temps de déplacement en minutes vers le haut pour garantir le temps nécessaire
         long tempsDeplacement = (long) Math.ceil(this.calculerTempsDeplacementMinute(this.positionApresEvenements, nouvellePosition));
 
-        // Ajoute un événement pour changer l'état du robot (en déplacement)
-        simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_DEPLACEMENT, this.dateApresEvenements));
-
+        if (tempsDeplacement > 0) {
+            // Ajoute un événement pour changer l'état du robot (en déplacement)
+            simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_DEPLACEMENT, this.dateApresEvenements));
+        }
+        
         // Met à jour la position et la date après le déplacement
         this.positionApresEvenements = nouvellePosition;
         this.dateApresEvenements += Math.max(tempsDeplacement, 1);
     
         // Ajoute un événement pour effectuer le déplacement effectif à la date prévue
-        simulateur.ajouteEvenement(new EvenementDeplacement(this, this.positionApresEvenements, this.dateApresEvenements));
+        simulateur.ajouteEvenement(new EvenementDeplacement(this, this.positionApresEvenements, tempsDeplacement, this.dateApresEvenements));
 
         // Met à jour la date pour le prochain événement
         this.dateApresEvenements++;
@@ -276,23 +278,10 @@ public abstract class Robot {
                     String.format("La case : %s n'est pas voisine de la position actuelle : %s (deplacerVersCase)", nouvellePosition,
                             this.positionApresEvenements));
         }
-        // Verifie que la case d'arrivée est accessible
-        this.checkPosition(nouvellePosition, this.carte);
 
-        // Arrondit le temps de déplacement en minutes vers le haut pour garantir le temps nécessaire
-        long tempsDeplacement = (long) Math.ceil(this.calculerTempsDeplacementMinute(this.positionApresEvenements, nouvellePosition));
-
-        simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_DEPLACEMENT, this.dateApresEvenements)); // Le robot est en état "EN_DEPLACEMENT" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsDeplacement
-
-        this.positionApresEvenements = nouvellePosition;
-        this.dateApresEvenements += Math.max(tempsDeplacement, 1);
-    
-        // Ajoute un événement pour effectuer le déplacement effectif à la date prévue
-        simulateur.ajouteEvenement(new EvenementDeplacement(this, this.positionApresEvenements, this.dateApresEvenements));
-
-        this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
-
+        effectuerDeplacement(simulateur, nouvellePosition);
     }
+
 
     /*
      * Crée les évenements nécessaires afin d'effectuer un déplacement vers une case donnée en utilisant l'algorithme A*
@@ -317,10 +306,13 @@ public abstract class Robot {
         int quantiteEauDeversee = Math.min(this.getNiveauEau(), incendie.getQuantiteEau());
         long tempsIntervention =  quantiteEauDeversee / this.getInterUnitaire();
 
-        simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_DEVERSAGE, this.dateApresEvenements));// Le robot est en état "EN_DEVERSAGE" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsIntervention
-
-        this.dateApresEvenements += Math.max(1, tempsIntervention);
-        simulateur.ajouteEvenement(new EvenementDeverserEau(this, incendie, quantiteEauDeversee, this.dateApresEvenements));
+        if (tempsIntervention > 0){
+            // Le robot est en état "EN_DEVERSAGE" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsIntervention
+            simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_DEVERSAGE, this.dateApresEvenements));
+        }
+        
+        this.dateApresEvenements += tempsIntervention;
+        simulateur.ajouteEvenement(new EvenementDeverserEau(this, incendie, quantiteEauDeversee, tempsIntervention, this.dateApresEvenements));
 
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
     }
@@ -328,11 +320,14 @@ public abstract class Robot {
 
     public void createEvenementsRemplirReservoir(Simulateur simulateur){
         long tempsRemplissage = this.getTempsRemplissage();
-
-        simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_REMPLISSAGE, this.dateApresEvenements)); // Le robot est en état "EN_REMPLISSAGE" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsRemplissage
-
-        this.dateApresEvenements += Math.max(tempsRemplissage, 1);
-        simulateur.ajouteEvenement(new EvenementRemplirReservoir(this, this.dateApresEvenements));
+        
+        if (tempsRemplissage > 0 ){
+            // Le robot est en état "EN_REMPLISSAGE" entre la date this.dateApresEvenement et this.dateApresEvenement + tempsRemplissage
+            simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.EN_REMPLISSAGE, this.dateApresEvenements)); 
+        }
+        
+        this.dateApresEvenements += tempsRemplissage;
+        simulateur.ajouteEvenement(new EvenementRemplirReservoir(this, tempsRemplissage, this.dateApresEvenements));
 
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
     }
