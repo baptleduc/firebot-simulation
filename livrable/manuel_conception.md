@@ -15,7 +15,7 @@ Le Stratégie Pattern permet de définir une famille d’algorithmes, de les enc
 
 Le choix de l'algorithme utilisé se fait au moment de la configuration du scénario. Le robot dispose d'une classe qui utilise l'algorithme de recherche de chemin passé en argument via la méthode `robot.deplacementPlusCourtChemin`. Cette méthode applique l'algorithme de recherche sélectionné pour calculer et effectuer le déplacement du robot sur son chemin optimal.
 
-Afin de tester notre algo de plus court chemin, nous avons mis en place une carte 
+Afin de tester notre algo de plus court chemin, nous avons mis en place une carte. `make SimuScenario3` montre comment un robot peut choisir le chemin le plus court en évitant des cases ou il est plus lent.
 
 
 
@@ -72,5 +72,4 @@ Chaque événement de notre simulateur peut être encapsulé comme une commande 
 
 
 
-`make SimuScenario3` montre comment un robot peut choisir le chemin le plus court en évitant des cases ou il est plus lent.
 
