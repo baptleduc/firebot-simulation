@@ -15,7 +15,7 @@ Le Stratégie Pattern permet de définir une famille d’algorithmes, de les enc
 
 Le choix de l'algorithme utilisé se fait au moment de la configuration du scénario. Le robot dispose d'une classe qui utilise l'algorithme de recherche de chemin passé en argument via la méthode `robot.deplacementPlusCourtChemin`. Cette méthode applique l'algorithme de recherche sélectionné pour calculer et effectuer le déplacement du robot sur son chemin optimal.
 
-Afin de tester notre algo de plus court chemin, nous avons mis en place une carte. `make SimuScenario3` montre comment un robot peut choisir le chemin le plus court en évitant des cases ou il est plus lent.
+Afin de tester notre algo de plus court chemin, nous avons mis en place une carte. `make SimuScenario2` montre comment un robot peut choisir le chemin le plus court en évitant des cases ou il est plus lent.
 
 
 
@@ -24,7 +24,11 @@ Afin de tester notre algo de plus court chemin, nous avons mis en place une cart
 
 #### Strategie :
 
-TODO mathéo
+Les stratégies permettent de définir des comportements spécifiques pour les robots. Chaque stratégie est une sous-classe de la classe abstraite `Strategie` qui déclare notamment les méthodes `affectationsInitiales` et `finEvenementsAction` qui devront être implémentées par les classes filles.
+
+La première méthode est appelée au début de l'exécution de la stratégie, elle permet d'affecter un incendie à chaque robot afin de créer les événements nécessaires à leur extinction par ledit robot.
+
+La seconde méthode est appelée automatiquement par le robot lorsqu'il a fini les événements qui lui ont été attribués. Elle permet alors de définir de nouvelles actions afin d'éventuellement éteindre les incendies restants.
 
 
 ##### Avantages
