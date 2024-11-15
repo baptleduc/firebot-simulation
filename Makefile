@@ -61,6 +61,14 @@ SimuStrategieElementaireDesert:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
 	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/desertOfDeath-20x20.map -strategie elementaire
 
+SimuStrategieElementaireMushroom:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/mushroomOfHell-20x20.map -strategie elementaire
+
+SimuStrategieElementaireSpiral:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
+	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/spiralOfMadness-50x50.map -strategie elementaire
+
 SimuStrategieEvoluee:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
 	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/carteSujet.map -strategie evoluee

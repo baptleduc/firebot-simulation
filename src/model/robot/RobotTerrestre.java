@@ -35,17 +35,31 @@ public abstract class RobotTerrestre extends Robot {
     public Case obtenirCaseRemplissageAssocié(Case pointEau, PlusCourtChemin algo, Carte carte) throws IllegalArgumentException {
         List<Case> destinationsPossibles = new ArrayList<>();
         for (Direction direction : Direction.values()){
-            Case voisin = carte.getVoisin(pointEau, direction);
+            Case voisin;
+            try {
+                voisin = carte.getVoisin(pointEau, direction);
+            } catch (Exception e) {
+                continue;
+            }
             if (voisin.getNature() == NatureTerrain.EAU){
                 continue;
             }
             destinationsPossibles.add(voisin);
         }
+        double tempsMin = Double.MAX_VALUE;
+        List<Case> cheminMin = null;
         for (Case destination : destinationsPossibles){
             List<Case> chemin = algo.creeChemin(this, this.position, destination);
             if(chemin != null){
-                return destination;
+                double temps = algo.tempsDeplacement(this, this.position, destination);
+                if (temps < tempsMin){
+                    tempsMin = temps;
+                    cheminMin = chemin;
+                }
             }
+        }
+        if (cheminMin != null){
+            return cheminMin.get(cheminMin.size() - 1);
         }
         throw new IllegalArgumentException("Le robot ne peut pas atteindre de point de remplissage associé à ce point d'eau.");
     }

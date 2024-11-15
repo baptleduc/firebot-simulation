@@ -1,9 +1,7 @@
 package strategie;
 
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import model.DonneesSimulation;
@@ -28,6 +26,7 @@ public class StrategieEvoluee extends Strategie {
      */
     public StrategieEvoluee(Simulateur simulateur, DonneesSimulation model) {
         super(simulateur, model);
+        this.carte = model.getCarte();
     }
 
     /**
@@ -40,7 +39,7 @@ public class StrategieEvoluee extends Strategie {
         List<Case> pointsRemplissage = new ArrayList<>();
         for (Case c : this.pointsEau) {
             try {
-                pointsRemplissage.add(robot.obtenirCaseRemplissageAssocié(c, algoPlusCourtChemin, carte));
+                pointsRemplissage.add(robot.obtenirCaseRemplissageAssocié(c, algoPlusCourtChemin, this.carte));
             } catch (Exception e) {
                 continue;
             }

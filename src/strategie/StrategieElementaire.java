@@ -1,12 +1,9 @@
 package strategie;
 
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import model.DonneesSimulation;
-import model.map.Carte;
 import model.map.Case;
 import model.map.Incendie;
 import model.robot.Robot;
