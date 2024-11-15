@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import model.DonneesSimulation;
 import model.map.Carte;
 import model.map.Case;
 import model.map.Incendie;
@@ -25,10 +26,8 @@ public class StrategieEvoluee extends Strategie {
      * @param robots     les robots disponibles
      * @param pointsEau  les points d'eau disponibles
      */
-    public StrategieEvoluee(Simulateur simulateur, Carte carte, Map<Case, Incendie> incendies, List<Robot> robots,
-            List<Case> pointsEau) {
-        super(simulateur, carte, incendies, robots, pointsEau);
-        this.carte = carte;
+    public StrategieEvoluee(Simulateur simulateur, DonneesSimulation model) {
+        super(simulateur, model);
     }
 
     /**
