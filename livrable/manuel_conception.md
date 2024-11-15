@@ -19,10 +19,8 @@ Afin de tester notre algo de plus court chemin, nous avons mis en place une cart
 
 
 
-![Diagramme UML Plus Court Chemin]()
-
-
 #### Strategie :
+![Diagramme UML Strategie](./assets/strat.png)
 
 Les stratégies permettent de définir des comportements spécifiques pour les robots. Chaque stratégie est une sous-classe de la classe abstraite `Strategie` qui déclare notamment les méthodes `affectationsInitiales` et `finEvenementsAction` qui devront être implémentées par les classes filles.
 
@@ -70,10 +68,13 @@ Chaque événement de notre simulateur peut être encapsulé comme une commande 
 - Les événements deviennent des objets autonomes, faciles à manipuler, enregistrer ou réorganiser.
 - Simplifie l’ajout de nouvelles logiques d’événements.
 
+## 3. Bugs connus
 
+- Latence lors du lancement de la simulation sur la carte `spiralOfMadness`.
+- Problèmes d'affichage liés aux incendies.
+- Problème de navigation des robots : certains ne parviennent pas à trouver de chemin alors qu’un itinéraire valide existe.
+- Optimisation insuffisante des trajets : le chemin calculé comme le plus court s’avère parfois inefficace, notamment sur la carte `spiralOfMadness`.
 
+## 4. Diagramme complet
 
-
-
-
-
+![Diagramme UML Complet](./assets/diagramme_uml.svg)
