@@ -12,6 +12,12 @@ public class RobotChenilles extends RobotTerrestre {
     private static final int TEMPS_REMPLISSAGE = 5;
     private static final int INTER_UNITAIRE = 6000 / 8; // Intervention unitaire : 6000/8 litres en 1min
 
+    /**
+     * Constructeur de la classe RobotChenilles
+     * @param position la position initiale du robot
+     * @param carte la carte associée
+     * @param vitesse la vitesse du robot
+     */
     public RobotChenilles(Case position, Carte carte, double vitesse) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);
     }

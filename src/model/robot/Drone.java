@@ -11,16 +11,27 @@ public class Drone extends RobotAerien {
     public static final double VITESSE_DEFAUT = 100;
     private static final double VITESSE_MAX = 150;
     private static final int TEMPS_REMPLISSAGE = 30;
-    private static int INTER_UNITAIRE = CAPACITE_RESERVOIR * 60 / 30; // Intervention unitaire : 6000000/30 litres en 1 min
+    private static int INTER_UNITAIRE = CAPACITE_RESERVOIR * 60 / 30; // Intervention unitaire : 6000000/30 litres en 1
+                                                                      // min
 
+    /**
+     * Constructeur de la classe Drone
+     * 
+     * @param position la position initiale du robot
+     * @param carte    la carte associée
+     * @param vitesse  la vitesse du robot
+     */
     public Drone(Case position, Carte carte, double vitesse) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);
     }
 
     /**
-     * Vérifie si une position donnée est valide sur la carte avant la création d'un robot.
-     * Cette méthode est statique, car elle est appelée une factory method, dans un contexte où une instance de 
+     * Vérifie si une position donnée est valide sur la carte avant la création d'un
+     * robot.
+     * Cette méthode est statique, car elle est appelée une factory method, dans un
+     * contexte où une instance de
      * Drone n'existe pas encore, pour la validation initiale de la position.
+     * 
      * @param position la case à vérifier.
      * @param carte    la carte dans laquelle se trouve la case.
      * @throws IllegalArgumentException si la case n'existe pas ou si elle est de
@@ -35,16 +46,18 @@ public class Drone extends RobotAerien {
     }
 
     /**
-     * Implémentation de la méthode abstraite `checkPosition` définie dans la classe `Robot`.
-     * Cette méthode vérifie si une position est valide pour un Drone en appelant 
+     * Implémentation de la méthode abstraite `checkPosition` définie dans la classe
+     * `Robot`.
+     * Cette méthode vérifie si une position est valide pour un Drone en appelant
      * `checkPositionStatic`, qui gère la logique de validation spécifique.
      *
      * @param position La case à vérifier.
      * @param carte    La carte dans laquelle se trouve la case.
-     * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU ou ROCHE.
-     */ 
+     * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU
+     *                                  ou ROCHE.
+     */
     @Override
-    public void checkPosition(Case position, Carte carte) throws IllegalArgumentException{
+    public void checkPosition(Case position, Carte carte) throws IllegalArgumentException {
         Drone.checkPositionStatic(position, carte);
     }
 
@@ -54,14 +67,12 @@ public class Drone extends RobotAerien {
     }
 
     @Override
-    public String getImagePath()
-    {
+    public String getImagePath() {
         return "./images/robot/robot_drone.png";
     }
 
     @Override
-    public Robot clone()
-    {
+    public Robot clone() {
         return new Drone(this.getPosition(), super.carte, super.vitesse);
     }
 

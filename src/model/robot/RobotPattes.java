@@ -12,6 +12,11 @@ public class RobotPattes extends RobotTerrestre {
     private static final int TEMPS_REMPLISSAGE = 0;
     private static final int INTER_UNITAIRE = 600; // Intervention unitaire : 600 litres en 1 min
 
+    /**
+     * Constructeur de la classe RobotPattes
+     * @param position la position initiale du robot
+     * @param carte la carte associée
+     */
     public RobotPattes(Case position, Carte carte) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, VITESSE_DEFAUT, VITESSE_MAX, TEMPS_REMPLISSAGE, carte,
                 INTER_UNITAIRE);
@@ -30,6 +35,7 @@ public class RobotPattes extends RobotTerrestre {
     public Robot clone() {
         return new RobotPattes(this.getPosition(), super.carte);
     }
+
     /**
      * Redéfinit la méthode de déversement pour le robot à pattes.
      * 
@@ -50,14 +56,18 @@ public class RobotPattes extends RobotTerrestre {
     }
 
     /**
-     * Vérifie si une position donnée est valide sur la carte avant la création d'un robot.
-     * Cette méthode est statique, car elle est appelée une factory method, dans un contexte où une instance de 
+     * Vérifie si une position donnée est valide sur la carte avant la création d'un
+     * robot.
+     * Cette méthode est statique, car elle est appelée une factory method, dans un
+     * contexte où une instance de
      * RobotPattes n'existe pas encore, pour la validation initiale de la position.
      *
      * @param position La case à vérifier.
      * @param carte    La carte dans laquelle se trouve la case.
-     * @throws IllegalArgumentException si la case n'existe pas sur la carte ou est de 
-     *                                  type EAU ou ROCHE, rendant la position invalide.
+     * @throws IllegalArgumentException si la case n'existe pas sur la carte ou est
+     *                                  de
+     *                                  type EAU ou ROCHE, rendant la position
+     *                                  invalide.
      */
     private static void checkPositionStatic(Case position, Carte carte) throws IllegalArgumentException {
         if (!(carte.caseExiste(position))) {
@@ -71,22 +81,24 @@ public class RobotPattes extends RobotTerrestre {
     }
 
     /**
-     * Implémentation de la méthode abstraite `checkPosition` définie dans la classe `Robot`.
-     * Cette méthode vérifie si une position est valide pour un RobotPattes en appelant 
+     * Implémentation de la méthode abstraite `checkPosition` définie dans la classe
+     * `Robot`.
+     * Cette méthode vérifie si une position est valide pour un RobotPattes en
+     * appelant
      * `checkPositionStatic`, qui gère la logique de validation spécifique.
      *
      * @param position La case à vérifier.
      * @param carte    La carte dans laquelle se trouve la case.
-     * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU ou ROCHE.
+     * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU
+     *                                  ou ROCHE.
      */
     @Override
-    public void checkPosition(Case position, Carte carte){
+    public void checkPosition(Case position, Carte carte) {
         RobotPattes.checkPositionStatic(position, carte);
     }
 
     @Override
-    public String getImagePath()
-    {
+    public String getImagePath() {
         return "./images/robot/robot_pattes.png";
     }
 

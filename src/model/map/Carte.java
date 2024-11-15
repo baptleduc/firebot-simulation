@@ -6,6 +6,14 @@ public class Carte {
     private int tailleCases;
     private Case[][] cases;
 
+    /**
+     * Constructeur de la classe Carte.
+     * 
+     * @param nbLignes    le nombre de lignes de la carte.
+     * @param nbColonnes  le nombre de colonnes de la carte.
+     * @param tailleCases la taille des cases de la carte.
+     * @param cases       les cases de la carte.
+     */
     public Carte(int nbLignes, int nbColonnes, int tailleCases, Case[][] cases) {
         this.nbLignes = nbLignes;
         this.nbColonnes = nbColonnes;
@@ -26,13 +34,29 @@ public class Carte {
 
     }
 
-    public Case getCase (int lig, int col) throws IllegalArgumentException {
+    /**
+     * Retourne la case située aux indices donnés.
+     * 
+     * @param lig la ligne de la case.
+     * @param col la colonne de la case.
+     * @return la case située aux indices donnés.
+     * @throws IllegalArgumentException
+     */
+    public Case getCase(int lig, int col) throws IllegalArgumentException {
         if (!estIndiceValide(lig, col)) {
             throw new IllegalArgumentException("Indices de case invalides : " + lig + ", " + col);
         }
         return this.cases[lig][col];
     }
 
+    /**
+     * Retourne la case voisine de la case source dans la direction donnée.
+     * 
+     * @param src la case source.
+     * @param dir la direction du voisin.
+     * @return la case voisine.
+     * @throws IllegalArgumentException
+     */
     public Case getVoisin(Case src, Direction dir) throws IllegalArgumentException {
         int lig = src.getLigne();
         int col = src.getColonne();

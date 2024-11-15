@@ -11,12 +11,19 @@ import model.map.Direction;
 
 class NoeudAstar implements Comparable<NoeudAstar> {
 
-
     public Case caseNoeud;
     public double cout;
     public double heuristique;
     public NoeudAstar noeudPrecedent;
 
+    /**
+     * Constructeur de la classe NoeudAstar
+     * 
+     * @param caseNoeud       la case du noeud
+     * @param cout            le cout du noeud
+     * @param heuristique     l'heuristique du noeud
+     * @param noeudPrecedente le noeud précédent
+     */
     public NoeudAstar(Case caseNoeud, double cout, double heuristique, NoeudAstar noeudPrecedente) {
         this.caseNoeud = caseNoeud;
         this.cout = cout;
@@ -45,12 +52,22 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
 
     private Carte carte;
 
+    /**
+     * Constructeur de la classe PlusCourtCheminAstar
+     * 
+     * @param carte la carte associée
+     */
     public PlusCourtCheminAstar(Carte carte) {
-
         this.carte = carte;
-
     }
 
+    /**
+     * Calcule la distance entre deux cases
+     * 
+     * @param case1 la première case
+     * @param case2 la deuxième case
+     * @return la distance entre les deux cases
+     */
     private static double calculerDistance(Case case1, Case case2) {
         return Math.abs(case1.getLigne() - case2.getLigne()) + Math.abs(case1.getColonne() - case2.getColonne());
     }
@@ -67,6 +84,13 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
         return ndAstar.cout;
     }
 
+    /**
+     * Crée un chemin entre deux cases pour un robot donné.
+     * 
+     * @param robot       le robot associé
+     * @param caseDepart  la case de départ
+     * @param caseArrivee la case d'arrivée
+     */
     public List<Case> creeChemin(Robot robot, Case caseDepart, Case caseArrivee) {
         NoeudAstar noeud = executeAstar(robot, caseDepart, caseArrivee);
 
@@ -84,6 +108,14 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
         return chemin;
     }
 
+    /**
+     * Execute l'algorithme A* pour trouver le plus court chemin entre deux cases
+     * 
+     * @param robot       le robot associé
+     * @param caseDepart  la case de départ
+     * @param caseArrivee la case d'arrivée
+     * @return le noeud d'arrivée
+     */
     private NoeudAstar executeAstar(Robot robot, Case caseDepart, Case caseArrivee) {
 
         try {

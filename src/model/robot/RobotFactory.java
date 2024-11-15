@@ -12,6 +12,15 @@ import java.util.NoSuchElementException;
  */
 public class RobotFactory {
 
+    /**
+     * Permet d'obtenir une instance du type de robot souhaité.
+     * 
+     * @param typeRobot    le type de robot à créer
+     * @param caseCourante la case sur laquelle le robot doit être positionné
+     * @param carte        la carte dans laquelle le robot évolue
+     * @param vitesseLue   la vitesse du robot
+     * @return
+     */
     public static Robot getRobot(String typeRobot, Case caseCourante, Carte carte, double vitesseLue) {
 
         Robot newRobot;
@@ -40,7 +49,4 @@ public class RobotFactory {
         return newRobot;
     }
 
-
-    
-    
 }

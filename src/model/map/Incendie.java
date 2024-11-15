@@ -9,6 +9,12 @@ public class Incendie {
 
     private Color drawColor;
 
+    /**
+     * Constructeur de la classe Incendie.
+     * 
+     * @param position    la position de l'incendie.
+     * @param quantiteEau la quantité d'eau nécessaire pour éteindre l'incendie.
+     */
     public Incendie(Case position, int quantiteEau) {
         this.position = position;
         this.quantiteEau = quantiteEau;
@@ -23,20 +29,31 @@ public class Incendie {
         return this.drawColor;
     }
 
-    public int getQuantiteEau(){
+    public int getQuantiteEau() {
         return this.quantiteEau;
     }
 
-    public void eteindre(int quantiteEau){
+    /**
+     * Eteint l'incendie en diminuant la quantité d'eau nécessaire pour l'éteindre.
+     * 
+     * @param quantiteEau la quantité d'eau utilisée
+     */
+    public void eteindre(int quantiteEau) {
         this.quantiteEau -= quantiteEau;
     }
 
+    /**
+     * Clone l'incendie.
+     */
     public Incendie clone() {
         Incendie clone = new Incendie(this.position, this.quantiteEau);
         return clone;
     }
 
-    public void reset(){
+    /**
+     * Réinitialise la quantité d'eau nécessaire pour éteindre l'incendie.
+     */
+    public void reset() {
         this.quantiteEau = quantiteInitiale;
     }
 

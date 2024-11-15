@@ -1,13 +1,18 @@
 package event;
 
-public abstract class Evenement implements Comparable<Evenement>{
+public abstract class Evenement implements Comparable<Evenement> {
     private long date;
 
-    public Evenement(long date){
+    /**
+     * Constructeur de la classe Evenement.
+     * 
+     * @param date la date de l'événement.
+     */
+    public Evenement(long date) {
         this.date = date;
     }
 
-    public long getDate(){
+    public long getDate() {
         return this.date;
     }
 
@@ -17,9 +22,9 @@ public abstract class Evenement implements Comparable<Evenement>{
      * @return une copie de cet {@code Evenement}.
      */
     public abstract Evenement clone();
-    
+
     @Override
-    public int compareTo(Evenement e){
+    public int compareTo(Evenement e) {
         return Long.compare(this.date, e.date);
     }
 

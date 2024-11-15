@@ -16,6 +16,14 @@ import java.util.zip.DataFormatException;
 
 public class TestSimulateur {
 
+    /**
+     * Crée un scénario en fonction du numéro de scénario
+     * @param numScenario le numéro du scénario
+     * @param simulateur le simulateur associé
+     * @param model le modèle associé
+     * @return le scénario créé
+     * @throws IllegalArgumentException
+     */
     public static Scenario createScenario(String numScenario, Simulateur simulateur, DonneesSimulation model) throws IllegalArgumentException {
         switch (numScenario) {
             case "0":

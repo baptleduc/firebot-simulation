@@ -8,6 +8,13 @@ public class Case {
     private NatureTerrain nature;
     private Color drawColor;
 
+    /**
+     * Constructeur de la classe Case.
+     * 
+     * @param ligne         la ligne de la case.
+     * @param colonne       la colonne de la case.
+     * @param natureTerrain la nature de la case.
+     */
     public Case(int ligne, int colonne, NatureTerrain natureTerrain) {
         this.ligne = ligne;
         this.colonne = colonne;
