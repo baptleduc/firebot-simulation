@@ -72,3 +72,5 @@ Chaque événement de notre simulateur peut être encapsulé comme une commande 
 
 
 
+`make SimuScenario3` montre comment un robot peut choisir le chemin le plus court en évitant des cases ou il est plus lent.
+

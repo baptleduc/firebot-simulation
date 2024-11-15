@@ -15,6 +15,6 @@ public class Scenario3 implements Scenario {
         PlusCourtCheminAstar algo = new PlusCourtCheminAstar(model.getCarte());
 
         // Déplacement du robot vers le coin opposé
-        robot.deplacementPlusCourtChemin(simulateur, model.getCarte().getCase(4, 7), algo);
+        robot.deplacementPlusCourtChemin(simulateur, model.getCarte().getCase(6, 6), algo);
     }
 }
