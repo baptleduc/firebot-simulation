@@ -20,6 +20,6 @@ public class Scenario2 implements Scenario {
 
             PlusCourtCheminAstar algo = new PlusCourtCheminAstar(model.getCarte());
             
-            robot.deplacementPlusCourtChemin(simulateur, model.getCarte().getCase(0, 43),algo);
+            robot.deplacementPlusCourtChemin(simulateur, model.getCarte().getCase(7, 0),algo);
     }
 }
