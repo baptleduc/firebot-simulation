@@ -34,9 +34,12 @@ public abstract class Strategie {
      */
     public Strategie(Simulateur simulateur, Carte carte, Map<Case, Incendie> incendies, List<Robot> robots,
             List<Case> pointsEau) {
+
+                for (Incendie incendie : incendies.values()) {
+                    this.incendies.put(incendie.getPosition(), incendie);
+                }
         this.simulateur = simulateur;
         this.algoPlusCourtChemin = new PlusCourtCheminAstar(carte);
-        this.incendies = incendies;
         this.robots = robots;
         this.pointsEau = pointsEau;
     }
