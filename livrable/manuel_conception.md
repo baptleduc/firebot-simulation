@@ -2,7 +2,7 @@
 # 📖 Manuel de Conception
 
 ## 1. Introduction
-Ce projet, développé pour le module de POO à Ensimag, vise à modéliser une simulation utilisant des robots et des scénarios de déplacement, avec une interface graphique interactive. Les choix de conception se sont concentrés sur la modularité, la réutilisabilité des composants, et la flexibilité de la simulation. 🤖💡
+Ce projet, développé pour le module de POO à Ensimag, vise à modéliser une simulation utilisant des robots et des scénarios de déplacement, avec une interface graphique interactive. Les choix de conception se sont concentrés sur les principes SOLID afin d'avoir un code maintenable, evolutif et flexible.
 
 ## 2. Choix de conception
 
