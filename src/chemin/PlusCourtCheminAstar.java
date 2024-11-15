@@ -41,6 +41,9 @@ class NoeudAstar implements Comparable<NoeudAstar> {
 
 }
 
+/**
+ * Classe PlusCourtCheminAstar permettant de calculer le plus court chemin en utilisant l'algorithme A*.
+ */
 public class PlusCourtCheminAstar implements PlusCourtChemin {
 
     private Carte carte;
@@ -58,6 +61,11 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
     /**
      * Calcule le temps de déplacement entre deux cases pour un robot donné.
      * une erreur est levée si le robot ne peut pas effectuer le déplacement.
+     * 
+     * @param robot
+     * @param caseDepart
+     * @param caseArrivee
+     * @return le temps de déplacement en minutes.
      */
     public double tempsDeplacement(Robot robot, Case caseDepart, Case caseArrivee) {
         NoeudAstar ndAstar = executeAstar(robot, caseDepart, caseArrivee);
@@ -67,6 +75,13 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
         return ndAstar.cout;
     }
 
+    /**
+     * Execute A* et reconstruit le chemin entre deux cases.
+     * 
+     * @param robot
+     * @param caseDepart
+     * @param caseArrivee
+     */
     public List<Case> creeChemin(Robot robot, Case caseDepart, Case caseArrivee) {
         NoeudAstar noeud = executeAstar(robot, caseDepart, caseArrivee);
 
@@ -84,6 +99,13 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
         return chemin;
     }
 
+    /**
+     * Execute l'algorithme A* pour retrouver le plus court chemin entre deux cases.
+     * @param robot
+     * @param caseDepart
+     * @param caseArrivee
+     * @return
+     */
     private NoeudAstar executeAstar(Robot robot, Case caseDepart, Case caseArrivee) {
 
         try {

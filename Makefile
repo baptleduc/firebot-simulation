@@ -77,6 +77,10 @@ SimuStrategieEvolueeSpiral:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/simu/TestSimulateur.java
 	java -ea -classpath bin:lib/gui.jar simu/TestSimulateur cartes/spiralOfMadness-50x50.map -strategie evoluee
 
+
+doc: $(shell find src -name "*.java")
+	javadoc -d doc -sourcepath src -classpath lib/gui.jar $(shell find src -name "*.java")
+
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:lib/gui.jar TestInvader

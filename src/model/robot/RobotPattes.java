@@ -12,6 +12,12 @@ public class RobotPattes extends RobotTerrestre {
     private static final int TEMPS_REMPLISSAGE = 0;
     private static final int INTER_UNITAIRE = 600; // Intervention unitaire : 600 litres en 1 min
 
+    /**
+     * Constructeur de la classe RobotPattes.
+     * 
+     * @param position La position initiale du robot sur la carte. Cela détermine où le robot commence dans le monde simulé.
+     * @param carte La carte sur laquelle le robot évolue. La carte permet de déterminer les cases accessibles et les actions possibles du robot.
+     */
     public RobotPattes(Case position, Carte carte) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, VITESSE_DEFAUT, VITESSE_MAX, TEMPS_REMPLISSAGE, carte,
                 INTER_UNITAIRE);

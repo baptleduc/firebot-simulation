@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe DonneesSimulation contenant les données de la simulation tel 
+ * que la carte, les robots, les incendies et les points d'eau.
+ */
 public class DonneesSimulation {
     private Carte carte;
     private List<Robot> robots = new ArrayList<Robot>();
@@ -19,7 +23,7 @@ public class DonneesSimulation {
         return;
     }
 
-    /*
+    /**
      * Clone l'ojet DonneesSimulation
      * @return DonneesSimulation 
      */
@@ -42,10 +46,12 @@ public class DonneesSimulation {
         
     }
 
+
     public void setCarte(Carte carte) {
         this.carte = carte;
     }
 
+   
     public void setIncendies(List<Incendie> incendies) {
         this.incendies = incendies;
         for (Incendie incendie : incendies) {
@@ -61,6 +67,10 @@ public class DonneesSimulation {
         return this.carte;
     }
 
+    /**
+     * Retourne une liste des incendies par case
+     * @return Map<Case, Incendie>
+     */
     public Map<Case, Incendie> getIncendiesParCase() {
         return this.incendiesParCase;
     }

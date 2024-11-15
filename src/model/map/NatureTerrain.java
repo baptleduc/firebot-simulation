@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Enumération représentant les différents types de terrain sur la carte.
+ */
 public enum NatureTerrain {
     EAU,
     FORET,
@@ -11,7 +14,9 @@ public enum NatureTerrain {
     TERRAIN_LIBRE,
     HABITAT;
 
-    // Map pour stocker les couleurs associées à chaque type de terrain
+    /**
+     *  Map pour stocker les couleurs par défauts (si la gui n'utilise pas leurs images respectives) associées à chaque type de terrain
+     */
     private static final Map<NatureTerrain, Color> drawTerrainColors = new HashMap<>();
 
     static {

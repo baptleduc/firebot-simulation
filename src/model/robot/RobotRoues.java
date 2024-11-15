@@ -11,6 +11,13 @@ public class RobotRoues extends RobotTerrestre {
     private static final int TEMPS_REMPLISSAGE = 5;
     private static final int INTER_UNITAIRE = 6000 / 5; //Intervention unitaire : 6000/5 litres en 1 min
 
+    /**
+     * Constructeur de la classe RobotRoues.
+     * 
+     * @param position La position initiale du robot sur la carte. Cela détermine où le robot commence dans le monde simulé.
+     * @param carte La carte sur laquelle le robot évolue. La carte permet de déterminer les cases accessibles et les actions possibles du robot.
+     * @param vitesse La vitesse initiale du robot à roues, exprimée en km/min. Cette valeur définit la rapidité du robot pour se déplacer sur la carte.
+     */
     public RobotRoues(Case position, Carte carte, double vitesse) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);
     }

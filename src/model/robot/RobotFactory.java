@@ -6,9 +6,8 @@ import java.util.NoSuchElementException;
 /**
  * Classe responsable de la création d'instances de différents types de robots.
  * (Factory Pattern)
- * La classe fournit une méthode statique pour obtenir un robot en fonction du
- * type spécifié,
- * de la case courante, de la carte et de la vitesse.
+ * La classe a une méthode statique pour obtenir un robot en fonction du
+ * type spécifié, de la case courante, de la carte et de la vitesse.
  */
 public class RobotFactory {
 
