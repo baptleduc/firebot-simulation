@@ -11,7 +11,7 @@ Ce projet, développé pour le module de POO à Ensimag, vise à modéliser une 
 Le Stratégie Pattern permet de définir une famille d’algorithmes, de les encapsuler et de les rendre interchangeables. Nous avons utilisé ce patron pour les algorithmes de plus courts chemin et pour l'implémentation des différentes stratégies: 
 
 #### Plus court chemin: 
-![Diagramme UML Plus Court Chemin](../doc/assets/plus_courts_chemins.png)
+![Diagramme UML Plus Court Chemin](./assets/plus_courts_chemins.png)
 
 Le choix de l'algorithme utilisé se fait au moment de la configuration du scénario. Le robot dispose d'une classe qui utilise l'algorithme de recherche de chemin passé en argument via la méthode `robot.deplacementPlusCourtChemin`. Cette méthode applique l'algorithme de recherche sélectionné pour calculer et effectuer le déplacement du robot sur son chemin optimal.
 
