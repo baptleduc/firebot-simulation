@@ -39,7 +39,7 @@ public abstract class RobotAerien extends Robot {
         if (terrain == NatureTerrain.EAU) {
             this.setNiveauEau(this.getCapaciteReservoir());
         } else {
-            System.out.println("Le robot aérien ne peut pas se remplir car il n'est pas sur une case d'eau !");
+            System.err.println("Le robot aérien ne peut pas se remplir car il n'est pas sur une case d'eau !");
         }
     }
 

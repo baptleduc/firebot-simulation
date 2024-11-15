@@ -36,9 +36,6 @@ public abstract class RobotTerrestre extends Robot {
         for (Direction direction : Direction.values()) {
             Case voisin = carte.getVoisin(posCourante, direction);
             if (voisin.getNature() == NatureTerrain.EAU) {
-                System.out.println(String.format("La case voisine : %s est une case eau", voisin));
-                System.out.println(String.format("Remplissage du robot pendant : %d min", this.getTempsRemplissage()));
-
                 this.setNiveauEau(this.getCapaciteReservoir());
                 return;
             }

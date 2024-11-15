@@ -340,8 +340,6 @@ public abstract class Robot {
             throw new IllegalArgumentException("Le robot ne peut pas atteindre la destination.");
         }
         for (Case caseDestination : chemin) {
-            // print("Case destination : " + caseDestination);
-            // System.out.println("Case destination : " + caseDestination);
             this.deplacerVersCase(simulateur, caseDestination);
         }
     }
