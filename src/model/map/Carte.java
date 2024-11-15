@@ -64,11 +64,20 @@ public class Carte {
         int lig = src.getLigne();
         int col = src.getColonne();
         switch (dir) {
-            case NORD -> lig--;
-            case SUD -> lig++;
-            case EST -> col++;
-            case OUEST -> col--;
-            default -> throw new IllegalArgumentException("Direction inconnue : " + dir);
+            case NORD:
+                lig--;
+                break;
+            case SUD:
+                lig++;
+                break;
+            case EST:
+                col++;
+                break;
+            case OUEST: 
+                col--;
+                break;
+            default :
+                throw new IllegalArgumentException("Direction inconnue : " + dir);
         }
 
         return this.getCase(lig, col);
@@ -86,10 +95,18 @@ public class Carte {
         int col = src.getColonne();
 
         switch (dir) {
-            case NORD -> lig--;
-            case SUD -> lig++;
-            case EST -> col++;
-            case OUEST -> col--;
+            case NORD:
+                lig--;
+                break;
+            case SUD:
+                lig++;
+                break;
+            case EST:
+                col++;
+                break;
+            case OUEST :
+                col--;
+                break;
         }
         return estIndiceValide(lig, col);
     }
