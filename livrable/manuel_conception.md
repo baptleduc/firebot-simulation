@@ -61,3 +61,5 @@ Le choix de l'algorithme utilisé se fait au moment de la configuration du scén
 
 Afin de tester notre algo de plus court chemin, nous avons mis en place une carte 
 
+`make SimuScenario3` montre comment un robot peut choisir le chemin le plus court en évitant des cases ou il est plus lent.
+
