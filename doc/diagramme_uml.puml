@@ -373,4 +373,80 @@ package chemin{
 
 }
 
+package strategie{
+    abstract class Strategie {
+        # Simulateur simulateur
+        # PlusCourtCheminAstar algoPlusCourtChemin
+        # Map<Case, Incendie> incendies
+        # Map<Robot, Incendie> affectationRobots
+        # List<Robot> robots
+        # List<Case> pointsEau
+        # Carte carte
+    
+        Strategie(Simulateur simulateur, DonneesSimulation model)
+        + void createEvenements()
+        # Case obtenirCaseLaPlusProche(Robot robot, Case caseDepart, List<Case> cases)
+        # void ordonnerInterventionIncendie(Robot robot, Incendie incendie)
+        # void ordonnerToutesLesInterventionsIncendies()
+        # void desaffecterRobot(Robot robot)
+        # void affecterRobot(Robot robot, Incendie incendie)
+        # abstract void affectationsInitiales()
+        + abstract void finEvenementsAction(Robot robot)
+    }
+    
+    Strategie ..|> Scenario
+    Strategie --> Simulateur
+    Strategie --> PlusCourtCheminAstar
+    Strategie --> Carte
+    Strategie --> DonneesSimulation
+    Strategie --> Case
+    Strategie --> Incendie
+    Strategie --> Robot
+    
+    class StrategieElementaire {
+        StrategieElementaire(Simulateur simulateur, DonneesSimulation model)
+        - void traiterIncendieEteint(Robot robot)
+        + void finEvenementsAction(Robot robot)
+        + void affectationsInitiales()
+    }
+    
+    StrategieElementaire --|> Strategie
+    
+    StrategieElementaire --> Simulateur
+    StrategieElementaire --> DonneesSimulation
+    StrategieElementaire --> Case
+    StrategieElementaire --> Incendie
+    StrategieElementaire --> Robot
+    
+    class StrategieEvoluee {
+        - Carte carte
+    
+        StrategieEvoluee(Simulateur simulateur, DonneesSimulation model)
+        - List<Case> obtenirPointsRemplissageAccessibles(Robot robot)
+        - double obtenirTempsExtinctionIncendie(Robot robot, Incendie incendie)
+        - void deplacementEtRemplissementReservoir(Robot robot)
+        - void traiterIncendieEteint(Robot robot)
+        - void assignerRobotPlusRapide(List<Robot> robots)
+        - Incendie trouverIncendieLePlusRapideAEteindre(Robot robot)
+        + void finEvenementsAction(Robot robot)
+        + void finRemplissementAction(Robot robot)
+        + void affectationsInitiales()
+    }
+    
+    StrategieEvoluee --|> Strategie
+    
+    StrategieEvoluee --> Simulateur
+    StrategieEvoluee --> DonneesSimulation
+    StrategieEvoluee --> Carte
+    StrategieEvoluee --> Case
+    StrategieEvoluee --> Incendie
+    StrategieEvoluee --> Robot
+    
+    interface FinInterventionAction {
+        {abstract} + void finIntervention(Robot robot)
+    }
+    
+    FinInterventionAction --> Robot
+}
+
 @enduml
