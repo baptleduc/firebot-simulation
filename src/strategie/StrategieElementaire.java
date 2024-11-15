@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.DonneesSimulation;
 import model.map.Carte;
 import model.map.Case;
 import model.map.Incendie;
@@ -22,9 +23,8 @@ public class StrategieElementaire extends Strategie {
      * @param robots     les robots disponibles
      * @param pointsEau  les points d'eau disponibles
      */
-    public StrategieElementaire(Simulateur simulateur, Carte carte, Map<Case, Incendie> incendies, List<Robot> robots,
-            List<Case> pointsEau) {
-        super(simulateur, carte, incendies, robots, pointsEau);
+    public StrategieElementaire(Simulateur simulateur, DonneesSimulation model) {
+        super(simulateur, model);
     }
 
     /**

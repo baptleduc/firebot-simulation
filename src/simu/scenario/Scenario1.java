@@ -8,8 +8,16 @@ import model.robot.Robot;
 import simu.Simulateur;
 
 public class Scenario1 implements Scenario {
-    @Override
-    public void createEvenements(Simulateur simulateur, DonneesSimulation model) {
+
+    private Simulateur simulateur;
+    private DonneesSimulation model;
+
+    public Scenario1(Simulateur simulateur, DonneesSimulation model){
+        this.simulateur = simulateur;
+        this.model = model;
+    }
+
+    public void createEvenements() {
         Robot robot = model.getRobots().get(1); // Choisir le deuxième robot
     
         // Déplacer le robot vers le NORD pour atteindre la case (5, 5)
