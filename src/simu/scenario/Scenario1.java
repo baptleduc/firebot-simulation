@@ -9,7 +9,16 @@ import simu.Simulateur;
 
 public class Scenario1 implements Scenario {
 
-    public void createEvenements(Simulateur simulateur, DonneesSimulation model) {
+    private Simulateur simulateur;
+    private DonneesSimulation model;
+
+    public Scenario1(Simulateur simulateur, DonneesSimulation model) {
+        this.simulateur = simulateur;
+        this.model = model;
+    }
+
+    @Override
+    public void createEvenements() {
         Robot robot = model.getRobots().get(1); // Choisir le deuxième robot
     
         // Déplacer le robot vers le NORD pour atteindre la case (5, 5)
@@ -35,5 +44,10 @@ public class Scenario1 implements Scenario {
         // Gérer l'incendie sur la case actuelle
         incendie = model.getIncendiesParCase().get(robot.getPositionApresEvenements());
         robot.createEvenementsInterventionIncendie(simulateur, incendie);
+    }
+
+    @Override
+    public void setModel(DonneesSimulation model) {
+        this.model = model;
     }
 }

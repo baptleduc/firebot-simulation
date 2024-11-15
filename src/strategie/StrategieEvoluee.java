@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import model.DonneesSimulation;
 import model.map.Carte;
 import model.map.Case;
 import model.map.Incendie;
@@ -14,7 +15,6 @@ import simu.Simulateur;
 
 public class StrategieEvoluee extends Strategie {
 
-    private Carte carte;
 
     /**
      * Constructeur de la classe StrategieEvoluee
@@ -25,10 +25,8 @@ public class StrategieEvoluee extends Strategie {
      * @param robots     les robots disponibles
      * @param pointsEau  les points d'eau disponibles
      */
-    public StrategieEvoluee(Simulateur simulateur, Carte carte, Map<Case, Incendie> incendies, List<Robot> robots,
-            List<Case> pointsEau) {
-        super(simulateur, carte, incendies, robots, pointsEau);
-        this.carte = carte;
+    public StrategieEvoluee(Simulateur simulateur, DonneesSimulation model) {
+        super(simulateur, model);
     }
 
     /**
@@ -184,7 +182,9 @@ public class StrategieEvoluee extends Strategie {
 
     @Override
     protected void affectationsInitiales() {
+        System.out.println("Robots disponibles : " + this.robots);
         List<Robot> copieRobots = new ArrayList<>(this.robots); // Copie modifiable de la liste des robots
+        System.out.println("Robot copie : " + copieRobots);
         while (!copieRobots.isEmpty()) {
             assignerRobotPlusRapide(copieRobots);
         }

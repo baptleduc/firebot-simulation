@@ -13,11 +13,14 @@ import event.Evenement;
 import event.EvenementErreur;
 import model.map.*;
 import model.robot.*;
+import simu.scenario.Scenario;
 
 public class Simulateur implements Simulable {
     private GUISimulator gui;
     private DonneesSimulation model;
+    private DonneesSimulation modelInit;
     private long dateSimulation;
+    private Scenario scenario;
     private PriorityQueue<Evenement> evenements = new PriorityQueue<>(); 
     private PriorityQueue<Evenement> evenementsInit = new PriorityQueue<>();
     private final int RATIO_BORDURE_X = 10;
@@ -32,9 +35,12 @@ public class Simulateur implements Simulable {
         this.dateSimulation = (long) 0;
         this.gui = gui;
         this.model = model;
+
         
         this.xMin = gui.getWidth() / RATIO_BORDURE_X;
         this.yMin = gui.getHeight() / RATIO_BORDURE_Y;
+
+        // this.modelInit = modelInit;
 
 
         // Calcul de la largeur et de la hauteur des cases, en fonction des bordures et
@@ -45,6 +51,11 @@ public class Simulateur implements Simulable {
 
         this.gui.setSimulable(this);
         draw();
+    }
+
+    public void ajouteScenario(Scenario scenario){
+        this.scenario = scenario;
+        scenario.createEvenements();
     }
 
     public void ajouteEvenement(Evenement e){
@@ -70,9 +81,10 @@ public class Simulateur implements Simulable {
      */
     private void draw() {
         this.gui.reset(); // Clear the window
-        drawCarte();
-        drawRobots();
+        // drawCarte();
+        // drawRobots();
         drawIncendies();
+    
 
     }
 
@@ -473,6 +485,7 @@ public class Simulateur implements Simulable {
         int taillePixelIncendie = this.taillePixelCases * 8 / 10;
         for (Incendie incendie : this.model.getIncendiesParCase().values()) {
             if (incendie.getQuantiteEau() > 0){
+                System.out.println("draw incendie");
                 Case c = incendie.getPosition();
                 int x = calculateXPosition(c.getColonne());
                 int y = calculateYPosition(c.getLigne());
@@ -480,7 +493,9 @@ public class Simulateur implements Simulable {
                 int halfSize = taillePixelIncendie / 2;
                 int adjustedX = x - halfSize;
                 int adjustedY = y - halfSize;
+                gui.addGraphicalElement(new Rectangle(x, y, Color.black, Color.green, taillePixelIncendie));
                 gui.addGraphicalElement(new ImageElement(adjustedX, adjustedY, sprite, taillePixelIncendie, taillePixelIncendie, null));
+               
 
             }    
         }
@@ -646,20 +661,19 @@ public class Simulateur implements Simulable {
         // Réinitialisation de la simulation
 
         this.dateSimulation = (long) 0;
-        for (Robot robot : this.model.getRobots()) {
-            robot.reset();
-        }
-        for (Incendie incendie : this.model.getIncendiesParCase().values()) {
-            incendie.reset();
-        }
+        // for (Robot robot : this.model.getRobots()) {
+        //     robot.reset();
+        // }
+        // for (Incendie incendie : this.model.getIncendiesParCase().values()) {
+        //     incendie.reset();
+        // }
 
-        this.evenements.clear();
+        // this.model = modelInit.clone();
+        this.model = this.modelInit;
+        this.scenario.setModel(modelInit);
+        this.scenario.createEvenements();
 
-        for (Evenement e : this.evenementsInit) {
-            
-            this.evenements.add(e.clone());
-        }
-
+        
         draw();
     }
 

@@ -33,6 +33,10 @@ public class DonneesSimulation {
         for (Incendie incendie : this.getIncendies()) {
             clone.incendies.add(incendie.clone());
         }
+
+        clone.pointsEaux = this.pointsEaux;
+
+        clone.incendiesParCase = this.incendiesParCase;
         for (Robot robot : this.getRobots()) {
             clone.robots.add(robot.clone());
         }

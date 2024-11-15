@@ -17,17 +17,17 @@ import java.util.zip.DataFormatException;
 
 public class TestSimulateur {
 
-    public static Scenario createScenario(String numScenario) throws IllegalArgumentException {
+    public static Scenario createScenario(String numScenario, DonneesSimulation model, Simulateur simulateur) throws IllegalArgumentException {
         switch (numScenario) {
             case "0":
                 System.out.println("Scenario 0 choisi");
-                return new Scenario0();
+                return new Scenario0(simulateur, model);
             case "1":
                 System.out.println("Scenario 1 choisi");
-                return new Scenario1();
+                return new Scenario1(simulateur, model);
             case "2":
                 System.out.println("Scenario 2 choisi");
-                return new Scenario2();
+                return new Scenario2(simulateur, model);
 
             default:
                 throw new IllegalArgumentException(String.format("Scenario numero : %s not found", numScenario));
@@ -42,49 +42,52 @@ public class TestSimulateur {
             System.exit(1);
         }
 
-        Scenario scenario = null;
-        if (args.length == 2) {
-            try {
-                scenario = createScenario(args[1]);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-                System.exit(1);
-            }
-        }
+        
 
-        // Creation du model
-        DonneesSimulation donneesSimulation = null;
+
         try {
-            donneesSimulation = LecteurDonnees.creeDonnees(args[0]);
-            // crée la fenêtre graphique dans laquelle dessiner
-            GUISimulator gui = new GUISimulator(800, 608, Color.BLACK);
-            // crée le simulateur, en l'associant à la fenêtre graphique précédente
-            Simulateur simulateur = new Simulateur(gui, donneesSimulation);
+            DonneesSimulation model = LecteurDonnees.creeDonnees(args[0]);
+            DonneesSimulation modelInit = LecteurDonnees.creeDonnees(args[0]);
+            
+            assert(model != null);
+            assert(modelInit != null);
 
-            if (scenario != null) {
-                scenario.createEvenements(simulateur, donneesSimulation);
-            } else if (args.length == 3 && args[1].equals("-strategie")) {
+            // crée la fenêtre graphique dans laquelle dessiner
+            GUISimulator gui = new GUISimulator(1000, 1000, Color.BLACK);
+            // crée le simulateur, en l'associant à la fenêtre graphique précédente
+            Simulateur simulateur = new Simulateur(gui, model);
+            
+
+            Scenario scenario = null;
+            if (args.length == 2) {
                 try {
-                    Strategie strategie = null;
-                    if (args[2].toLowerCase().equals("elementaire")) {
-    
-                        strategie = new StrategieElementaire(simulateur, donneesSimulation.getCarte(),
-                                donneesSimulation.getIncendiesParCase(), donneesSimulation.getRobots(),
-                                donneesSimulation.getPointsEau());
-                    } else if (args[2].toLowerCase().equals("evoluee")) {
-                        strategie = new StrategieEvoluee(simulateur, donneesSimulation.getCarte(),
-                        donneesSimulation.getIncendiesParCase(), donneesSimulation.getRobots(),
-                        donneesSimulation.getPointsEau());
-                    } else {
-                        throw new IllegalArgumentException("Strategie inconnue");
-                        
-                    }
-                    strategie.executeStrategie();
+                    scenario = createScenario(args[1], model, simulateur);
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                     System.exit(1);
                 }
             }
+             
+            else if (args.length == 3 && args[1].equals("-strategie")) {
+                try {
+                    if (args[2].toLowerCase().equals("elementaire")) {
+    
+                        scenario = new StrategieElementaire(simulateur, model);
+                    } else if (args[2].toLowerCase().equals("evoluee")) {
+                        scenario = new StrategieEvoluee(simulateur, model);
+                    } else {
+                        throw new IllegalArgumentException("Strategie inconnue");
+                        
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                    System.exit(1);
+                }
+            }
+
+            simulateur.ajouteScenario(scenario);
+            
+
 
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");

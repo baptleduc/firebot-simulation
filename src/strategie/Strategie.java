@@ -6,17 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 import chemin.PlusCourtCheminAstar;
+import model.DonneesSimulation;
 import model.map.Carte;
 import model.map.Case;
 import model.map.Incendie;
 import model.robot.Robot;
 import simu.Simulateur;
+import simu.scenario.Scenario;
 
-public abstract class Strategie {
+public abstract class Strategie implements Scenario{
 
     protected Simulateur simulateur;
     protected PlusCourtCheminAstar algoPlusCourtChemin;
 
+    protected DonneesSimulation model;
+    protected Carte carte;
     protected Map<Case, Incendie> incendies = new HashMap<>();
     protected Map<Robot, Incendie> affectationRobots = new HashMap<>();
 
@@ -32,16 +36,32 @@ public abstract class Strategie {
      * @param robots     les robots disponibles
      * @param pointsEau  les points d'eau disponibles
      */
-    public Strategie(Simulateur simulateur, Carte carte, Map<Case, Incendie> incendies, List<Robot> robots,
-            List<Case> pointsEau) {
-
-                for (Incendie incendie : incendies.values()) {
-                    this.incendies.put(incendie.getPosition(), incendie);
-                }
+    public Strategie(Simulateur simulateur, DonneesSimulation model) {
         this.simulateur = simulateur;
-        this.algoPlusCourtChemin = new PlusCourtCheminAstar(carte);
-        this.robots = robots;
-        this.pointsEau = pointsEau;
+        setModel(model);
+    }
+
+    @Override
+    public void setModel(DonneesSimulation newModel){
+        System.out.println("Changement de modèle");
+
+        
+        this.incendies.clear();
+        affectationRobots.clear();
+
+        this.model = newModel;
+
+
+        for (Incendie incendie : newModel.getIncendiesParCase().values()) {
+            this.incendies.put(incendie.getPosition(), incendie);
+            System.out.println("Incendie ajouté à la stratégie : " + incendie.getPosition());
+        }
+
+        this.algoPlusCourtChemin = new PlusCourtCheminAstar(newModel.getCarte());
+        this.carte = newModel.getCarte();
+        this.robots = newModel.getRobots();
+        this.pointsEau = newModel.getPointsEau();
+        
     }
 
     /**
@@ -80,6 +100,7 @@ public abstract class Strategie {
      * @param robot le robot qui doit intervenir
      */
     protected void ordonnerInterventionIncendie(Robot robot, Incendie incendie) {
+        System.out.println("Intervention sur l'incendie " + incendie.getPosition());
         robot.deplacementPlusCourtChemin(this.simulateur, incendie.getPosition(), this.algoPlusCourtChemin);
         robot.createEvenementsInterventionIncendie(this.simulateur, incendie);
         robot.createEvenementsPrevenirFinIntervention(this.simulateur, this::finEvenementsAction);
@@ -112,6 +133,7 @@ public abstract class Strategie {
      * @param incendie l'incendie à affecter
      */
     protected void affecterRobot(Robot robot, Incendie incendie) {
+        System.out.println("Affectation du robot " + robot + " à l'incendie " + incendie.getPosition());
         this.affectationRobots.put(robot, incendie);
     }
 
@@ -133,7 +155,9 @@ public abstract class Strategie {
     /**
      * Exécute la stratégie
      */
-    public void executeStrategie() {
+    @Override
+    public void createEvenements() {
+        System.out.println("Création des événements de la stratégie");	
         this.affectationsInitiales();
         this.ordonnerToutesLesInterventionsIncendies();
     }
