@@ -11,24 +11,9 @@ Ce projet, développé pour le module de POO à Ensimag, vise à modéliser une 
 
 Nous avons choisi d'organiser les classes de robot de la manière suivante :
 
-- **RobotFactory.java** : Un factory pattern utilisé pour la création des différents types de robots, assurant une création centralisée et flexible des objets Robot.
+Nous utilisons le **factory pattern**. Nous définissons une interface qui créer de manière commune tous les types de robot dans une classe mère mais qui délègue les choix du type de robot aux sous classes.
 
-- **Robot.java** : Classe de base abstraite qui définit les caractéristiques et comportements communs à tous les robots, comme le déplacement et la gestion de l'état.
-
-- **RobotTerrestre.java** : Classe abstraite pour les robots terrestres, qui inclut des fonctionnalités communes aux robots se déplaçant sur le sol.
-
-- **RobotAerien.java** : Classe abstraite pour les robots terrestres, qui inclut des fonctionnalités communes aux robots se déplaçant dans les aires.
-
-- **Drone.java** : Classe qui modélise le robot de type drone capable de se deplacer sur toutes les cases.
-
-- **RobotChenilles.java** : Classe qui modélise le robot de type chenille capable notamment de se déplacer sur les roches.
-
-- **RobotPattes.java** : Classe qui modélise un robot à pattes, assez lent mais capable de se déplacer sur tous les terrains sauf l'eau.
-
-
-- **RobotRoues.java** : Classe représentant un robot à roues, se déplacant uniquement sur du terrain libre ou habitat.
-
-Cette organisation permet de facilement étendre la simulation en ajoutant de nouveaux types de robots ou en modifiant les comportements des robots existants, tout en respectant le patron stratégie.
+Cette organisation permet de facilement étendre la simulation en ajoutant de nouveaux types de robots ou en modifiant les comportements des robots existants, en respectant notamment aussi le patron stratégie.
 
 ##### B. -
 
