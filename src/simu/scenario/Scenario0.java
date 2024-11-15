@@ -5,8 +5,10 @@ import model.map.Direction;
 import model.robot.Robot;
 import simu.Simulateur;
 
+/*
+ * Scénario 0 : Déplacer le robot vers le NORD 4 fois
+ */
 public class Scenario0 implements Scenario {
-
     private Simulateur simulateur;
     private DonneesSimulation model;
 

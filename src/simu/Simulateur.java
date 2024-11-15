@@ -14,6 +14,9 @@ import event.EvenementErreur;
 import model.map.*;
 import model.robot.*;
 
+/*
+ * Classe Simulateur : permet de simuler le déplacement des robots pour éteindre les incendies	
+ */
 public class Simulateur implements Simulable {
     private GUISimulator gui;
     private DonneesSimulation model;

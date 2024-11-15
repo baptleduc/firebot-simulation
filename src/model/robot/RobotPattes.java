@@ -2,6 +2,9 @@ package model.robot;
 
 import model.map.*;
 
+/**
+ * Représente un robot à pattes.
+ */
 public class RobotPattes extends RobotTerrestre {
 
     // Constantes

@@ -2,6 +2,10 @@ package event;
 
 import model.robot.*;
 
+/**
+ * Représente un événement où un robot remplit son réservoir.
+ * Cet événement met à jour l'état du robot et effectue l'opération de remplissage à une date spécifiée.
+ */
 public class EvenementRemplirReservoir extends Evenement {
 
     private Robot robot;

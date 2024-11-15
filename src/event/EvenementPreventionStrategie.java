@@ -3,6 +3,10 @@ package event;
 import model.robot.Robot;
 import strategie.FinInterventionAction;
 
+/**
+ * Représente un événement de prévention de stratégie, qui exécute une action de fin d'intervention pour un robot.
+ * Cet événement est déclenché à une date spécifiée et permet de finaliser l'intervention du robot.
+ */
 public class EvenementPreventionStrategie extends Evenement {
 
     private Robot robot;

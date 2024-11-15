@@ -2,6 +2,10 @@ package model.map;
 
 import java.awt.Color;
 
+/**
+ * Représente un incendie situé à une position spécifique sur la carte,
+ * avec une certaine quantité d'eau à éteindre.
+ */
 public class Incendie {
     private Case position;
     private int quantiteEau;

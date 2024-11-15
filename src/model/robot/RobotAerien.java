@@ -3,6 +3,9 @@ package model.robot;
 import chemin.PlusCourtChemin;
 import model.map.*;
 
+/**
+ * Classe RobotAerien, classe abstraite heritant de Robot.
+ */
 public abstract class RobotAerien extends Robot {
 
     /**

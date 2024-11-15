@@ -5,6 +5,9 @@ import model.DonneesSimulation;
 import model.robot.Robot;
 import simu.Simulateur;
 
+/**
+ * Scénario 2 : Déplacer le robot vers la case (7, 0) en utilisant l'algorithme A*.
+ */
 public class Scenario2 implements Scenario {
 
     private Simulateur simulateur;

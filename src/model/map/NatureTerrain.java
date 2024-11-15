@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Enumération représentant les différents types de terrain sur la carte.
+ */
 public enum NatureTerrain {
     EAU,
     FORET,

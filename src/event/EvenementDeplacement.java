@@ -3,6 +3,10 @@ package event;
 import model.robot.*;
 import model.map.Case;
 
+/**
+ * Représente un événement de déplacement d'un robot vers une case cible.
+ * Cet événement met à jour la position du robot et son état à une date donnée.
+ */
 public class EvenementDeplacement extends Evenement {
 
     private Robot robot;

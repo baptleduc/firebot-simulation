@@ -4,6 +4,9 @@ import model.map.Carte;
 import model.map.Case;
 import model.map.NatureTerrain;
 
+/**
+ * Classe Drone héritant de RobotAerien et implémentant les méthodes abstraites de Robot.
+ */
 public class Drone extends RobotAerien {
     // Constantes
     private static final int CAPACITE_RESERVOIR = 10000;

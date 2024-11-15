@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Classe DonneesSimulation contenant les données de la simulation tel 
+ * que la carte, les robots, les incendies et les points d'eau.
+ */
 public class DonneesSimulation {
     private Carte carte;
     private List<Robot> robots = new ArrayList<Robot>();

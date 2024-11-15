@@ -17,6 +17,9 @@ import simu.Simulateur;
 import strategie.FinInterventionAction;
 import model.map.Carte;
 
+/*
+ * Classe abstraite représentant un robot
+ */
 public abstract class Robot {
 
     private int niveauEau; // en litres

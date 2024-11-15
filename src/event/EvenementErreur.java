@@ -1,5 +1,9 @@
 package event;
 
+/**
+ * Représente un événement d'erreur, qui affiche un message d'erreur à une date spécifiée.
+ * Cet événement permet de signaler une erreur dans la simulation ou l'exécution du programme.
+ */
 public class EvenementErreur extends Evenement {
 
     private String msgErreur;

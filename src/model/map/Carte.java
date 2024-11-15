@@ -1,5 +1,8 @@
 package model.map;
 
+/**
+ * Classe représentant la carte composée d'une matrice de cases.
+ */
 public class Carte {
     private final int nbLignes;
     private final int nbColonnes;

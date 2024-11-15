@@ -5,7 +5,10 @@ import model.robot.*;
 import java.util.NoSuchElementException;
 
 import model.map.Incendie;
-
+/**
+ * Représente un événement où un robot intervient pour déverser de l'eau sur un incendie.
+ * Cet événement modifie l'état du robot et la quantité d'eau déversée sur l'incendie.
+ */
 public class EvenementDeverserEau extends Evenement {
 
     private Robot robot;

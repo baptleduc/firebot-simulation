@@ -7,6 +7,9 @@ import java.util.NoSuchElementException;
 import chemin.PlusCourtChemin;
 import model.map.*;
 
+/**
+ * Classe RobotTerrestre, classe abstraite heritant de Robot.
+ */
 public abstract class RobotTerrestre extends Robot {
 
     /**

@@ -2,6 +2,9 @@ package model.map;
 
 import java.awt.Color;
 
+/**
+ * Classe Case définit par sa position (ligne, colonne) et sa nature.
+ */
 public class Case {
     private int ligne;
     private int colonne;

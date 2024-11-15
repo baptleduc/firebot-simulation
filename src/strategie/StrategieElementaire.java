@@ -9,6 +9,9 @@ import model.map.Incendie;
 import model.robot.Robot;
 import simu.Simulateur;
 
+/**
+ * Classe représentant la stratégie élémentaire d'intervention sur les incendies
+ */
 public class StrategieElementaire extends Strategie {
 
     /**

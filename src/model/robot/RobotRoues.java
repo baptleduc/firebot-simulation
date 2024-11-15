@@ -2,6 +2,9 @@ package model.robot;
 
 import model.map.*;
 
+/**
+ * Classe représentant un robot à roues.
+ */
 public class RobotRoues extends RobotTerrestre {
     // Constantes
     private static final int CAPACITE_RESERVOIR = 5000;

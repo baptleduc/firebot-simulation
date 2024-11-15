@@ -14,6 +14,10 @@ import model.robot.Robot;
 import simu.Simulateur;
 import simu.scenario.Scenario;
 
+/**
+ * Classe abstraite représentant une stratégie d'intervention sur les incendies
+ * Une strategie est un scenario qui va être exécuté par le simulateur
+ */
 public abstract class Strategie implements Scenario {
 
     protected Simulateur simulateur;

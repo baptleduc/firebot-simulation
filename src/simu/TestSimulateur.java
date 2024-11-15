@@ -14,6 +14,9 @@ import strategie.StrategieEvoluee;
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 
+/*
+ * Classe de test pour le simulateur, unique point d'entrée de l'application
+ */
 public class TestSimulateur {
 
     /**

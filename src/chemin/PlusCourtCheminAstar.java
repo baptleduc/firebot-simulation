@@ -33,14 +33,14 @@ class NoeudAstar implements Comparable<NoeudAstar> {
 
     @Override
     public int compareTo(NoeudAstar Noeud2) {
-        double h_1;
-        double h_2;
-        h_1 = this.heuristique;
-        h_2 = Noeud2.heuristique;
-        if (h_1 < h_2) {
+        double h1;
+        double h2;
+        h1 = this.heuristique;
+        h2 = Noeud2.heuristique;
+        if (h1 < h2) {
             return -1;
         }
-        if (h_1 > h_2) {
+        if (h1 > h2) {
             return 1;
         }
         return 0;
@@ -164,7 +164,6 @@ public class PlusCourtCheminAstar implements PlusCourtChemin {
             }
         }
         // On n'a pas trouvé de chemin
-        System.out.println("Le probleme est dans le parcours");
         return null;
     }
 }
