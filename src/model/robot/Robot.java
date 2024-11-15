@@ -82,6 +82,11 @@ public abstract class Robot {
         return this.niveauEau;
     }
 
+    /**
+     * NOT USED
+     * Retourne la couleur de dessin du robot lorsque nous dessinons les robots avec les rectangles.
+     * @return
+     */
     public Color getDrawColor() {
         return this.DRAW_COLOR;
     }
@@ -94,6 +99,10 @@ public abstract class Robot {
         return this.tempsRemplissage;
     }
 
+    /**
+     * Retourne vrai si le robot n'est pas disponible.
+     * @return
+     */
     public boolean estOccupe() {
         return this.etatCourant == EtatRobot.EN_REMPLISSAGE || this.etatCourant == EtatRobot.EN_DEVERSAGE || this.etatCourant == EtatRobot.EN_DEPLACEMENT;
     }
@@ -206,6 +215,10 @@ public abstract class Robot {
 
     public abstract void checkPosition(Case position, Carte carte);
 
+    /**
+     * Méthode abstraite qui permet de remplir le réservoir du robot.
+     * 
+     */
     public abstract void remplirReservoir();
 
     /**
@@ -217,7 +230,10 @@ public abstract class Robot {
      */
     public abstract Case obtenirCaseRemplissageAssocié(Case pointEau, PlusCourtChemin algo, Carte carte) throws IllegalArgumentException;
 
-    //recupere le chemin de l'image du robot
+    /**
+     * Retourne l'image par défaut du robot
+     * @return
+     */
     public String getImagePath()
     {
         return "images/robot/robot_defaut.png";
@@ -304,6 +320,11 @@ public abstract class Robot {
         }
     }
 
+    /**
+     * Crée les événements nécessaires pour éteindre un incendie.
+     * @param simulateur
+     * @param incendie
+     */
     public void createEvenementsInterventionIncendie(Simulateur simulateur, Incendie incendie){
 
         int quantiteEauDeversee = Math.min(this.getNiveauEau(), incendie.getQuantiteEau());
@@ -321,6 +342,10 @@ public abstract class Robot {
     }
 
 
+    /**
+     * Crée les événements nécessaires pour remplir le réservoir du robot.
+     * @param simulateur
+     */
     public void createEvenementsRemplirReservoir(Simulateur simulateur){
         long tempsRemplissage = this.getTempsRemplissage();
         
@@ -335,6 +360,11 @@ public abstract class Robot {
         this.dateApresEvenements ++; // Met à jour la date pour le prochain évenement
     }
 
+    /**
+     * Crée les événements nécessaires pour prévenir la stratégie de fin d'intervention.
+     * @param simulateur
+     * @param action
+     */
     public void createEvenementsPrevenirFinIntervention(Simulateur simulateur, FinInterventionAction action){
         // simulateur.ajouteEvenement(new EvenementChangementEtat(this, EtatRobot.DISPONIBLE, this.dateApresEvenements)); 
         simulateur.ajouteEvenement(new EvenementPreventionStrategie(this, this.dateApresEvenements, action));

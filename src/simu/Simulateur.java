@@ -647,7 +647,7 @@ public class Simulateur implements Simulable {
 
         this.dateSimulation = (long) 0;
         for (Robot robot : this.model.getRobots()) {
-            robot.reset();
+            robot.reset(); 
         }
         for (Incendie incendie : this.model.getIncendiesParCase().values()) {
             incendie.reset();
