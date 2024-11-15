@@ -20,8 +20,8 @@ public class Simulateur implements Simulable {
     private long dateSimulation;
     private PriorityQueue<Evenement> evenements = new PriorityQueue<>(); 
     private PriorityQueue<Evenement> evenementsInit = new PriorityQueue<>();
-    private final int RATIO_BORDURE_X = 10;
-    private final int RATIO_BORDURE_Y = 10;
+    private final int RATIO_BORDURE_X = 5;
+    private final int RATIO_BORDURE_Y = 5;
 
     private int taillePixelCases;
 

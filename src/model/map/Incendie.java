@@ -9,6 +9,11 @@ public class Incendie {
 
     private Color drawColor;
 
+    /**
+     * Constructeur de la classe Incendie.
+     * @param position
+     * @param quantiteEau
+     */
     public Incendie(Case position, int quantiteEau) {
         this.position = position;
         this.quantiteEau = quantiteEau;
@@ -27,6 +32,10 @@ public class Incendie {
         return this.quantiteEau;
     }
 
+    /**
+     * Méthode qui permet d'éteindre un incendie en diminuant la quantité d'eau.
+     * @param quantiteEau
+     */
     public void eteindre(int quantiteEau){
         this.quantiteEau -= quantiteEau;
     }
@@ -36,6 +45,10 @@ public class Incendie {
         return clone;
     }
 
+    /**
+     * Méthode qui permet de réinitialiser la quantité d'eau à sa valeur initiale.
+     * 
+     */
     public void reset(){
         this.quantiteEau = quantiteInitiale;
     }

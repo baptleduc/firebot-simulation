@@ -138,9 +138,11 @@ public abstract class Robot {
     /**
      * Déverse une quantité d'eau du réservoir.
      *
-     * @param vol la quantité d'eau à déverser en litres.
+     * @param quantite la quantité d'eau à déverser en litres.
+     * @param incendie l'incendie à éteindre.
      * @throws IllegalArgumentException si la quantité demandée est supérieure au
      *                                  niveau actuel d'eau.
+     * @throws IllegalArgumentException si le robot n'est pas sur la case de l'incendie.
      */
     public void deverserEau(int quantite, Incendie incendie) {
         // Vérifiez que le robot est sur la même case que l'incendie
@@ -210,6 +212,7 @@ public abstract class Robot {
      * Retourne la case de remplissage associée à un point d'eau donné, c'est sur cette case que le robot se déplacera pour se remplir
      * @param pointEau le point d'eau à associer
      * @param algo l'algorithme de plus court chemin à utiliser
+     * @param carte la carte sur laquelle se déplace le robot
      * @return la case de remplissage associée
      */
     public abstract Case obtenirCaseRemplissageAssocié(Case pointEau, PlusCourtChemin algo, Carte carte) throws IllegalArgumentException;
@@ -283,7 +286,7 @@ public abstract class Robot {
     }
 
 
-    /*
+    /**
      * Crée les évenements nécessaires afin d'effectuer un déplacement vers une case donnée en utilisant l'algorithme A*
      * @param simulateur
      * @param destination

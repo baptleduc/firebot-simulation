@@ -2,6 +2,10 @@ package model.robot;
 
 import model.map.*;
 
+/**
+ * Classe RobotChenilles, un type de robot terrestre.
+ * 
+ */
 public class RobotChenilles extends RobotTerrestre {
 
     // Constantes
