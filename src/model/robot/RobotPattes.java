@@ -14,8 +14,9 @@ public class RobotPattes extends RobotTerrestre {
 
     /**
      * Constructeur de la classe RobotPattes
+     * 
      * @param position la position initiale du robot
-     * @param carte la carte associée
+     * @param carte    la carte associée
      */
     public RobotPattes(Case position, Carte carte) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, VITESSE_DEFAUT, VITESSE_MAX, TEMPS_REMPLISSAGE, carte,

@@ -14,9 +14,10 @@ public class RobotChenilles extends RobotTerrestre {
 
     /**
      * Constructeur de la classe RobotChenilles
+     * 
      * @param position la position initiale du robot
-     * @param carte la carte associée
-     * @param vitesse la vitesse du robot
+     * @param carte    la carte associée
+     * @param vitesse  la vitesse du robot
      */
     public RobotChenilles(Case position, Carte carte, double vitesse) {
         super(position, NIVEAU_EAU, CAPACITE_RESERVOIR, vitesse, VITESSE_MAX, TEMPS_REMPLISSAGE, carte, INTER_UNITAIRE);
@@ -31,8 +32,7 @@ public class RobotChenilles extends RobotTerrestre {
     }
 
     @Override
-    public String getImagePath()
-    {
+    public String getImagePath() {
         return "./images/robot/robot_chenille.png";
     }
 
@@ -42,9 +42,13 @@ public class RobotChenilles extends RobotTerrestre {
     }
 
     /**
-     * Vérifie si une position donnée est valide sur la carte avant la création d'un robot.
-     * Cette méthode est statique, car elle est appelée une factory method, dans un contexte où une instance de 
-     * RobotChenilles n'existe pas encore, pour la validation initiale de la position.
+     * Vérifie si une position donnée est valide sur la carte avant la création d'un
+     * robot.
+     * Cette méthode est statique, car elle est appelée une factory method, dans un
+     * contexte où une instance de
+     * RobotChenilles n'existe pas encore, pour la validation initiale de la
+     * position.
+     * 
      * @param position la case à vérifier.
      * @param carte    la carte dans laquelle se trouve la case.
      * @throws IllegalArgumentException si la case n'existe pas ou si elle est de
@@ -63,22 +67,25 @@ public class RobotChenilles extends RobotTerrestre {
     }
 
     /**
-     * Implémentation de la méthode abstraite `checkPosition` définie dans la classe `Robot`.
-     * Cette méthode vérifie si une position est valide pour un RobotChenilles en appelant 
+     * Implémentation de la méthode abstraite `checkPosition` définie dans la classe
+     * `Robot`.
+     * Cette méthode vérifie si une position est valide pour un RobotChenilles en
+     * appelant
      * `checkPositionStatic`, qui gère la logique de validation spécifique.
      *
      * @param position La case à vérifier.
      * @param carte    La carte dans laquelle se trouve la case.
-     * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU ou ROCHE.
+     * @throws IllegalArgumentException si la case n'existe pas ou est de type EAU
+     *                                  ou ROCHE.
      */
     @Override
-    public void checkPosition(Case position, Carte carte) throws IllegalArgumentException{
+    public void checkPosition(Case position, Carte carte) throws IllegalArgumentException {
         RobotChenilles.checkPositionStatic(position, carte);
     }
 
     /**
      * FACTORY METHOD
-     * Crée un robot à chenilles avec les paramètres spécifiés. 
+     * Crée un robot à chenilles avec les paramètres spécifiés.
      *
      * @param caseCourante la case sur laquelle le robot à chenilles doit être
      *                     positionné.

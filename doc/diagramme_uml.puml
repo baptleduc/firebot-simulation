@@ -419,7 +419,6 @@ package strategie{
     StrategieElementaire --> Robot
     
     class StrategieEvoluee {
-        - Carte carte
     
         StrategieEvoluee(Simulateur simulateur, DonneesSimulation model)
         - List<Case> obtenirPointsRemplissageAccessibles(Robot robot)
@@ -437,7 +436,6 @@ package strategie{
     
     StrategieEvoluee --> Simulateur
     StrategieEvoluee --> DonneesSimulation
-    StrategieEvoluee --> Carte
     StrategieEvoluee --> Case
     StrategieEvoluee --> Incendie
     StrategieEvoluee --> Robot

@@ -13,7 +13,6 @@ public class DonneesSimulation {
     private List<Case> pointsEaux = new ArrayList<Case>();
     private Map<Case, Incendie> incendiesParCase = new HashMap<>();
     private List<Incendie> incendies = new ArrayList<Incendie>();
-    
 
     public DonneesSimulation() {
         return;
@@ -21,15 +20,13 @@ public class DonneesSimulation {
 
     /*
      * Clone l'ojet DonneesSimulation
-     * @return DonneesSimulation 
+     * 
+     * @return DonneesSimulation
      */
-    public DonneesSimulation clone()
-    {
+    public DonneesSimulation clone() {
         DonneesSimulation clone = new DonneesSimulation();
         clone.carte = this.getCarte();
 
-        
-        
         for (Incendie incendie : this.getIncendies()) {
             clone.incendies.add(incendie.clone());
         }
@@ -37,9 +34,8 @@ public class DonneesSimulation {
             clone.robots.add(robot.clone());
         }
 
-        
         return clone;
-        
+
     }
 
     public void setCarte(Carte carte) {
