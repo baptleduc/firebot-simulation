@@ -5,15 +5,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import model.DonneesSimulation;
-import model.map.Carte;
 import model.map.Case;
 import model.map.Incendie;
 import model.robot.Robot;
 import simu.Simulateur;
 
 public class StrategieEvoluee extends Strategie {
-
-    private Carte carte;
 
     /**
      * Constructeur de la classe StrategieEvoluee
@@ -26,7 +23,6 @@ public class StrategieEvoluee extends Strategie {
      */
     public StrategieEvoluee(Simulateur simulateur, DonneesSimulation model) {
         super(simulateur, model);
-        this.carte = model.getCarte();
     }
 
     /**
