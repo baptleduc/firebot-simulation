@@ -1,4 +1,4 @@
-# User Manual: Firefighting Robot Simulation
+# Firefighting Robot Simulation
 
 This Java application simulates a team of autonomous firefighting robots operating in a natural environment. It allows robots to move, interact with fires, and coordinate interventions to extinguish fires as quickly as possible. This project was developed as part of my Object-Oriented Programming course in my second year at Ensimag in the Information Systems Engineering course.
 
